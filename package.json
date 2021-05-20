@@ -21,5 +21,8 @@
   "bugs": {
     "url": "https://github.com/JulienDelRio/Moussaillon/issues"
   },
-  "homepage": "https://github.com/JulienDelRio/Moussaillon#readme"
+  "homepage": "https://github.com/JulienDelRio/Moussaillon#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
 }
