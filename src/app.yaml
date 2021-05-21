@@ -13,4 +13,5 @@
 
 # [START gae_quickstart_yaml]
 runtime: nodejs14
+max_instances: 1
 # [END gae_quickstart_yaml]
