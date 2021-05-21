@@ -10,6 +10,7 @@
     "test": "mocha --exit test/*.test.js"
   },
   "dependencies": {
+    "discord.js": "^12.5.3",
     "express": "^4.17.1"
   },
   "devDependencies": {
