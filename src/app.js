@@ -3,26 +3,15 @@
 const express = require('express');
 const path = require(`path`);
 const bodyParser = require('body-parser');
-const Discord = require('discord.js')
-
 
 const app = express();
-const bot = new Discord.Client()
 
 // App config
 app.use(bodyParser.urlencoded({extended: true}));
 
 // Bot
-bot.on('ready', function () {
-    console.log("Je suis connecté !")
-})
-bot.on('message', message => {
-    if (message.content === 'ping') {
-        message.reply('pong !')
-    }
-})
-
-bot.login('ODQ1MjYyMjE0Njg4NjY5NzI3.YKeZyA.cXf5yHDjaqfC8ivgRkHq3YeqIGI')
+const moussaillon = require("./bot/bot")
+moussaillon.start();
 
 // Routes
 // Root listener
