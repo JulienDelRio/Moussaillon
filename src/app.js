@@ -15,19 +15,6 @@ app.get('/', (req, res) => {
     res.status(200).send('Hello, world!').end();
 });
 
-// Add Submit listener
-app.get('/submit', (req, res) => {
-    res.sendFile(path.join(__dirname, '/views/submit.html'));
-});
-
-app.post('/submit', (req, res) => {
-    console.log({
-        name: req.body.name,
-        message: req.body.message
-    });
-    res.send('Thanks for your message!');
-});
-
 // Start the server
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
