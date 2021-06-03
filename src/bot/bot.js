@@ -2,6 +2,8 @@
 
 const fs = require('fs');
 const Discord = require('discord.js')
+const iles = require("./iles.js")
+
 
 const discord = new Discord.Client()
 
@@ -28,8 +30,11 @@ function dispatch(message) {
         console.log("Message from the bot himself.")
         return;
     }
-    if (message.content.startsWith("=")){
-        console.log("It's a command.")
+    if (message.content.startsWith("=")) {
+        let command = message.content.substring(1).split(" ")[0]
+        console.log("It's a command : " + command)
+        let commandParams = message.content.substring(1 + 1 + command.length);
+        message.reply('Miroir : ' + commandParams)
         return;
     }
     if (message.content === 'ping') {
