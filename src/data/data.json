@@ -1,0 +1,186 @@
+{
+  "iles": [
+    {
+      "id": 1,
+      "name": "Danw",
+      "sea": "East Blue",
+      "npc": "Makino",
+      "map": ""
+    },
+    {
+      "id": 2,
+      "name": "Oykot",
+      "sea": "East Blue",
+      "npc": "Nojiko",
+      "map": ""
+    },
+    {
+      "id": 3,
+      "name": "Tequila Wolf",
+      "sea": "East Blue",
+      "npc": "Bello Betty",
+      "map": ""
+    },
+    {
+      "id": 4,
+      "name": "Yotsuba",
+      "sea": "East Blue",
+      "npc": "Hermep",
+      "map": ""
+    },
+    {
+      "id": 5,
+      "name": "Konomi",
+      "sea": "East Blue",
+      "npc": "Genzo",
+      "map": ""
+    },
+    {
+      "id": 6,
+      "name": "Shimotsuki",
+      "sea": "East Blue",
+      "npc": "Koshiro",
+      "map": ""
+    },
+    {
+      "id": 7,
+      "name": "Kotzia",
+      "sea": "East Blue",
+      "npc": "Zeff",
+      "map": ""
+    },
+    {
+      "id": 8,
+      "name": "Polestar",
+      "sea": "East Blue",
+      "npc": "Alvida",
+      "map": ""
+    },
+    {
+      "id": 9,
+      "name": "Baterilla",
+      "sea": "South Blue",
+      "npc": "Ace",
+      "map": ""
+    },
+    {
+      "id": 10,
+      "name": "Briss",
+      "sea": "South Blue",
+      "npc": "Masira",
+      "map": ""
+    },
+    {
+      "id": 11,
+      "name": "Karate",
+      "sea": "South Blue",
+      "npc": "Banana-croco",
+      "map": ""
+    },
+    {
+      "id": 12,
+      "name": "Torino",
+      "sea": "South Blue",
+      "npc": "Oiseaux",
+      "map": ""
+    },
+    {
+      "id": 13,
+      "name": "Sorbet",
+      "sea": "South Blue",
+      "npc": "Jewelry Bonney",
+      "map": ""
+    },
+    {
+      "id": 14,
+      "name": "Black-Drum",
+      "sea": "South Blue",
+      "npc": "Wapol",
+      "map": ""
+    },
+    {
+      "id": 15,
+      "name": "Ohara",
+      "sea": "West Blue",
+      "npc": "Nico Olivia",
+      "map": ""
+    },
+    {
+      "id": 16,
+      "name": "Las Camp",
+      "sea": "West Blue",
+      "npc": "Izo",
+      "map": ""
+    },
+    {
+      "id": 17,
+      "name": "Illusia",
+      "sea": "West Blue",
+      "npc": "Jango",
+      "map": ""
+    },
+    {
+      "id": 18,
+      "name": "Toroa",
+      "sea": "West Blue",
+      "npc": "Capone Bege",
+      "map": ""
+    },
+    {
+      "id": 19,
+      "name": "Kano-kuni",
+      "sea": "West Blue",
+      "npc": "Don Chinjao",
+      "map": ""
+    },
+    {
+      "id": 20,
+      "name": "Flevance",
+      "sea": "North Blue",
+      "npc": "Rosinante",
+      "map": ""
+    },
+    {
+      "id": 21,
+      "name": "Spider Miles",
+      "sea": "North Blue",
+      "npc": "Caribou",
+      "map": ""
+    },
+    {
+      "id": 22,
+      "name": "Micqueot",
+      "sea": "North Blue",
+      "npc": "Micqueot",
+      "map": ""
+    },
+    {
+      "id": 23,
+      "name": "Nortis",
+      "sea": "North Blue",
+      "npc": "Karas",
+      "map": ""
+    },
+    {
+      "id": 24,
+      "name": "Luvneel",
+      "sea": "North Blue",
+      "npc": "Kuen",
+      "map": ""
+    },
+    {
+      "id": 25,
+      "name": "Swallow",
+      "sea": "North Blue",
+      "npc": "Orlumbus",
+      "map": ""
+    },
+    {
+      "id": 26,
+      "name": "Cap Jumeaux",
+      "sea": "Paradis",
+      "npc": "Crocus",
+      "map": ""
+    }
+  ]
+}
