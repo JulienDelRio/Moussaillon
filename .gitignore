@@ -118,3 +118,4 @@ dist
 # IntelliJ
 .idea
 repo.iml
+/src/bot/config.json

@@ -12,7 +12,6 @@ const discord = new Discord.Client()
 var botId = null;
 
 exports.start = function () {
-    //discord.login('ODQ1MjYyMjE0Njg4NjY5NzI3.YKeZyA.cXf5yHDjaqfC8ivgRkHq3YeqIGI')
     discord.login(config.token);
 }
 
