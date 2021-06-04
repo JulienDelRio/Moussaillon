@@ -1,5 +1,9 @@
 'use strict';
 
-exports.parse = function (command) {
-
+exports.handle = function (message, commandParams) {
+    data.iles.forEach(function (ile) {
+        if (ile.name == commandParams){
+            message.channel.send(ile.name + " dans la mer " + ile.sea)
+        }
+    })
 }
