@@ -2,7 +2,9 @@
 
 const fs = require('fs');
 const Discord = require('discord.js')
-const iles = require("./iles.js")
+const config = require('./config.json');
+const iles = require("./iles.js");
+const data = require("../data/data.json");
 
 
 const discord = new Discord.Client()
@@ -10,14 +12,14 @@ const discord = new Discord.Client()
 var botId = null;
 
 exports.start = function () {
-    discord.login('ODQ1MjYyMjE0Njg4NjY5NzI3.YKeZyA.cXf5yHDjaqfC8ivgRkHq3YeqIGI')
+    //discord.login('ODQ1MjYyMjE0Njg4NjY5NzI3.YKeZyA.cXf5yHDjaqfC8ivgRkHq3YeqIGI')
+    discord.login(config.token);
 }
 
 discord.on('ready', function () {
     console.log(`Je suis connecté : ${discord.user.id}`)
 
-    let rawdata = fs.readFileSync('./data/data.json');
-    global.data = JSON.parse(rawdata);
+    global.data = data;
 })
 discord.on('message', message => {
     console.log(`New message from ${message.member} : ${message.content}`)
@@ -29,7 +31,7 @@ function dispatch(message) {
         console.log("Message from the bot himself.")
         return;
     }
-    if (message.content.startsWith("=")) {
+    if (message.content.startsWith(config.prefix)) {
         let command = message.content.substring(1).split(" ")[0]
         let commandParams = message.content.substring(1 + 1 + command.length);
 
