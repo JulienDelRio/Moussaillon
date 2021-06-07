@@ -3,8 +3,8 @@
 exports.handle = function (message, commandParams) {
     let lowerCommandParams = commandParams.toLowerCase()
     let found = false;
-    if (commandParams.length < 5) {
-        message.channel.send("Saisir au moins 5 caractères.")
+    if (commandParams.length < 3) {
+        message.channel.send("Saisir au moins 3 caractères.")
         found = true;
     } else {
         data.islands.forEach(function (ile) {

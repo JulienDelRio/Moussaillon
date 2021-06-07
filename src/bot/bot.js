@@ -21,11 +21,14 @@ discord.on('ready', function () {
     global.data = data;
 })
 discord.on('message', message => {
-    console.log(`New message from ${message.member} : ${message.content}`)
     dispatch(message);
 })
 
 function dispatch(message) {
+    if (!config.allowedChannels.includes(message.channel.id)) {
+        console.log(`Wrong chan ${message.channel.name} (${message.channel.id})`);
+        return
+    }
     if (message.author.bot) {
         console.log("Message from the bot himself.")
         return;
