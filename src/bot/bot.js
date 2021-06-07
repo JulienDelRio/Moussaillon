@@ -3,7 +3,7 @@
 const fs = require('fs');
 const Discord = require('discord.js')
 const config = require('./config.json');
-const iles = require("./iles.js");
+const iles = require("./islands.js");
 const data = require("../data/data.json");
 
 

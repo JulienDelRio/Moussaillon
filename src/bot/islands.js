@@ -3,7 +3,7 @@
 exports.handle = function (message, commandParams) {
     let lowerCommandParams = commandParams.toLowerCase()
     let found = false;
-    data.iles.forEach(function (ile) {
+    data.islands.forEach(function (ile) {
         if (ile.name.toLowerCase() == lowerCommandParams){
             message.channel.send(ile.name + " dans la mer " + ile.sea)
             found = true;
