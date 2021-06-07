@@ -11,7 +11,7 @@
       "claimed": "",
       "poneglyphe": "",
       "boat": "",
-      "route": ""
+      "routeFrom": ""
     },
     {
       "name": "Oykot",
@@ -24,7 +24,7 @@
       "claimed": "",
       "poneglyphe": "",
       "boat": "",
-      "route": ""
+      "routeFrom": ""
     },
     {
       "name": "Tequila Wolf",
@@ -34,10 +34,10 @@
       "commander": "",
       "cardCode": "",
       "cardName": "",
-      "claimed": "",
+      "claimed": "Révolutionnaires",
       "poneglyphe": "",
       "boat": "",
-      "route": ""
+      "routeFrom": ""
     },
     {
       "name": "Yotsuba",
@@ -50,7 +50,7 @@
       "claimed": "",
       "poneglyphe": "",
       "boat": "",
-      "route": ""
+      "routeFrom": ""
     },
     {
       "name": "Konomi",
@@ -63,7 +63,7 @@
       "claimed": "",
       "poneglyphe": "",
       "boat": "",
-      "route": ""
+      "routeFrom": ""
     },
     {
       "name": "Shimotsuki",
@@ -76,7 +76,7 @@
       "claimed": "",
       "poneglyphe": "",
       "boat": "",
-      "route": ""
+      "routeFrom": ""
     },
     {
       "name": "Kotzia",
@@ -86,10 +86,10 @@
       "commander": "",
       "cardCode": "",
       "cardName": "",
-      "claimed": "",
+      "claimed": "Révolutionnaires",
       "poneglyphe": "",
       "boat": "",
-      "route": ""
+      "routeFrom": ""
     },
     {
       "name": "Polestar",
@@ -102,7 +102,7 @@
       "claimed": "",
       "poneglyphe": "",
       "boat": "",
-      "route": ""
+      "routeFrom": ""
     },
     {
       "name": "Baterilla",
@@ -115,7 +115,7 @@
       "claimed": "",
       "poneglyphe": "",
       "boat": "",
-      "route": ""
+      "routeFrom": ""
     },
     {
       "name": "Briss",
@@ -128,7 +128,7 @@
       "claimed": "",
       "poneglyphe": "",
       "boat": "",
-      "route": ""
+      "routeFrom": ""
     },
     {
       "name": "Karate",
@@ -141,7 +141,7 @@
       "claimed": "",
       "poneglyphe": "",
       "boat": "",
-      "route": ""
+      "routeFrom": ""
     },
     {
       "name": "Torino",
@@ -154,7 +154,7 @@
       "claimed": "",
       "poneglyphe": "",
       "boat": "",
-      "route": ""
+      "routeFrom": ""
     },
     {
       "name": "Sorbet",
@@ -167,7 +167,7 @@
       "claimed": "",
       "poneglyphe": "",
       "boat": "",
-      "route": ""
+      "routeFrom": ""
     },
     {
       "name": "Black-Drum",
@@ -180,7 +180,7 @@
       "claimed": "",
       "poneglyphe": "",
       "boat": "",
-      "route": ""
+      "routeFrom": ""
     },
     {
       "name": "Ohara",
@@ -193,7 +193,7 @@
       "claimed": "",
       "poneglyphe": "",
       "boat": "",
-      "route": ""
+      "routeFrom": ""
     },
     {
       "name": "Las Camp",
@@ -206,7 +206,7 @@
       "claimed": "",
       "poneglyphe": "",
       "boat": "",
-      "route": ""
+      "routeFrom": ""
     },
     {
       "name": "Illusia",
@@ -219,7 +219,7 @@
       "claimed": "",
       "poneglyphe": "",
       "boat": "",
-      "route": ""
+      "routeFrom": ""
     },
     {
       "name": "Toroa",
@@ -232,7 +232,7 @@
       "claimed": "",
       "poneglyphe": "",
       "boat": "",
-      "route": ""
+      "routeFrom": ""
     },
     {
       "name": "Kano-kuni",
@@ -245,7 +245,7 @@
       "claimed": "",
       "poneglyphe": "",
       "boat": "",
-      "route": ""
+      "routeFrom": ""
     },
     {
       "name": "Flevance",
@@ -258,7 +258,7 @@
       "claimed": "",
       "poneglyphe": "",
       "boat": "",
-      "route": ""
+      "routeFrom": ""
     },
     {
       "name": "Spider Miles",
@@ -271,7 +271,7 @@
       "claimed": "",
       "poneglyphe": "",
       "boat": "",
-      "route": ""
+      "routeFrom": ""
     },
     {
       "name": "Micqueot",
@@ -284,7 +284,7 @@
       "claimed": "",
       "poneglyphe": "",
       "boat": "",
-      "route": ""
+      "routeFrom": ""
     },
     {
       "name": "Nortis",
@@ -294,10 +294,10 @@
       "commander": "",
       "cardCode": "",
       "cardName": "",
-      "claimed": "",
+      "claimed": "Révolutionnaires",
       "poneglyphe": "",
       "boat": "",
-      "route": ""
+      "routeFrom": ""
     },
     {
       "name": "Luvneel",
@@ -307,10 +307,10 @@
       "commander": "",
       "cardCode": "",
       "cardName": "",
-      "claimed": "",
+      "claimed": "Révolutionnaires",
       "poneglyphe": "",
       "boat": "",
-      "route": ""
+      "routeFrom": ""
     },
     {
       "name": "Swallow",
@@ -320,10 +320,10 @@
       "commander": "",
       "cardCode": "",
       "cardName": "",
-      "claimed": "",
+      "claimed": "Révolutionnaires",
       "poneglyphe": "",
       "boat": "",
-      "route": ""
+      "routeFrom": ""
     },
     {
       "name": "Cap Jumeaux",
@@ -334,9 +334,9 @@
       "cardCode": "",
       "cardName": "",
       "claimed": "",
-      "poneglyphe": "",
+      "poneglyphe": "Oui",
       "boat": "",
-      "route": ""
+      "routeFrom": ""
     },
     {
       "name": "Kenzan",
@@ -349,7 +349,7 @@
       "claimed": "",
       "poneglyphe": "",
       "boat": "",
-      "route": ""
+      "routeFrom": ""
     },
     {
       "name": "Whiskey Peak",
@@ -362,7 +362,7 @@
       "claimed": "",
       "poneglyphe": "",
       "boat": "",
-      "route": ""
+      "routeFrom": ""
     },
     {
       "name": "Little Garden",
@@ -375,7 +375,7 @@
       "claimed": "",
       "poneglyphe": "",
       "boat": "",
-      "route": ""
+      "routeFrom": ""
     },
     {
       "name": "Kyuka",
@@ -388,7 +388,7 @@
       "claimed": "",
       "poneglyphe": "",
       "boat": "",
-      "route": ""
+      "routeFrom": ""
     },
     {
       "name": "Foolshoot",
@@ -401,7 +401,7 @@
       "claimed": "",
       "poneglyphe": "",
       "boat": "",
-      "route": ""
+      "routeFrom": ""
     },
     {
       "name": "Alabasta",
@@ -414,7 +414,7 @@
       "claimed": "",
       "poneglyphe": "",
       "boat": "",
-      "route": ""
+      "routeFrom": ""
     },
     {
       "name": "Banaro",
@@ -427,7 +427,7 @@
       "claimed": "",
       "poneglyphe": "",
       "boat": "",
-      "route": ""
+      "routeFrom": ""
     },
     {
       "name": "Drum",
@@ -440,7 +440,7 @@
       "claimed": "",
       "poneglyphe": "",
       "boat": "",
-      "route": ""
+      "routeFrom": ""
     },
     {
       "name": "Long-Ring-Long-Land",
@@ -453,7 +453,7 @@
       "claimed": "",
       "poneglyphe": "",
       "boat": "",
-      "route": ""
+      "routeFrom": ""
     },
     {
       "name": "Ukkari",
@@ -466,7 +466,7 @@
       "claimed": "",
       "poneglyphe": "",
       "boat": "",
-      "route": ""
+      "routeFrom": ""
     },
     {
       "name": "Jaya",
@@ -479,7 +479,7 @@
       "claimed": "",
       "poneglyphe": "",
       "boat": "",
-      "route": ""
+      "routeFrom": ""
     },
     {
       "name": "Thriller Bark",
@@ -492,7 +492,7 @@
       "claimed": "",
       "poneglyphe": "",
       "boat": "",
-      "route": ""
+      "routeFrom": ""
     },
     {
       "name": "Karakuri",
@@ -505,7 +505,7 @@
       "claimed": "",
       "poneglyphe": "",
       "boat": "",
-      "route": ""
+      "routeFrom": ""
     },
     {
       "name": "Water Seven",
@@ -518,7 +518,7 @@
       "claimed": "",
       "poneglyphe": "",
       "boat": "Brigrantin",
-      "route": ""
+      "routeFrom": ""
     },
     {
       "name": "Saint Poplar",
@@ -531,7 +531,7 @@
       "claimed": "",
       "poneglyphe": "",
       "boat": "",
-      "route": ""
+      "routeFrom": ""
     },
     {
       "name": "Boyn",
@@ -544,7 +544,7 @@
       "claimed": "",
       "poneglyphe": "",
       "boat": "",
-      "route": ""
+      "routeFrom": ""
     },
     {
       "name": "Lulusia",
@@ -557,7 +557,7 @@
       "claimed": "",
       "poneglyphe": "",
       "boat": "",
-      "route": ""
+      "routeFrom": ""
     },
     {
       "name": "Kuraigana",
@@ -570,7 +570,7 @@
       "claimed": "",
       "poneglyphe": "",
       "boat": "",
-      "route": ""
+      "routeFrom": ""
     },
     {
       "name": "Namakura",
@@ -583,7 +583,7 @@
       "claimed": "",
       "poneglyphe": "",
       "boat": "",
-      "route": ""
+      "routeFrom": ""
     },
     {
       "name": "Momoiro",
@@ -596,7 +596,7 @@
       "claimed": "",
       "poneglyphe": "",
       "boat": "",
-      "route": ""
+      "routeFrom": ""
     },
     {
       "name": "Sabaody",
@@ -609,7 +609,7 @@
       "claimed": "",
       "poneglyphe": "",
       "boat": "",
-      "route": ""
+      "routeFrom": ""
     },
     {
       "name": "Baltingo",
@@ -622,7 +622,7 @@
       "claimed": "",
       "poneglyphe": "",
       "boat": "Brigantin",
-      "route": ""
+      "routeFrom": ""
     },
     {
       "name": "Base G1 - Ex-Marineford",
@@ -635,7 +635,7 @@
       "claimed": "",
       "poneglyphe": "",
       "boat": "",
-      "route": ""
+      "routeFrom": ""
     },
     {
       "name": "Impel Down",
@@ -648,7 +648,7 @@
       "claimed": "",
       "poneglyphe": "",
       "boat": "",
-      "route": ""
+      "routeFrom": ""
     },
     {
       "name": "Enias Lobby",
@@ -661,7 +661,7 @@
       "claimed": "",
       "poneglyphe": "",
       "boat": "",
-      "route": ""
+      "routeFrom": ""
     },
     {
       "name": "Amazon Lily",
@@ -674,7 +674,7 @@
       "claimed": "",
       "poneglyphe": "",
       "boat": "",
-      "route": ""
+      "routeFrom": ""
     },
     {
       "name": "Ruskaina",
@@ -687,7 +687,7 @@
       "claimed": "",
       "poneglyphe": "",
       "boat": "",
-      "route": ""
+      "routeFrom": ""
     },
     {
       "name": "Skypea",
@@ -700,7 +700,7 @@
       "claimed": "",
       "poneglyphe": "",
       "boat": "",
-      "route": ""
+      "routeFrom": ""
     },
     {
       "name": "Weatheria",
@@ -713,7 +713,7 @@
       "claimed": "",
       "poneglyphe": "",
       "boat": "",
-      "route": ""
+      "routeFrom": ""
     },
     {
       "name": "Bilca",
@@ -726,7 +726,7 @@
       "claimed": "",
       "poneglyphe": "",
       "boat": "",
-      "route": ""
+      "routeFrom": ""
     },
     {
       "name": "Terminal Balloon",
@@ -739,7 +739,7 @@
       "claimed": "",
       "poneglyphe": "",
       "boat": "",
-      "route": ""
+      "routeFrom": ""
     },
     {
       "name": "Gyojin",
@@ -752,7 +752,7 @@
       "claimed": "",
       "poneglyphe": "",
       "boat": "",
-      "route": ""
+      "routeFrom": ""
     },
     {
       "name": "Mary Geoise",
@@ -765,7 +765,7 @@
       "claimed": "",
       "poneglyphe": "",
       "boat": "",
-      "route": ""
+      "routeFrom": ""
     },
     {
       "name": "Risky Red",
@@ -778,7 +778,7 @@
       "claimed": "",
       "poneglyphe": "",
       "boat": "",
-      "route": "route1"
+      "routeFrom": "Log 1"
     },
     {
       "name": "Mystoria",
@@ -788,10 +788,10 @@
       "commander": "",
       "cardCode": "",
       "cardName": "",
-      "claimed": "",
+      "claimed": "Révolutionnaires",
       "poneglyphe": "",
       "boat": "",
-      "route": "route2"
+      "routeFrom": "Log 2"
     },
     {
       "name": "Raijin",
@@ -804,7 +804,7 @@
       "claimed": "",
       "poneglyphe": "",
       "boat": "",
-      "route": "route3"
+      "routeFrom": "Log 3"
     },
     {
       "name": "Punk-Hazard",
@@ -817,7 +817,7 @@
       "claimed": "",
       "poneglyphe": "",
       "boat": "",
-      "route": "routeAgitée"
+      "routeFrom": "Log Agité"
     },
     {
       "name": "Prodence",
@@ -830,7 +830,7 @@
       "claimed": "",
       "poneglyphe": "",
       "boat": "",
-      "route": "route1"
+      "routeFrom": "Log 1"
     },
     {
       "name": "Foodvalten",
@@ -843,7 +843,7 @@
       "claimed": "",
       "poneglyphe": "",
       "boat": "",
-      "route": "route2"
+      "routeFrom": "Log 2"
     },
     {
       "name": "Base G-5",
@@ -856,7 +856,7 @@
       "claimed": "",
       "poneglyphe": "",
       "boat": "",
-      "route": "route3"
+      "routeFrom": "Log 3"
     },
     {
       "name": "New Marineford",
@@ -869,7 +869,7 @@
       "claimed": "",
       "poneglyphe": "",
       "boat": "",
-      "route": "routeAgitée"
+      "routeFrom": "Log Agité"
     },
     {
       "name": "Doerena",
@@ -882,7 +882,7 @@
       "claimed": "",
       "poneglyphe": "",
       "boat": "",
-      "route": "route1"
+      "routeFrom": "Log 1"
     },
     {
       "name": "Yukiryu",
@@ -892,10 +892,10 @@
       "commander": "",
       "cardCode": "",
       "cardName": "",
-      "claimed": "",
+      "claimed": "Révolutionnaires",
       "poneglyphe": "",
       "boat": "",
-      "route": "route2"
+      "routeFrom": "Log 2"
     },
     {
       "name": "Karai-bar",
@@ -908,7 +908,7 @@
       "claimed": "",
       "poneglyphe": "",
       "boat": "",
-      "route": "route3"
+      "routeFrom": "Log 3"
     },
     {
       "name": "Germa",
@@ -921,7 +921,7 @@
       "claimed": "",
       "poneglyphe": "",
       "boat": "",
-      "route": "routeAgitée"
+      "routeFrom": "Log Agité"
     },
     {
       "name": "Majiatsuka",
@@ -934,7 +934,7 @@
       "claimed": "",
       "poneglyphe": "",
       "boat": "",
-      "route": "route1"
+      "routeFrom": "Log 1"
     },
     {
       "name": "Broccoli",
@@ -947,7 +947,7 @@
       "claimed": "",
       "poneglyphe": "",
       "boat": "Frégate",
-      "route": "route2"
+      "routeFrom": "Log 2"
     },
     {
       "name": "Firs",
@@ -960,7 +960,7 @@
       "claimed": "",
       "poneglyphe": "",
       "boat": "",
-      "route": "route3"
+      "routeFrom": "Log 3"
     },
     {
       "name": "Whole Cake",
@@ -973,7 +973,7 @@
       "claimed": "",
       "poneglyphe": "",
       "boat": "",
-      "route": "routeAgitée"
+      "routeFrom": "Log Agité"
     },
     {
       "name": "Stonetone",
@@ -986,7 +986,7 @@
       "claimed": "",
       "poneglyphe": "",
       "boat": "",
-      "route": "route1"
+      "routeFrom": "Log 1"
     },
     {
       "name": "Kinoko",
@@ -996,10 +996,10 @@
       "commander": "",
       "cardCode": "",
       "cardName": "",
-      "claimed": "",
+      "claimed": "Révolutionnaires",
       "poneglyphe": "",
       "boat": "",
-      "route": "route2"
+      "routeFrom": "Log 2"
     },
     {
       "name": "Secon",
@@ -1012,7 +1012,7 @@
       "claimed": "",
       "poneglyphe": "",
       "boat": "",
-      "route": "route3"
+      "routeFrom": "Log 3"
     },
     {
       "name": "Nakrowa",
@@ -1022,10 +1022,10 @@
       "commander": "",
       "cardCode": "",
       "cardName": "",
-      "claimed": "",
+      "claimed": "Révolutionnaires",
       "poneglyphe": "",
       "boat": "",
-      "route": "routeAgitée"
+      "routeFrom": "Log Agité"
     },
     {
       "name": "Dressrosa",
@@ -1038,7 +1038,7 @@
       "claimed": "",
       "poneglyphe": "",
       "boat": "",
-      "route": "route1"
+      "routeFrom": "Log 1"
     },
     {
       "name": "Chibralta",
@@ -1051,7 +1051,7 @@
       "claimed": "",
       "poneglyphe": "",
       "boat": "",
-      "route": "route2"
+      "routeFrom": "Log 2"
     },
     {
       "name": "Applenine",
@@ -1064,7 +1064,7 @@
       "claimed": "",
       "poneglyphe": "",
       "boat": "",
-      "route": "route3"
+      "routeFrom": "Log 3"
     },
     {
       "name": "Elbaf",
@@ -1077,7 +1077,7 @@
       "claimed": "",
       "poneglyphe": "",
       "boat": "",
-      "route": "routeAgitée"
+      "routeFrom": "Log Agité"
     },
     {
       "name": "Tongari",
@@ -1090,7 +1090,7 @@
       "claimed": "",
       "poneglyphe": "",
       "boat": "",
-      "route": "route1"
+      "routeFrom": "Log 1"
     },
     {
       "name": "Mogaro",
@@ -1103,7 +1103,7 @@
       "claimed": "",
       "poneglyphe": "",
       "boat": "",
-      "route": "route2"
+      "routeFrom": "Log 2"
     },
     {
       "name": "Kenko",
@@ -1116,7 +1116,7 @@
       "claimed": "",
       "poneglyphe": "",
       "boat": "",
-      "route": "route3"
+      "routeFrom": "Log 3"
     },
     {
       "name": "Gran Tesoro",
@@ -1129,7 +1129,7 @@
       "claimed": "",
       "poneglyphe": "",
       "boat": "",
-      "route": "routeAgitée"
+      "routeFrom": "Log Agité"
     },
     {
       "name": "Motown",
@@ -1142,7 +1142,7 @@
       "claimed": "",
       "poneglyphe": "",
       "boat": "",
-      "route": "route1"
+      "routeFrom": "Log 1"
     },
     {
       "name": "Forwind",
@@ -1155,7 +1155,7 @@
       "claimed": "",
       "poneglyphe": "",
       "boat": "Gallion",
-      "route": "route2"
+      "routeFrom": "Log 2"
     },
     {
       "name": "Robinson",
@@ -1168,7 +1168,7 @@
       "claimed": "",
       "poneglyphe": "",
       "boat": "",
-      "route": "route3"
+      "routeFrom": "Log 3"
     },
     {
       "name": "Wano Kuni",
@@ -1181,7 +1181,7 @@
       "claimed": "",
       "poneglyphe": "",
       "boat": "",
-      "route": "routeAgitée"
+      "routeFrom": "Log Agité"
     },
     {
       "name": "Hand",
@@ -1194,7 +1194,7 @@
       "claimed": "",
       "poneglyphe": "",
       "boat": "",
-      "route": "route1"
+      "routeFrom": "Log 1"
     },
     {
       "name": "Tomoshibi",
@@ -1207,7 +1207,7 @@
       "claimed": "",
       "poneglyphe": "",
       "boat": "",
-      "route": "route2"
+      "routeFrom": "Log 2"
     },
     {
       "name": "Madatascar",
@@ -1220,7 +1220,7 @@
       "claimed": "",
       "poneglyphe": "",
       "boat": "",
-      "route": "route3"
+      "routeFrom": "Log 3"
     },
     {
       "name": "Honeycomb",
@@ -1233,7 +1233,7 @@
       "claimed": "",
       "poneglyphe": "",
       "boat": "",
-      "route": "routeAgitée"
+      "routeFrom": "Log Agité"
     },
     {
       "name": "Delta",
@@ -1246,7 +1246,7 @@
       "claimed": "",
       "poneglyphe": "",
       "boat": "",
-      "route": "route1"
+      "routeFrom": "Log 1"
     },
     {
       "name": "Sphinx",
@@ -1259,7 +1259,7 @@
       "claimed": "",
       "poneglyphe": "",
       "boat": "",
-      "route": "route2"
+      "routeFrom": "Log 2"
     },
     {
       "name": "Plunder Valley",
@@ -1272,7 +1272,7 @@
       "claimed": "",
       "poneglyphe": "",
       "boat": "",
-      "route": "route3"
+      "routeFrom": "Log 3"
     },
     {
       "name": "Semper fi",
@@ -1285,7 +1285,7 @@
       "claimed": "",
       "poneglyphe": "",
       "boat": "",
-      "route": "routeAgitée"
+      "routeFrom": "Log Agité"
     },
     {
       "name": "Lonestar",
@@ -1298,7 +1298,7 @@
       "claimed": "",
       "poneglyphe": "",
       "boat": "",
-      "route": ""
+      "routeFrom": ""
     },
     {
       "name": "Zou",
@@ -1311,7 +1311,7 @@
       "claimed": "",
       "poneglyphe": "",
       "boat": "",
-      "route": ""
+      "routeFrom": ""
     },
     {
       "name": "Fairy Sky",
@@ -1324,7 +1324,7 @@
       "claimed": "",
       "poneglyphe": "",
       "boat": "",
-      "route": ""
+      "routeFrom": ""
     },
     {
       "name": "Laugh Tale",
@@ -1337,7 +1337,7 @@
       "claimed": "",
       "poneglyphe": "",
       "boat": "",
-      "route": ""
+      "routeFrom": ""
     }
   ]
 }
