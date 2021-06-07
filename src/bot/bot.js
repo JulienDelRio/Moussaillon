@@ -26,7 +26,11 @@ discord.on('message', message => {
 })
 
 function dispatch(message) {
-    if (!config.allowedChannels.includes(message.channel.id)) {
+    let testChannel = config.testChannels.includes(message.channel.id);
+    console.log(message.channel.name + " is test ? " + testChannel)
+    let allowedChannel = config.allowedChannels.includes(message.channel.id);
+    console.log(message.channel.name + " is allowed ? " + allowedChannel)
+    if (!(allowedChannel || testChannel)) {
         console.log(`Wrong chan ${message.channel.name} (${message.channel.id})`);
         return
     }
@@ -40,7 +44,10 @@ function dispatch(message) {
 
         switch (command) {
             case "test":
-                testdiscordapi.handle(message, commandParams)
+                if (testChannel)
+                    testdiscordapi.handle(message, commandParams)
+                else
+                    console.log("test not allowed in " + message.channel.name);
                 break
             case "ile":
                 islands.handle(message, commandParams)
