@@ -1,5 +1,8 @@
 'use strict';
 
+const config = require('./config.json');
+const MoussaillonMessageEmbed = require("./MoussaillonMessageEmbed.js");
+
 exports.handle = function (message, commandParams) {
     let lowerCommandParams = commandParams.toLowerCase()
     let found = false;
@@ -7,9 +10,14 @@ exports.handle = function (message, commandParams) {
         message.channel.send("Saisir au moins 3 caractères.")
         found = true;
     } else {
-        data.islands.forEach(function (ile) {
-            if (ile.name.toLowerCase().match(lowerCommandParams)) {
-                message.channel.send(ile.name + " dans la mer " + ile.sea)
+        data.islands.forEach(function (island) {
+            if (island.name.toLowerCase().match(lowerCommandParams)) {
+                const embed = new MoussaillonMessageEmbed()
+                    .setTitle(island.name)
+                    .setColor(config.embedColor)
+                    .setDescription("L'ile se trouve sur " + island.sea + "\n" +
+                        "Elle est controlée par " + island.npc);
+                    message.channel.send(embed);
                 found = true;
             }
         })

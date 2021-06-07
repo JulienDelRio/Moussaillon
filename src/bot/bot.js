@@ -3,7 +3,8 @@
 const fs = require('fs');
 const Discord = require('discord.js')
 const config = require('./config.json');
-const iles = require("./islands.js");
+const islands = require("./islands.js");
+const testdiscordapi = require("./testdiscordapi.js");
 const data = require("../data/data.json");
 
 
@@ -38,8 +39,11 @@ function dispatch(message) {
         let commandParams = message.content.substring(1 + 1 + command.length);
 
         switch (command) {
+            case "test":
+                testdiscordapi.handle(message, commandParams)
+                break
             case "ile":
-                iles.handle(message, commandParams)
+                islands.handle(message, commandParams)
                 break
             default:
                 console.log("It's a command : " + command)
