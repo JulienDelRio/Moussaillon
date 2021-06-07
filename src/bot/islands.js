@@ -13,11 +13,12 @@ exports.handle = function (message, commandParams) {
         data.islands.forEach(function (island) {
             if (island.name.toLowerCase().match(lowerCommandParams)) {
                 const embed = new MoussaillonMessageEmbed()
-                    .setTitle(island.name)
+                    .setTitle(island.name + " (" + island.sea + ")")
                     .setColor(config.embedColor)
-                    .setDescription("L'ile se trouve sur " + island.sea + "\n" +
-                        "Elle est controlée par " + island.npc);
-                    message.channel.send(embed);
+                    .setDescription("Personnage/Lieu de quête : " + island.npc + "\n" +
+                        "Commandant : " + island.commander + "\n" +
+                        "Carte à collectionner : " + island.cardCode + " - " + island.cardName);
+                message.channel.send(embed);
                 found = true;
             }
         })
