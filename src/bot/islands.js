@@ -3,6 +3,15 @@
 const config = require('./config.json');
 const MoussaillonMessageEmbed = require("./MoussaillonMessageEmbed.js");
 
+exports.isHandled = function (command) {
+    switch (command) {
+        case "ile":
+            return true;
+        default:
+            return false
+    }
+}
+
 exports.handle = function (message, commandParams) {
     let lowerCommandParams = commandParams.toLowerCase()
     let found = false;

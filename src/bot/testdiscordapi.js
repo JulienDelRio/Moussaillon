@@ -3,6 +3,15 @@
 const config = require('./config.json');
 const MoussaillonMessageEmbed = require("./MoussaillonMessageEmbed.js");
 
+exports.isHandled = function (command) {
+    switch (command) {
+        case "test":
+            return true;
+        default:
+            return false
+    }
+}
+
 exports.handle = function (message, commandParams) {
     console.log(`commandParams ${commandParams}`)
     const embed = new MoussaillonMessageEmbed()

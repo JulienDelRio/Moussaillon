@@ -4,6 +4,7 @@ const fs = require('fs');
 const Discord = require('discord.js')
 const config = require('./config.json');
 const islands = require("./islands.js");
+const tools = require("./tools.js");
 const testdiscordapi = require("./testdiscordapi.js");
 const data = require("../data/data.json");
 
@@ -42,18 +43,17 @@ function dispatch(message) {
             let command = message.content.substring(1).split(" ")[0].toLowerCase();
             let commandParams = message.content.substring(1 + 1 + command.length);
 
-            switch (command) {
-                case "test":
-                    if (testChannel)
-                        testdiscordapi.handle(message, commandParams)
-                    else
-                        console.log("test not allowed in " + message.channel.name);
-                    break
-                case "ile":
-                    islands.handle(message, commandParams)
-                    break
-                default:
-                    console.log("It's a command not found : " + command)
+            if (tools.isHandled(command)){
+                tools.handle(message, commandParams, discord);
+            } else if (islands.isHandled(command)) {
+                islands.handle(message, commandParams)
+            } else if (testdiscordapi.isHandled(command)){
+                if (testChannel)
+                    testdiscordapi.handle(message, commandParams)
+                else
+                    console.log("test not allowed in " + message.channel.name);
+            } else {
+                console.log("It's a command not found : " + command)
             }
             return;
         }
