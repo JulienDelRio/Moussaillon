@@ -2,14 +2,20 @@
 
 const fs = require('fs');
 const Discord = require('discord.js')
+const {Intents} = require("discord.js");
 const config = require('./config.json');
 const islands = require("./islands.js");
 const tools = require("./tools.js");
+const team = require("./team.js");
 const testdiscordapi = require("./testdiscordapi.js");
 const data = require("../data/data.json");
 
+const intents = new Intents([
+    Intents.NON_PRIVILEGED, // include all non-privileged intents, would be better to specify which ones you actually need
+    "GUILD_MEMBERS", // lets you request guild members (i.e. fixes the issue)
+]);
 
-const discord = new Discord.Client()
+const discord = new Discord.Client(intents)
 
 var botId = null;
 
@@ -47,6 +53,8 @@ function dispatch(message) {
                 tools.handle(message, commandParams, discord);
             } else if (islands.isHandled(command)) {
                 islands.handle(message, commandParams)
+            } else if (team.isHandled(command)) {
+                team.handle(message, command, commandParams)
             } else if (testdiscordapi.isHandled(command)){
                 if (testChannel)
                     testdiscordapi.handle(message, commandParams)

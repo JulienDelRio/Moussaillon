@@ -1,0 +1,31 @@
+{
+  "team": [
+    {
+      "user": "Jorodan",
+      "userid": "819594645641363526",
+      "bounty": "1 440 000 000",
+      "boat": "Frégate de Guerre Niv.42",
+      "position": "Kano Kuni",
+      "affiliation": "Révolutionnaire",
+      "rank": "Lieutenant"
+    },
+    {
+      "user": "Washi",
+      "userid": "",
+      "bounty": "",
+      "boat": "",
+      "position": "",
+      "affiliation": "",
+      "rank": ""
+    },
+    {
+      "user": "Reverand",
+      "userid": "",
+      "bounty": "",
+      "boat": "",
+      "position": "",
+      "affiliation": "",
+      "rank": ""
+    }
+  ]
+}

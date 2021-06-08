@@ -16,21 +16,29 @@ function handleUser(message) {
     // Prepare data
     let userID = 0;
     let userUsername = "Inconnu";
+    let userRoles = "Inconnu"
 
     let isMention = message.mentions.users.size > 0;
 
+    let member;
     if (isMention) {
         let user = message.mentions.users.first();
-        let member = message.guild.member(user);
-        if (member) {
-            console.log("Member : \n" +
-                JSON.stringify(member, null, 1))
-            userID = member.id
-            userUsername = member.username
-        }
+        member = message.guild.member(user);
     } else {
-        userID = message.author.id
-        userUsername = message.author.username
+        member = message.author
+    }
+
+    if (member) {
+        userID = member.id
+        userUsername = member.username
+        let roles = member.roles.cache
+        if (roles && roles.size > 0) {
+            userRoles = ""
+            roles.forEach((role, roleId) => {
+                userRoles = userRoles + role.name + "<" + roleId + ">, "
+            })
+            userRoles = userRoles.slice(0, -2)
+        }
     }
 
     // Create message
@@ -38,7 +46,8 @@ function handleUser(message) {
         .setAuthor("Commande par " + message.author.username, message.author.avatarURL())
         .setTitle("Informations sur le user " + userUsername)
         .addField("ID", userID)
-        .addField("Username", "<@!" + userID + ">");
+        .addField("Username", "<@!" + userID + ">")
+        .addField("Roles", userRoles);
 
     // Send message
     message.channel.send(embed);
