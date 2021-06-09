@@ -15,7 +15,7 @@ const intents = new Intents([
     "GUILD_MEMBERS", // lets you request guild members (i.e. fixes the issue)
 ]);
 
-const discord = new Discord.Client(intents)
+const discord = new Discord.Client({ ws: { intents } })
 
 var botId = null;
 
