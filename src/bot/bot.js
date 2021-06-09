@@ -7,6 +7,7 @@ const config = require('./config.json');
 const islands = require("./islands.js");
 const tools = require("./tools.js");
 const team = require("./team.js");
+const moussaillon = require("./moussaillon.js");
 const testdiscordapi = require("./testdiscordapi.js");
 const data = require("../data/data.json");
 
@@ -15,7 +16,7 @@ const intents = new Intents([
     "GUILD_MEMBERS", // lets you request guild members (i.e. fixes the issue)
 ]);
 
-const discord = new Discord.Client({ ws: { intents } })
+const discord = new Discord.Client({ws: {intents}})
 
 var botId = null;
 
@@ -49,13 +50,13 @@ function dispatch(message) {
             let command = message.content.substring(1).split(" ")[0].toLowerCase();
             let commandParams = message.content.substring(1 + 1 + command.length);
 
-            if (tools.isHandled(command)){
+            if (tools.isHandled(command)) {
                 tools.handle(message, commandParams, discord);
             } else if (islands.isHandled(command)) {
                 islands.handle(message, commandParams)
             } else if (team.isHandled(command)) {
                 team.handle(message, command, commandParams)
-            } else if (testdiscordapi.isHandled(command)){
+            } else if (testdiscordapi.isHandled(command)) {
                 if (testChannel)
                     testdiscordapi.handle(message, commandParams)
                 else
@@ -65,12 +66,12 @@ function dispatch(message) {
             }
             return;
         }
+        if (moussaillon.isHandled(message, discord.user.id)) {
+            moussaillon.handle(message, discord.user.id)
+            return
+        }
         if (message.content === 'ping') {
             message.reply('pong !')
-            return;
-        }
-        if (message.content.toLowerCase().match(`bonjour <@!${discord.user.id}>`.toLowerCase())) {
-            message.channel.send(`Bonjour ${message.member} !`);
             return;
         }
         console.log("Not dispatched : " + message.url)
