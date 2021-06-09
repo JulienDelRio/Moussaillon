@@ -7,6 +7,7 @@ const team = require("../data/team.json");
 exports.isHandled = function (command) {
     switch (command) {
         case "membres":
+        case "membre":
         case "user":
             return true;
         default:
@@ -20,6 +21,9 @@ exports.handle = function (message) {
         case "user":
             handleUser(message)
             break
+        case "membre":
+            handleMember(message)
+            break
         case "membres":
             handleMembers(message)
             break
@@ -31,20 +35,30 @@ exports.handle = function (message) {
 
 function handleUser(message) {
 
+    let isMention = message.mentions.users.size > 0;
+    let memberId;
+    if (isMention) {
+        memberId = message.mentions.users.first().id;
+    } else {
+        memberId = message.author.id;
+    }
+
+    message.guild.members.fetch(memberId).then(
+        function onSuccess(member) {
+            answerMemberInfo(message, member)
+        },
+        function onError(reason) {
+            console.error("Error on fetching member : " + reason.message);
+        }
+    )
+}
+
+function answerMemberInfo(message, member) {
+
     // Prepare data
     let userID = 0;
     let userUsername = "Inconnu";
-    let userRoles = "Inconnu"
-
-    let isMention = message.mentions.users.size > 0;
-
-    let member;
-    if (isMention) {
-        let user = message.mentions.users.first();
-        member = message.guild.member(user);
-    } else {
-        member = message.author
-    }
+    let userRoles = "Inconnu";
 
     if (member) {
         userID = member.id
@@ -62,21 +76,28 @@ function handleUser(message) {
 
     // Send message
     message.channel.send(embed);
+
 }
 
-function getRolesInline(member){
+function getRolesInline(member) {
     let userRoles = "Inconnu"
 
-    let roles = member.roles.cache
-    if (roles && roles.size > 0) {
-        userRoles = ""
-        roles.forEach((role, roleId) => {
-            userRoles = userRoles + role.name + "<" + roleId + ">, "
-        })
-        userRoles = userRoles.slice(0, -2)
+    if (member.roles && member.roles.cache) {
+        let roles = member.roles.cache
+        if (roles && roles.size > 0) {
+            userRoles = ""
+            roles.forEach((role, roleId) => {
+                userRoles = userRoles + role.name + "<" + roleId + ">, "
+            })
+            userRoles = userRoles.slice(0, -2)
+        }
     }
 
     return userRoles
+}
+
+function handleMember(message) {
+
 }
 
 function handleMembers(message) {
@@ -84,8 +105,6 @@ function handleMembers(message) {
 
     message.guild.members.fetch()
         .then(function (members) {
-            console.log("Team found")
-
             // Create message
             const embed = new MoussaillonMessageEmbed()
                 .setAuthor("Commande par " + message.author.username, message.author.avatarURL())
@@ -112,4 +131,17 @@ function handleMembers(message) {
         })
         .catch(console.error);
 
+}
+
+async function getMember(membersManager, id) {
+    let promise = membersManager.fetch(id).then(
+        function onSuccess(member) {
+            console.log("Found : " + member.displayName)
+            return member;
+        },
+        function onError(reason) {
+            console.error("Error geting member : " + reason)
+        }
+    )
+    return await promise;
 }
