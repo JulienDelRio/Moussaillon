@@ -3,7 +3,7 @@
     {
       "user": "Jorodan",
       "userid": "819594645641363526",
-      "bounty": "1 440 000 000",
+      "bounty": 1440000000,
       "boat": "Frégate de Guerre Niv.42",
       "position": "Kano Kuni",
       "affiliation": "Révolutionnaire",
@@ -11,17 +11,89 @@
     },
     {
       "user": "Washi",
-      "userid": "",
-      "bounty": "",
+      "userid": "503859849231204353",
+      "bounty": 2528000000,
       "boat": "",
       "position": "",
       "affiliation": "",
       "rank": ""
     },
     {
-      "user": "Reverand",
-      "userid": "",
-      "bounty": "",
+      "user": "révérend Carver",
+      "userid": "776924279782506496",
+      "bounty": 1704000000,
+      "boat": "",
+      "position": "",
+      "affiliation": "",
+      "rank": ""
+    },
+    {
+      "user": "GooglBoo",
+      "userid": "250322099254722561",
+      "bounty": 700000000,
+      "boat": "",
+      "position": "",
+      "affiliation": "",
+      "rank": ""
+    },
+    {
+      "user": "Wotan₪",
+      "userid": "380751041613791232",
+      "bounty": 1140000000,
+      "boat": "",
+      "position": "",
+      "affiliation": "",
+      "rank": ""
+    },
+    {
+      "user": "Ty Mandø!",
+      "userid": "383626078914215936",
+      "bounty": 1512000000,
+      "boat": "",
+      "position": "",
+      "affiliation": "",
+      "rank": ""
+    },
+    {
+      "user": "SPACE",
+      "userid": "513713587064143874",
+      "bounty": 1827000000,
+      "boat": "",
+      "position": "",
+      "affiliation": "",
+      "rank": ""
+    },
+    {
+      "user": "Momox",
+      "userid": "776016381740187689",
+      "bounty": 1040000000,
+      "boat": "",
+      "position": "",
+      "affiliation": "",
+      "rank": ""
+    },
+    {
+      "user": "ilies927",
+      "userid": "783336068523098163",
+      "bounty": 1541000000,
+      "boat": "",
+      "position": "",
+      "affiliation": "",
+      "rank": ""
+    },
+    {
+      "user": "Traffy",
+      "userid": "847021116118532116",
+      "bounty": 860000000,
+      "boat": "",
+      "position": "",
+      "affiliation": "",
+      "rank": ""
+    },
+    {
+      "user": "Mouhazha",
+      "userid": "848252307586285578",
+      "bounty": 50000000,
       "boat": "",
       "position": "",
       "affiliation": "",

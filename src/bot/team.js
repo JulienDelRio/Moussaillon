@@ -2,13 +2,14 @@
 
 const config = require('./config.json');
 const MoussaillonMessageEmbed = require("./MoussaillonMessageEmbed.js");
-const team = require("../data/team.json");
+const {team} = require("../data/team.json");
 
 exports.isHandled = function (command) {
     switch (command) {
         case "membres":
         case "membre":
         case "user":
+        case "users":
             return true;
         default:
             return false
@@ -27,25 +28,31 @@ exports.handle = function (message) {
         case "membres":
             handleMembers(message)
             break
+        case "users":
+            handleUsers(message)
+            break
         default:
             console.error("Not a good command : " + command)
             return
     }
 }
 
+function getTargetedMemberId(message) {
+    let isMention = message.mentions.users.size > 0;
+    if (isMention) {
+        return message.mentions.users.first().id;
+    } else {
+        return message.author.id;
+    }
+}
+
 function handleUser(message) {
 
-    let isMention = message.mentions.users.size > 0;
-    let memberId;
-    if (isMention) {
-        memberId = message.mentions.users.first().id;
-    } else {
-        memberId = message.author.id;
-    }
+    let memberId = getTargetedMemberId(message);
 
     message.guild.members.fetch(memberId).then(
         function onSuccess(member) {
-            answerMemberInfo(message, member)
+            displayUser(message, member)
         },
         function onError(reason) {
             console.error("Error on fetching member : " + reason.message);
@@ -53,26 +60,35 @@ function handleUser(message) {
     )
 }
 
-function answerMemberInfo(message, member) {
+function displayUser(message, user) {
 
     // Prepare data
     let userID = 0;
     let userUsername = "Inconnu";
     let userRoles = "Inconnu";
+    let userThumbnail = "";
 
-    if (member) {
-        userID = member.id
-        userUsername = member.username
-        userRoles = getRolesInline(member)
+    if (user) {
+        userID = user.id
+        userUsername = user.displayName
+        userRoles = getRolesInline(user)
+        userThumbnail = user.user.avatarURL()
     }
+
+    let fieldsName = "🆔 ID\n" +
+        "😀 Username\n" +
+        "👼 Roles";
+    let fieldsValue = userID + "\n" +
+        "<@!" + userID + ">\n" +
+        userRoles + "";
 
     // Create message
     const embed = new MoussaillonMessageEmbed()
         .setAuthor("Commande par " + message.author.username, message.author.avatarURL())
-        .setTitle("Informations sur le user " + userUsername)
-        .addField("ID", userID)
-        .addField("Username", "<@!" + userID + ">")
-        .addField("Roles", userRoles);
+        .setTitle("Utilisateur " + userUsername)
+        .setThumbnail(userThumbnail)
+        .addField("Champs", fieldsName, true)
+        .addField("Valeurs", fieldsValue, true)
 
     // Send message
     message.channel.send(embed);
@@ -97,51 +113,112 @@ function getRolesInline(member) {
 }
 
 function handleMember(message) {
+    let memberId = getTargetedMemberId(message);
+    let member = getMemberById(memberId);
 
+    if (member) {
+        displayMember(message, member);
+    } else {
+        message.channel.send("Membre inconnu");
+    }
 }
 
 function handleMembers(message) {
-    console.log("List members")
+    team.sort(sortMembersById);
+    console.log("*** Sort members by ID ***")
+    team.forEach(member => {
+        console.log(member.userid + " " + member.user);
+    })
+    message.channel.send("En cours de développement...");
+}
 
-    message.guild.members.fetch()
-        .then(function (members) {
-            // Create message
-            const embed = new MoussaillonMessageEmbed()
-                .setAuthor("Commande par " + message.author.username, message.author.avatarURL())
-                .setTitle("Liste des membres des wayzen");
+function displayMember(message, member) {
 
-            if (!members || members.size == 0) {
-                embed.addField("Pas de membre", "Nous n'avons pas trouvé de membre")
-            } else {
-                members.forEach((member, id) => {
-                    if (!member.user.bot) {
-                        let userRoles = getRolesInline(member)
-                        let userDescription = " id : " + id + "\n" +
-                            "username : " + member.user.username + "\n" +
-                            "nickname : " + member.nickname + "\n" +
-                            "roles : " + userRoles;
-                        embed.addField(member.displayName, userDescription)
-                    }
-                })
-            }
+    // Prepare data
+    let memberID = 0;
+    let username = "Inconnu";
+    let bounty = "Inconnue";
+    let rank = "Inconnu"
+    let position = "Inconnu"
+    let affiliation = "Inconnue"
+    let boat = "Inconnu"
 
-            // Send message
-            message.channel.send(embed);
+    if (member) {
+        memberID = member.userid ?? memberID;
+        username = member.user ?? username;
+        bounty = member.bounty ?? bounty;
+        rank = member.rank ?? rank;
+        position = member.position ?? position;
+        affiliation = member.affiliation ?? affiliation;
+        boat = member.boat ?? boat;
+    }
 
-        })
-        .catch(console.error);
+    let fieldsName = "💰 Prime\n" +
+        "🔺 Rang\n" +
+        "⛵ Bateau\n" +
+        "🗺 Position\n" +
+        "💼 Affiliation";
+    let fieldsValue = bounty + "\n" +
+        rank + "\n" +
+        boat + "\n" +
+        position + "\n" +
+        affiliation
+
+    // Create message
+    const embed = new MoussaillonMessageEmbed()
+        .setAuthor("Commande par " + message.author.username, message.author.avatarURL())
+        .setTitle("Membre " + username)
+        .addField("Champs", fieldsName, true)
+        .addField("Valeurs", fieldsValue, true)
+
+    // Send message
+    message.channel.send(embed);
 
 }
 
-async function getMember(membersManager, id) {
-    let promise = membersManager.fetch(id).then(
-        function onSuccess(member) {
-            console.log("Found : " + member.displayName)
-            return member;
-        },
-        function onError(reason) {
-            console.error("Error geting member : " + reason)
+function displayUsers(message, members) {
+    // Create message
+    const embed = new MoussaillonMessageEmbed()
+        .setAuthor("Commande par " + message.author.username, message.author.avatarURL())
+        .setTitle("Liste des membres des wayzen");
+
+    if (!members || members.size == 0) {
+        embed.addField("Pas de membre", "Nous n'avons pas trouvé de membre")
+    } else {
+        members.forEach((member, id) => {
+            if (!member.user.bot) {
+                let userRoles = getRolesInline(member)
+                let userDescription = " id : " + id + "\n" +
+                    "username : " + member.user.username + "\n" +
+                    "nickname : " + member.nickname + "\n" +
+                    "roles : " + userRoles;
+                embed.addField(member.displayName, userDescription)
+            }
+        })
+    }
+
+    // Send message
+    message.channel.send(embed);
+}
+
+function handleUsers(message) {
+    message.guild.members.fetch()
+        .then(function (members) {
+            displayUsers(message, members);
+        })
+        .catch(console.error);
+}
+
+function sortMembersById(a, b) {
+    return a.userid.localeCompare(b.userid)
+}
+
+function getMemberById(id) {
+    let foundMember = null
+    team.forEach(member => {
+        if (member.userid == id) {
+            foundMember = member;
         }
-    )
-    return await promise;
+    })
+    return foundMember
 }
