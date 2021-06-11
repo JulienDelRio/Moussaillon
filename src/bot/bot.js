@@ -3,6 +3,7 @@
 const fs = require('fs');
 const Discord = require('discord.js')
 const {Intents} = require("discord.js");
+const dataHelper = require("./dataHelper.js");
 const config = require('./config.json');
 const islands = require("./islands.js");
 const tools = require("./tools.js");
@@ -21,7 +22,12 @@ const discord = new Discord.Client({ws: {intents}})
 var botId = null;
 
 exports.start = function () {
-    discord.login(config.token);
+    dataHelper.loadData(data, function () {
+
+    }, function () {
+    }, function () {
+        discord.login(config.token);
+    })
 }
 
 discord.on('ready', function () {
