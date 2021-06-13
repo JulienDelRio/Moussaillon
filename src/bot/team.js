@@ -13,6 +13,7 @@ exports.isHandled = function (command) {
         case "membre":
         case "user":
         case "users":
+        case "classement":
             return true;
         default:
             return false
@@ -34,6 +35,9 @@ exports.handle = function (message) {
         case "users":
             handleUsers(message)
             break
+        case "classement":
+            handleClassement(message)
+            break
         default:
             console.error("Not a good command : " + command)
             return
@@ -41,7 +45,7 @@ exports.handle = function (message) {
 }
 
 function getTargetedMemberId(message) {
-    let isMention = message.mentions.users.size > 0;
+    let isMention = message.mentions.users.length > 0;
     if (isMention) {
         return message.mentions.users.first().id;
     } else {
@@ -103,7 +107,7 @@ function getRolesInline(member) {
 
     if (member.roles && member.roles.cache) {
         let roles = member.roles.cache
-        if (roles && roles.size > 0) {
+        if (roles && roles.length > 0) {
             userRoles = ""
             roles.forEach((role, roleId) => {
                 userRoles = userRoles + role.name + "<" + roleId + ">, "
@@ -138,7 +142,7 @@ function displayMembers(message, members) {
         .setTitle("Liste des membres des wayzen")
         .setThumbnail(wayzenLogoUrl)
 
-    if (!members || members.size == 0) {
+    if (!members || members.length == 0) {
         embed.addField("Pas de membre", "Nous n'avons pas trouvé de membre")
     } else {
         let usernames = ""
@@ -223,7 +227,7 @@ function displayUsers(message, members) {
         .setTitle("Liste des utilisateurs des wayzen")
         .setThumbnail(wayzenLogoUrl)
 
-    if (!members || members.size == 0) {
+    if (!members || members.length == 0) {
         embed.addField("Pas de membre", "Nous n'avons pas trouvé de membre")
     } else {
         members.forEach((member, id) => {
@@ -259,11 +263,14 @@ function sortMembersByUsername(a, b) {
 }
 
 function sortMembersByBounty(a, b) {
-    if (!Number.isInteger(a))
+    if (!a || !Number.isInteger(a.bounty)) {
         return -1
-    if (!Number.isInteger(b))
+    } else if (!b || !Number.isInteger(b.bounty)) {
         return 1
-    return Number.parseInt(a) - Number.parseInt(b)
+    } else {
+        let result = Number.parseInt(b.bounty) - Number.parseInt(a.bounty)
+        return result
+    }
 }
 
 function getMemberById(id) {
@@ -274,4 +281,66 @@ function getMemberById(id) {
         }
     })
     return foundMember
+}
+
+function handleClassement(message) {
+    message.channel.send("En cours de développement")
+
+    team.sort(sortMembersByBounty);
+    displayClassement(message, team)
+}
+
+
+function displayClassement(message, members, pNbDisplay) {
+    let nbDisplay = pNbDisplay
+    if (!nbDisplay)
+        nbDisplay = 10
+    // Create message
+    const embed = new MoussaillonMessageEmbed()
+        .setAuthor("Commande par " + message.author.username, message.author.avatarURL())
+        .setTitle("Tableau du TOP " + nbDisplay + " des wayzens")
+        .setThumbnail(wayzenLogoUrl)
+
+    if (!members || members.length == 0) {
+        embed.addField("Pas de membre", "Nous n'avons pas trouvé de membre")
+    } else {
+        let usernames = ""
+        let userbounties = ""
+        let totalBounty = 0
+
+        for (let i = 0; i < members.length; i++) {
+            let currentMember = members[i]
+
+            totalBounty = totalBounty + currentMember.bounty
+
+            if (i < nbDisplay) {
+                let preUsername = ""
+                if (i == 0 )
+                    preUsername = "🥇 "
+                else if (i == 1)
+                    preUsername = "🥈 "
+                else if (i == 2)
+                    preUsername = "🥉 "
+                else
+                    preUsername = "▫️ "
+
+                if (currentMember.user)
+                    usernames = usernames + preUsername + currentMember.user + "\n"
+                else
+                    usernames = usernames + "Inconnu\n"
+
+                if (currentMember.bounty)
+                    userbounties = userbounties + bountyFormatter.format(currentMember.bounty) + "\n"
+                else
+                    userbounties = userbounties + "Inconnu\n"
+            }
+        }
+
+        embed.addField("Total primes", bountyFormatter.format(totalBounty))
+        embed.addField("Membre", usernames, true)
+        embed.addField("Prime", userbounties, true)
+    }
+
+    // Send message
+    message.channel.send(embed);
 }
