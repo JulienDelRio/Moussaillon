@@ -4,6 +4,8 @@ const config = require('./config.json');
 const MoussaillonMessageEmbed = require("./MoussaillonMessageEmbed.js");
 const {team} = require("../data/team.json");
 
+const bountyFormatter = new Intl.NumberFormat('fr-FR', {  })
+
 exports.isHandled = function (command) {
     switch (command) {
         case "membres":
@@ -147,6 +149,9 @@ function displayMember(message, member) {
         memberID = member.userid ?? memberID;
         username = member.user ?? username;
         bounty = member.bounty ?? bounty;
+        if(Number.isInteger(bounty)){
+            bounty = bountyFormatter.format(bounty)
+        }
         rank = member.rank ?? rank;
         position = member.position ?? position;
         affiliation = member.affiliation ?? affiliation;
@@ -211,6 +216,14 @@ function handleUsers(message) {
 
 function sortMembersById(a, b) {
     return a.userid.localeCompare(b.userid)
+}
+
+function sortMembersByBounty(a, b) {
+    if (!Number.isInteger(a))
+        return -1
+    if (!Number.isInteger(b))
+        return 1
+    return Number.parseInt(a) - Number.parseInt(b)
 }
 
 function getMemberById(id) {
