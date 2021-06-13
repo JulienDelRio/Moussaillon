@@ -4,7 +4,8 @@ const config = require('./config.json');
 const MoussaillonMessageEmbed = require("./MoussaillonMessageEmbed.js");
 const {team} = require("../data/team.json");
 
-const bountyFormatter = new Intl.NumberFormat('fr-FR', {  })
+const bountyFormatter = new Intl.NumberFormat('fr-FR', {})
+const wayzenLogoUrl = "https://media.discordapp.net/attachments/845220603971239944/851924163723526164/20210429_223145_0000.png"
 
 exports.isHandled = function (command) {
     switch (command) {
@@ -126,12 +127,46 @@ function handleMember(message) {
 }
 
 function handleMembers(message) {
-    team.sort(sortMembersById);
-    console.log("*** Sort members by ID ***")
-    team.forEach(member => {
-        console.log(member.userid + " " + member.user);
-    })
-    message.channel.send("En cours de développement...");
+    team.sort(sortMembersByUsername);
+    displayMembers(message, team)
+}
+
+function displayMembers(message, members) {
+    // Create message
+    const embed = new MoussaillonMessageEmbed()
+        .setAuthor("Commande par " + message.author.username, message.author.avatarURL())
+        .setTitle("Liste des membres des wayzen")
+        .setThumbnail(wayzenLogoUrl)
+
+    if (!members || members.size == 0) {
+        embed.addField("Pas de membre", "Nous n'avons pas trouvé de membre")
+    } else {
+        let usernames = ""
+        let userbounties = ""
+        let userboats = ""
+        members.forEach((member, id) => {
+            if (member.user)
+                usernames = usernames + member.user + "\n"
+            else
+                usernames = usernames + "Inconnu\n"
+
+            if (member.bounty)
+                userbounties = userbounties + bountyFormatter.format(member.bounty) + "\n"
+            else
+                userbounties = userbounties + "Inconnu\n"
+
+            if (member.boat)
+                userboats = userboats + member.boat + "\n"
+            else
+                userboats = userboats + "Inconnu\n"
+        })
+        embed.addField("Membre", usernames, true)
+        embed.addField("Prime", userbounties, true)
+        embed.addField("Bateaux", userboats, true)
+    }
+
+    // Send message
+    message.channel.send(embed);
 }
 
 function displayMember(message, member) {
@@ -149,7 +184,7 @@ function displayMember(message, member) {
         memberID = member.userid ?? memberID;
         username = member.user ?? username;
         bounty = member.bounty ?? bounty;
-        if(Number.isInteger(bounty)){
+        if (Number.isInteger(bounty)) {
             bounty = bountyFormatter.format(bounty)
         }
         rank = member.rank ?? rank;
@@ -185,7 +220,8 @@ function displayUsers(message, members) {
     // Create message
     const embed = new MoussaillonMessageEmbed()
         .setAuthor("Commande par " + message.author.username, message.author.avatarURL())
-        .setTitle("Liste des membres des wayzen");
+        .setTitle("Liste des utilisateurs des wayzen")
+        .setThumbnail(wayzenLogoUrl)
 
     if (!members || members.size == 0) {
         embed.addField("Pas de membre", "Nous n'avons pas trouvé de membre")
@@ -216,6 +252,10 @@ function handleUsers(message) {
 
 function sortMembersById(a, b) {
     return a.userid.localeCompare(b.userid)
+}
+
+function sortMembersByUsername(a, b) {
+    return a.user.localeCompare(b.user)
 }
 
 function sortMembersByBounty(a, b) {
