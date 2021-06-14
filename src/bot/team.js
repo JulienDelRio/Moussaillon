@@ -306,6 +306,7 @@ function displayClassement(message, members, pNbDisplay) {
     } else {
         let usernames = ""
         let userbounties = ""
+        let userlevels = ""
         let totalBounty = 0
 
         for (let i = 0; i < members.length; i++) {
@@ -315,7 +316,7 @@ function displayClassement(message, members, pNbDisplay) {
 
             if (i < nbDisplay) {
                 let preUsername = ""
-                if (i == 0 )
+                if (i == 0)
                     preUsername = "🥇 "
                 else if (i == 1)
                     preUsername = "🥈 "
@@ -329,6 +330,12 @@ function displayClassement(message, members, pNbDisplay) {
                 else
                     usernames = usernames + "Inconnu\n"
 
+                if (currentMember.boat) {
+                    let userlevel = currentMember.boat.split("Niv.")[1]
+                    userlevels = userlevels + userlevel + "\n"
+                } else
+                    userlevels = userlevels  + "Inconnu\n"
+
                 if (currentMember.bounty)
                     userbounties = userbounties + bountyFormatter.format(currentMember.bounty) + "\n"
                 else
@@ -339,6 +346,7 @@ function displayClassement(message, members, pNbDisplay) {
         embed.addField("Total primes", bountyFormatter.format(totalBounty))
         embed.addField("Membre", usernames, true)
         embed.addField("Prime", userbounties, true)
+        embed.addField("Niveau", userlevels, true)
     }
 
     // Send message
