@@ -107,7 +107,7 @@ function getRolesInline(member) {
 
     if (member.roles && member.roles.cache) {
         let roles = member.roles.cache
-        if (roles && roles.length > 0) {
+        if (roles && roles.size > 0) {
             userRoles = ""
             roles.forEach((role, roleId) => {
                 userRoles = userRoles + role.name + "<" + roleId + ">, "

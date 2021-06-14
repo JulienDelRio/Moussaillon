@@ -67,6 +67,8 @@ function dispatch(message) {
                     testdiscordapi.handle(message, commandParams)
                 else
                     console.log("test not allowed in " + message.channel.name);
+            } else if (dataHelper.isHandled(command)) {
+                dataHelper.handle(message)
             } else {
                 console.log("It's a command not found : " + command)
             }
