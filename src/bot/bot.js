@@ -44,8 +44,8 @@ discord.on('message', message => {
 function dispatch(message) {
     try {
 
-        let testChannel = config.testChannels.includes(message.channel.id);
-        let allowedChannel = config.allowedChannels.includes(message.channel.id);
+        let testChannel = data.rights.testChannels.includes(message.channel.id);
+        let allowedChannel = data.rights.allowedChannels.includes(message.channel.id);
         if (!(allowedChannel || testChannel)) {
             console.log(`Wrong chan ${message.channel.name} (${message.channel.id})`);
             return

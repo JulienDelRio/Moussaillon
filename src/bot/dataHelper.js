@@ -15,12 +15,13 @@ exports.isHandled = function (command) {
 function handleRecharge(message) {
     let roles = message.member.roles.cache;
     let isAllowed = false;
-    let rolesAllower = [
-        "842089797254119434", // Lieutenant
-        "835171890142249012", // Commandant
-        "835165337535512627" // Chef
-    ]
-    rolesAllower.forEach(role => {
+    // let rolesAllower = [
+    //     "842089797254119434", // Lieutenant
+    //     "835171890142249012", // Commandant
+    //     "835165337535512627" // Chef
+    // ]
+    let rolesAllowed = data.rights.moderatorsRoles;
+    rolesAllowed.forEach(role => {
         if (roles.has(role))
             isAllowed = true
     })
@@ -74,7 +75,15 @@ exports.loadData = function (data, success, error) {
                 function (e) {
                     errors.push(e)
                 }, function () {
-                    finish();
+                    loadRights(data, function () {
+                            isSuccess = true;
+                        },
+                        function (e) {
+                            errors.push(e)
+                        }, function () {
+                            finish();
+                        }
+                    )
                 }
             )
         }
@@ -109,6 +118,33 @@ function loadMembers(data, success, error, then) {
             })
             let members = parsed.data
             data.members = members
+            success()
+        })
+        .catch(function (e) {
+            error(e)
+        })
+        .then(then);
+}
+
+function loadRights(data, success, error, then) {
+    let membersFileUrl = config.dataCSVUrls.rights;
+    axios.get(membersFileUrl)
+        .then(function (response) {
+            // handle success
+            let parsed = Papa.parse(response.data, {})
+            let parsedRights = parsed.data
+            let rights = {}
+            for (let i = 0; i < parsedRights.length; i++) {
+                let currentRights = parsedRights[i]
+                for (let j = 0; j < currentRights.length; j++) {
+                    if (j == 0)
+                        rights[currentRights[0]] = []
+                    else
+                        if (currentRights[j])
+                            rights[currentRights[0]].push(currentRights[j])
+                }
+            }
+            data.rights = rights
             success()
         })
         .catch(function (e) {
