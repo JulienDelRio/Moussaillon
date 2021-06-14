@@ -1,6 +1,5 @@
 'use strict';
 
-const config = require('./config.json');
 const MoussaillonMessageEmbed = require("./MoussaillonMessageEmbed.js");
 
 const bountyFormatter = new Intl.NumberFormat('fr-FR', {})
@@ -14,6 +13,7 @@ exports.isHandled = function (command) {
         case "user":
         case "users":
         case "classement":
+        case "top":
             return true;
         default:
             return false
@@ -37,6 +37,7 @@ exports.handle = function (message, data) {
             handleUsers(message)
             break
         case "classement":
+        case "top":
             handleClassement(message)
             break
         default:
