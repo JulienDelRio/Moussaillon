@@ -2,10 +2,10 @@
 
 const config = require('./config.json');
 const MoussaillonMessageEmbed = require("./MoussaillonMessageEmbed.js");
-const {team} = require("../data/team.json");
 
 const bountyFormatter = new Intl.NumberFormat('fr-FR', {})
 const wayzenLogoUrl = "https://media.discordapp.net/attachments/845220603971239944/851924163723526164/20210429_223145_0000.png"
+let team = null
 
 exports.isHandled = function (command) {
     switch (command) {
@@ -20,7 +20,8 @@ exports.isHandled = function (command) {
     }
 }
 
-exports.handle = function (message) {
+exports.handle = function (message, data) {
+    team = data.members
     let command = message.content.substring(1).split(" ")[0].toLowerCase();
     switch (command) {
         case "user":
@@ -45,7 +46,7 @@ exports.handle = function (message) {
 }
 
 function getTargetedMemberId(message) {
-    let isMention = message.mentions.users.length > 0;
+    let isMention = message.mentions.users.size > 0;
     if (isMention) {
         return message.mentions.users.first().id;
     } else {
@@ -121,6 +122,7 @@ function getRolesInline(member) {
 
 function handleMember(message) {
     let memberId = getTargetedMemberId(message);
+    console.log("Member ID : " + memberId)
     let member = getMemberById(memberId);
 
     if (member) {
@@ -155,7 +157,7 @@ function displayMembers(message, members) {
                 usernames = usernames + "Inconnu\n"
 
             if (member.bounty)
-                userbounties = userbounties + bountyFormatter.format(member.bounty) + "\n"
+                userbounties = userbounties + getFormatterBounty(member.bounty) + "\n"
             else
                 userbounties = userbounties + "Inconnu\n"
 
@@ -188,9 +190,8 @@ function displayMember(message, member) {
         memberID = member.userid ?? memberID;
         username = member.user ?? username;
         bounty = member.bounty ?? bounty;
-        if (Number.isInteger(bounty)) {
-            bounty = bountyFormatter.format(bounty)
-        }
+        bounty = getFormatterBounty(bounty)
+
         rank = member.rank ?? rank;
         position = member.position ?? position;
         affiliation = member.affiliation ?? affiliation;
@@ -275,11 +276,14 @@ function sortMembersByBounty(a, b) {
 
 function getMemberById(id) {
     let foundMember = null
-    team.forEach(member => {
-        if (member.userid == id) {
-            foundMember = member;
-        }
-    })
+    if (team)
+        team.forEach(member => {
+            if (member.userid == id) {
+                foundMember = member;
+            }
+        })
+    else
+        console.error("Team should not be null")
     return foundMember
 }
 
@@ -321,7 +325,7 @@ function displayClassement(message, members, pNbDisplay) {
         for (let i = 0; i < members.length; i++) {
             let currentMember = members[i]
 
-            totalBounty = totalBounty + currentMember.bounty
+            totalBounty = totalBounty + getNumberBounty(currentMember.bounty)
 
             if (i < nbDisplay) {
                 let preUsername = ""
@@ -346,7 +350,7 @@ function displayClassement(message, members, pNbDisplay) {
                     userlevels = userlevels + "Inconnu\n"
 
                 if (currentMember.bounty)
-                    userbounties = userbounties + bountyFormatter.format(currentMember.bounty) + "\n"
+                    userbounties = userbounties + getFormatterBounty(currentMember.bounty) + "\n"
                 else
                     userbounties = userbounties + "Inconnu\n"
             }
@@ -360,4 +364,16 @@ function displayClassement(message, members, pNbDisplay) {
 
     // Send message
     message.channel.send(embed);
+}
+
+function getFormatterBounty(bounty) {
+    let formattedBounty = getNumberBounty(bounty);
+    return bountyFormatter.format(formattedBounty)
+}
+
+function getNumberBounty(bounty) {
+    if (Number.isInteger(bounty))
+        return bounty
+    else
+        return Number.parseInt(bounty.split(' ').join(''))
 }

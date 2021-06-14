@@ -22,11 +22,13 @@ const discord = new Discord.Client({ws: {intents}})
 var botId = null;
 
 exports.start = function () {
-    dataHelper.loadData(data, function () {
-
-    }, function () {
-    }, function () {
+    dataHelper.loadData(data, function (errors) {
+        if (errors && errors.length > 0)
+            console.log(errors)
         discord.login(config.token);
+    }, function (errors) {
+        console.log(errors)
+        throw new Error("Data not loaded, will not log BOT")
     })
 }
 
@@ -61,7 +63,7 @@ function dispatch(message) {
             } else if (islands.isHandled(command)) {
                 islands.handle(message, commandParams)
             } else if (team.isHandled(command)) {
-                team.handle(message, command, commandParams)
+                team.handle(message, data)
             } else if (testdiscordapi.isHandled(command)) {
                 if (testChannel)
                     testdiscordapi.handle(message, commandParams)

@@ -1,5 +1,6 @@
 const axios = require('axios').default;
 const Papa = require('papaparse')
+const config = require('./config.json');
 
 
 exports.isHandled = function (command) {
@@ -50,20 +51,38 @@ exports.handle = function (message) {
     }
 }
 
-exports.loadData = function (data, success, error, then) {
+exports.loadData = function (data, success, error) {
+    let isSuccess = false;
+    let errors = []
+    let finish = function () {
+        console.log("Data loading finished")
+        if (isSuccess) {
+            success(errors)
+        } else {
+            error(errors)
+        }
+    }
     loadIslands(data, function () {
-            success()
+            isSuccess = true;
         },
         function (e) {
-            error(e)
+            errors.push(e)
         }, function () {
-            then();
+            loadMembers(data, function () {
+                    isSuccess = true;
+                },
+                function (e) {
+                    errors.push(e)
+                }, function () {
+                    finish();
+                }
+            )
         }
     )
 }
 
 function loadIslands(data, success, error, then) {
-    let islandsFileUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQan4pzKjxpNyvmktnHGbx6Zw0U7xrMeAxBvC2sdHXdqWZZs0Bl-HcwoBL9epdNHKipFi3bNalIizM1/pub?gid=0&single=true&output=csv";
+    let islandsFileUrl = config.dataCSVUrls.islandsFileUrl;
     axios.get(islandsFileUrl)
         .then(function (response) {
             // handle success
@@ -77,5 +96,23 @@ function loadIslands(data, success, error, then) {
         .catch(function (e) {
             error(e)
         })
-        .then(then());
+        .then(then);
+}
+
+function loadMembers(data, success, error, then) {
+    let membersFileUrl = config.dataCSVUrls.teamMembers;
+    axios.get(membersFileUrl)
+        .then(function (response) {
+            // handle success
+            let parsed = Papa.parse(response.data, {
+                header: true
+            })
+            let members = parsed.data
+            data.members = members
+            success()
+        })
+        .catch(function (e) {
+            error(e)
+        })
+        .then(then);
 }
