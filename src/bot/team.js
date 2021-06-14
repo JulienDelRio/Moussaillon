@@ -284,10 +284,19 @@ function getMemberById(id) {
 }
 
 function handleClassement(message) {
-    message.channel.send("En cours de développement")
+    let commandElements = message.content.split(" ")
+    let nbRanks = 10
+    if (commandElements.length <= 1) {
+        // No param
+    } else {
+        let parsedNbRanks = Number.parseInt(commandElements[1])
+        if (!Number.isNaN(parsedNbRanks) && parsedNbRanks > 0) {
+            nbRanks = parsedNbRanks
+        }
+    }
 
     team.sort(sortMembersByBounty);
-    displayClassement(message, team)
+    displayClassement(message, team, nbRanks)
 }
 
 
@@ -334,7 +343,7 @@ function displayClassement(message, members, pNbDisplay) {
                     let userlevel = currentMember.boat.split("Niv.")[1]
                     userlevels = userlevels + userlevel + "\n"
                 } else
-                    userlevels = userlevels  + "Inconnu\n"
+                    userlevels = userlevels + "Inconnu\n"
 
                 if (currentMember.bounty)
                     userbounties = userbounties + bountyFormatter.format(currentMember.bounty) + "\n"
