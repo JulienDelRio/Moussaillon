@@ -71,6 +71,8 @@ function dispatch(message) {
                     console.log("test not allowed in " + message.channel.name);
             } else if (dataHelper.isHandled(command)) {
                 dataHelper.handle(message)
+            } else if (command.match("version")) {
+                message.channel.send("Version : " + config.version)
             } else {
                 console.log("It's a command not found : " + command)
             }
