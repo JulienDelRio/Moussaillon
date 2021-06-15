@@ -265,12 +265,14 @@ function sortMembersByUsername(a, b) {
 }
 
 function sortMembersByBounty(a, b) {
-    if (!a || !Number.isInteger(a.bounty)) {
+    let aBounty = getNumberBounty(a.bounty)
+    let bBounty = getNumberBounty(b.bounty)
+    if (!a || !Number.isInteger(aBounty)) {
         return -1
-    } else if (!b || !Number.isInteger(b.bounty)) {
+    } else if (!b || !Number.isInteger(bBounty)) {
         return 1
     } else {
-        let result = Number.parseInt(b.bounty) - Number.parseInt(a.bounty)
+        let result = Number.parseInt(bBounty) - Number.parseInt(aBounty)
         return result
     }
 }
