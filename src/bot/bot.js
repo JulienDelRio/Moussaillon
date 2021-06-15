@@ -9,6 +9,7 @@ const islands = require("./islands.js");
 const tools = require("./tools.js");
 const team = require("./team.js");
 const moussaillon = require("./moussaillon.js");
+const botinfos = require("./botinfos.js");
 const testdiscordapi = require("./testdiscordapi.js");
 const data = require("../data/data.json");
 
@@ -71,8 +72,8 @@ function dispatch(message) {
                     console.log("test not allowed in " + message.channel.name);
             } else if (dataHelper.isHandled(command)) {
                 dataHelper.handle(message)
-            } else if (command.match("version")) {
-                message.channel.send("Version : " + config.version)
+            } else if (botinfos.isHandled(command)) {
+                botinfos.handle(message)
             } else {
                 console.log("It's a command not found : " + command)
             }
