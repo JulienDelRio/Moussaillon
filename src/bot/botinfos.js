@@ -43,7 +43,7 @@ function displayVersion(version, embed, isLong = false) {
             for (let i = 0; i < version.changelog.long.length; i++) {
                 let changelogpart = version.changelog.long[i];
                 embed.addField("Version " + version.version + " part " +
-                    i, changelogpart)
+                    (i + 1), changelogpart)
             }
         } else {
             let changelog;
@@ -60,14 +60,31 @@ function displayVersion(version, embed, isLong = false) {
 }
 
 function handleChangelog(message) {
-    let lastVersion = version.hystory[0];
+    let commandElements = message.content.split(" ")
+    let selectedVersion = 0;
+    if (commandElements.length <= 1) {
+        // No param
+    } else {
+        let paramVersion = commandElements[1]
+        let found = false
+        for (let i = 0; i < version.hystory.length && !found; i++) {
+            let versionTested = version.hystory[i].version;
+            var match = versionTested.match(paramVersion);
+            if (match && versionTested === match[0]) {
+                selectedVersion = i;
+                found = true
+            }
+        }
+    }
 
-    if (lastVersion) {
+    let versionToDisplay = version.hystory[selectedVersion];
+
+    if (versionToDisplay) {
         const embed = new MoussaillonMessageEmbed()
             .setAuthor("Commande par " + message.author.username, message.author.avatarURL())
             .setTitle("Changelog de Moussaisson")
             .setThumbnail(moussaillonBotPPUrl)
-        displayVersion(lastVersion, embed, true);
+        displayVersion(versionToDisplay, embed, true);
         message.channel.send(embed);
     } else {
         message.channel.send("Il n'y a pas de changelog...")
