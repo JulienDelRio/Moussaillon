@@ -20,13 +20,16 @@ exports.handle = function (message) {
     switch (command) {
         case "version":
             handleVersion(message)
+            break
         case "changelog":
             handleChangelog(message)
+            break
         case "history":
             handleHistory(message)
+            break
         default:
             console.error("Not a good command : " + command)
-            return
+            break
     }
 }
 
@@ -34,15 +37,54 @@ function handleVersion(message) {
     message.channel.send("Version : " + version.currentVersion)
 }
 
-function handleChangelog(message) {
-    let lastVersion = version.hystory[0];
+function displayVersion(version, embed, isLong = false) {
+    if (isLong) {
+        if (version.changelog.long && Array.isArray(version.changelog.long)) {
+            for (let i = 0; i < version.changelog.long.length; i++) {
+                let changelogpart = version.changelog.long[i];
+                embed.addField("Version " + version.version + " part " +
+                    (i + 1), changelogpart)
+            }
+        } else {
+            let changelog;
+            if (version.changelog.long)
+                changelog = version.changelog.long;
+            else
+                changelog = version.changelog.short;
+            embed.addField("Version " + version.version, changelog)
+        }
+    } else {
+        let changelog = version.changelog.short;
+        embed.addField("Version " + version.version, changelog)
+    }
+}
 
-    if (lastVersion) {
+function handleChangelog(message) {
+    let commandElements = message.content.split(" ")
+    let selectedVersion = 0;
+    if (commandElements.length <= 1) {
+        // No param
+    } else {
+        let paramVersion = commandElements[1]
+        let found = false
+        for (let i = 0; i < version.hystory.length && !found; i++) {
+            let versionTested = version.hystory[i].version;
+            var match = versionTested.match(paramVersion);
+            if (match && versionTested === match[0]) {
+                selectedVersion = i;
+                found = true
+            }
+        }
+    }
+
+    let versionToDisplay = version.hystory[selectedVersion];
+
+    if (versionToDisplay) {
         const embed = new MoussaillonMessageEmbed()
             .setAuthor("Commande par " + message.author.username, message.author.avatarURL())
             .setTitle("Changelog de Moussaisson")
             .setThumbnail(moussaillonBotPPUrl)
-            .addField("Version " + lastVersion.version, lastVersion.changelog)
+        displayVersion(versionToDisplay, embed, true);
         message.channel.send(embed);
     } else {
         message.channel.send("Il n'y a pas de changelog...")
@@ -67,7 +109,8 @@ function handleHistory(message) {
         .setThumbnail(moussaillonBotPPUrl)
 
     for (let i = 0; i < nbVersion && i < version.hystory.length; i++) {
-        embed.addField(version.hystory[i].version, version.hystory[i].changelog)
+        displayVersion(version.hystory[i], embed)
+        //embed.addField(version.hystory[i].version, version.hystory[i].changelog)
     }
 
     message.channel.send(embed);
