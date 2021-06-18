@@ -21,7 +21,7 @@ const intents = new Intents([
 const discord = new Discord.Client({ws: {intents}})
 
 var botId = null;
-const botToken = process.env.TIMES
+const botToken = process.env.TOKEN
 
 exports.start = function () {
     dataHelper.loadData(data, function (errors) {

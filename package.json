@@ -1,28 +1,22 @@
 {
-  "name": "server.moussaillonbot",
-  "version": "1.0.0",
-  "description": "Moussaillon est un bot d'aide de jeu pour le serveur Discord Line",
-  "main": "index.js",
+  "name": "moussaillon-bot",
+  "version": "0.1.0",
+  "private": true,
+  "engines": {
+    "node": ">=14.0.0"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node app.js",
+    "test": "src/node_modules/.bin/mocha --exit test/*.test.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/JulienDelRio/Moussaillon.git"
-  },
-  "keywords": [
-    "Discord",
-    "Bot",
-    "One",
-    "Piece"
-  ],
-  "author": "Julien DEL RIO",
-  "license": "Apache-2.0",
-  "bugs": {
-    "url": "https://github.com/JulienDelRio/Moussaillon/issues"
-  },
-  "homepage": "https://github.com/JulienDelRio/Moussaillon#readme",
   "dependencies": {
-    "express": "^4.17.1"
+    "axios": "^0.21.1",
+    "discord.js": "^12.5.3",
+    "express": "^4.17.1",
+    "papaparse": "^5.3.1"
+  },
+  "devDependencies": {
+    "mocha": "^8.1.3",
+    "supertest": "^6.0.0"
   }
 }
