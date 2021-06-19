@@ -21,12 +21,13 @@ const intents = new Intents([
 const discord = new Discord.Client({ws: {intents}})
 
 var botId = null;
+const botToken = process.env.TOKEN
 
 exports.start = function () {
     dataHelper.loadData(data, function (errors) {
         if (errors && errors.length > 0)
             console.log(errors)
-        discord.login(config.token);
+        discord.login(botToken);
     }, function (errors) {
         console.log(errors)
         throw new Error("Data not loaded, will not log BOT")
