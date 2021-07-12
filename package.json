@@ -21,5 +21,24 @@
   "bugs": {
     "url": "https://github.com/JulienDelRio/Moussaillon/issues"
   },
-  "homepage": "https://github.com/JulienDelRio/Moussaillon#readme"
+  "homepage": "https://github.com/JulienDelRio/Moussaillon#readme",
+  "dependencies": {
+    "@types/node": "^16.3.1",
+    "axios": "^0.21.1",
+    "discord.js": "^12.5.3",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "inversify": "^5.1.1",
+    "papaparse": "^5.3.1",
+    "reflect-metadata": "^0.1.13"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.2.21",
+    "@types/mocha": "^8.2.3",
+    "chai": "^4.3.4",
+    "mocha": "^9.0.2",
+    "ts-mockito": "^2.6.1",
+    "ts-node": "^10.1.0",
+    "typescript": "^4.3.5"
+  }
 }

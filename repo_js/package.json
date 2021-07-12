@@ -6,7 +6,7 @@
     "node": ">=14.0.0"
   },
   "scripts": {
-    "start": "node app.js",
+    "start": "node ../src/app.ts",
     "test": "src/node_modules/.bin/mocha --exit test/*.test.js"
   },
   "dependencies": {
