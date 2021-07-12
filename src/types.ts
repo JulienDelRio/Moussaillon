@@ -1,5 +1,5 @@
 export const TYPES = {
-    LePriseurBot: Symbol("LePriseurBot"),
+    MoussaillonBot: Symbol("MoussaillonBot"),
     Client: Symbol("Client"),
     Token: Symbol("Token"),
     CommandChar: Symbol("CommandChar"),
