@@ -1,0 +1,25 @@
+{
+  "name": "moussaillon-bot",
+  "version": "1.1.0",
+  "description": "Le bot de l'alliance Wayzen sur Discord Line",
+  "main": "./src/app.ts",
+  "scripts": {
+    "start": "tsc && node dist/src/app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JulienDelRio/Moussaillon.git"
+  },
+  "keywords": [
+    "discord",
+    "one-piece",
+    "wayzen"
+  ],
+  "author": "Jorodan",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/JulienDelRio/Moussaillon/issues"
+  },
+  "homepage": "https://github.com/JulienDelRio/Moussaillon#readme"
+}
