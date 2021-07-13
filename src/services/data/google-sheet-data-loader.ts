@@ -29,7 +29,8 @@ export class GoogleSheetDataLoader implements IDataLoader {
 
     loadData(): Promise<IMoussaillonData> {
         return new Promise<IMoussaillonData>((resolve, reject) => {
-            if (Math.random() > 0.25) {
+            console.log("On dev loadData()")
+            if (Math.random() > 0.5) {
                 resolve({
                     islands: [],
                     rights: {
@@ -40,7 +41,7 @@ export class GoogleSheetDataLoader implements IDataLoader {
                     Wayzen: []
                 });
             } else {
-                reject();
+                reject(new Error("Bad random"));
             }
         });
     }

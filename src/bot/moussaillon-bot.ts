@@ -5,6 +5,7 @@ import {MessageResponder} from "../services/commands/message-responder";
 import {IMoussaillonData} from "../services/data/i-moussaillon-data";
 import {IDataLoader} from "../services/data/idata-loader";
 import container from "../../inversify.config";
+import {rejects} from "assert";
 
 /*
 const Discord = require('discord.js')
@@ -58,15 +59,39 @@ export class MoussaillonBot {
                 console.log("Response not sent.")
             })
         });
-        let res = this.initData()
-        return this.client.login(this.token)
+
+        return this.initBot()
+    }
+
+    private initBot(): Promise<string> {
+        return new Promise<string>((resolved, rejects) => {
+            console.log("Load data");
+            let dataLoader = this.getDataLoader();
+            dataLoader.loadData().then((data) => {
+                console.log("data loaded");
+                console.log(data)
+                this._data = data;
+                this.client.login(this.token).then(res => {
+                    resolved("ok")
+                }).catch((e) => {
+                    rejects(e);
+                })
+            }).catch((e) => {
+                rejects(e);
+            })
+        });
     }
 
     private async initData() {
         console.log("Load data");
         let dataLoader = this.getDataLoader();
         let data;
-        data = await dataLoader.loadData();
+        try {
+            data = await dataLoader.loadData();
+        } catch (e) {
+            console.error("Data not loaded", e);
+            throw new Error("Data not loaded");
+        }
         this._data = data;
         console.log(data);
         console.log("Data loaded finished");
