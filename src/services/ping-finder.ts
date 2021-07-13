@@ -1,6 +1,6 @@
 import {Message} from "discord.js";
 import {injectable} from "inversify";
-import {IMessageInterpreter} from "./message-responder"
+import {IMessageInterpreter} from "./commands/message-responder"
 
 @injectable()
 export class PingFinder implements IMessageInterpreter {
@@ -15,7 +15,7 @@ export class PingFinder implements IMessageInterpreter {
 
     private regexp = 'ping';
 
-    isPing(stringToSearch: string): boolean {
+    private isPing(stringToSearch: string): boolean {
         return stringToSearch.search(this.regexp) >= 0;
     }
 }

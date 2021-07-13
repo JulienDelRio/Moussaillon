@@ -1,12 +1,15 @@
 import {Client, Message} from "discord.js";
 import {inject, injectable} from "inversify";
 import {TYPES} from "../types";
-import {MessageResponder} from "../services/message-responder";
+import {MessageResponder} from "../services/commands/message-responder";
+import {IMoussaillonData} from "../services/data/i-moussaillon-data";
+import {IDataLoader} from "../services/data/idata-loader";
+import container from "../../inversify.config";
 
 /*
 const Discord = require('discord.js')
 const {Intents} = require("discord.js");
-const dataHelper = require("../../repo_js/bot/dataHelper.js");
+const dataHelper = require("../../repo_js/bot/reload-data-command.ts");
 const config = require('../../repo_js/bot/config.json');
 const islands = require("../../repo_js/bot/islands.js");
 const tools = require("../../repo_js/bot/tools.js");
@@ -29,6 +32,7 @@ export class MoussaillonBot {
     private client: Client;
     private readonly token: string;
     private messageResponder: MessageResponder;
+    private _data: IMoussaillonData | undefined;
 
     constructor(
         @inject(TYPES.Client) client: Client,
@@ -54,8 +58,34 @@ export class MoussaillonBot {
                 console.log("Response not sent.")
             })
         });
+        let res = this.initData()
+        return this.client.login(this.token)
+    }
 
-        return this.client.login(this.token);
+    private async initData() {
+        console.log("Load data");
+        let dataLoader = this.getDataLoader();
+        let data;
+        data = await dataLoader.loadData();
+        this._data = data;
+        console.log(data);
+        console.log("Data loaded finished");
+    }
+
+    get data(): IMoussaillonData {
+        if (this._data === undefined) {
+            console.error(new Error("Data should be initialized"));
+            throw new Error("Data should be initialized");
+        }
+        return this._data;
+    }
+
+    private getDataLoader(): IDataLoader {
+        const dataLoader = container.get<IDataLoader>(TYPES.DataLoader);
+        if (dataLoader === undefined) {
+            throw new Error("DataLoader should be initialized")
+        }
+        return dataLoader;
     }
 
     private old_dispatch(message: Message) {
