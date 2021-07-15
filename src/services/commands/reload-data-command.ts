@@ -71,13 +71,5 @@ export class ReloadDataCommand extends AbstractCommandInterpreter {
         }
         return bot;
     }
-
-    private getDataLoader(): IDataLoader {
-        const dataLoader = container.get<IDataLoader>(TYPES.DataLoader);
-        if (dataLoader === undefined) {
-            throw new Error("DataLoader should be initialized")
-        }
-        return dataLoader;
-    }
 }
 

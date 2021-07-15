@@ -6,6 +6,7 @@ import {IMoussaillonData} from "../services/data/i-moussaillon-data";
 import {IDataLoader} from "../services/data/idata-loader";
 import container from "../../inversify.config";
 import {rejects} from "assert";
+import {GoogleSheetDataLoader} from "../services/data/google-sheet-data-loader";
 
 /*
 const Discord = require('discord.js')
@@ -66,7 +67,7 @@ export class MoussaillonBot {
     private initBot(): Promise<string> {
         return new Promise<string>((resolved, rejects) => {
             console.log("Load data");
-            let dataLoader = this.getDataLoader();
+            let dataLoader = new GoogleSheetDataLoader();
             dataLoader.loadData().then((data) => {
                 console.log("data loaded");
                 console.log(data)
@@ -82,35 +83,12 @@ export class MoussaillonBot {
         });
     }
 
-    private async initData() {
-        console.log("Load data");
-        let dataLoader = this.getDataLoader();
-        let data;
-        try {
-            data = await dataLoader.loadData();
-        } catch (e) {
-            console.error("Data not loaded", e);
-            throw new Error("Data not loaded");
-        }
-        this._data = data;
-        console.log(data);
-        console.log("Data loaded finished");
-    }
-
     get data(): IMoussaillonData {
         if (this._data === undefined) {
             console.error(new Error("Data should be initialized"));
             throw new Error("Data should be initialized");
         }
         return this._data;
-    }
-
-    private getDataLoader(): IDataLoader {
-        const dataLoader = container.get<IDataLoader>(TYPES.DataLoader);
-        if (dataLoader === undefined) {
-            throw new Error("DataLoader should be initialized")
-        }
-        return dataLoader;
     }
 
     private old_dispatch(message: Message) {

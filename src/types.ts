@@ -4,6 +4,5 @@ export const TYPES = {
     Token: Symbol("Token"),
     CommandChar: Symbol("CommandChar"),
     MessageResponder: Symbol("MessageResponder"),
-    ReloadDataCommand: Symbol("ReloadDataCommand"),
-    DataLoader: Symbol("DataLoader")
+    ReloadDataCommand: Symbol("ReloadDataCommand")
 };

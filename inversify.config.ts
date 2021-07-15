@@ -5,8 +5,6 @@ import {MoussaillonBot} from "./src/bot/moussaillon-bot";
 import {Client} from "discord.js";
 import {MessageResponder} from "./src/services/commands/message-responder";
 import {ReloadDataCommand} from "./src/services/commands/reload-data-command";
-import {IDataLoader} from "./src/services/data/idata-loader";
-import {GoogleSheetDataLoader} from "./src/services/data/google-sheet-data-loader";
 
 let container = new Container();
 
@@ -16,7 +14,6 @@ container.bind<string>(TYPES.Token).toConstantValue(process.env.BOT_TOKEN);
 container.bind<string>(TYPES.CommandChar).toConstantValue(process.env.COMMAND_CHAR);
 container.bind<MessageResponder>(TYPES.MessageResponder).to(MessageResponder).inSingletonScope();
 container.bind<ReloadDataCommand>(TYPES.ReloadDataCommand).to(ReloadDataCommand).inSingletonScope();
-container.bind<IDataLoader>(TYPES.DataLoader).to(GoogleSheetDataLoader).inSingletonScope();
 
 export default container;
 

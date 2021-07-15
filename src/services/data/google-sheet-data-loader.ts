@@ -1,10 +1,9 @@
-import {inject, injectable} from "inversify";
+import {injectable} from "inversify";
 import {MoussaillonBot} from "../../bot/moussaillon-bot";
 import {TYPES} from "../../types";
-import {Message} from "discord.js";
 import {IDataLoader} from "./idata-loader";
 import container from "../../../inversify.config";
-import {IMoussaillonData, Island, MoussaillonRights} from "./i-moussaillon-data";
+import {IMoussaillonData} from "./i-moussaillon-data";
 
 @injectable()
 export class GoogleSheetDataLoader implements IDataLoader {
@@ -17,34 +16,29 @@ export class GoogleSheetDataLoader implements IDataLoader {
         return bot;
     }
 
-    _loadData(message: Message): Promise<Message> {
-        let success = Math.random() > 0.25 ? true : false;
+    loadData(): Promise<IMoussaillonData> {
+        return new Promise<IMoussaillonData>((resolve, reject) => {
+            this._loadData(resolve, reject);
+        });
+    }
 
-        if (success) {
-            return message.channel.send("Mise à jour effectuée...")
+    private _loadData(resolve: (value: (IMoussaillonData | PromiseLike<IMoussaillonData>)) => void, reject: (reason?: any) => void) {
+        console.log("On dev loadData()")
+        if (Math.random() > 0.5) {
+            resolve({
+                islands: [],
+                rights: {
+                    moderatorsRoles: ["a", "b"],
+                    allowedChannels: ["y", "z"],
+                    testChannels: ["1", "2"],
+                },
+                Wayzen: []
+            });
         } else {
-            return message.channel.send("Mise à jour échouée...")
+            reject(new Error("Bad random"));
         }
     }
 
-    loadData(): Promise<IMoussaillonData> {
-        return new Promise<IMoussaillonData>((resolve, reject) => {
-            console.log("On dev loadData()")
-            if (Math.random() > 0.5) {
-                resolve({
-                    islands: [],
-                    rights: {
-                        moderatorsRoles: ["a","b"],
-                        allowedChannels: ["y","z"],
-                        testChannels: ["1","2"],
-                    },
-                    Wayzen: []
-                });
-            } else {
-                reject(new Error("Bad random"));
-            }
-        });
-    }
 
     /*
     loadDataOld(success, error) {
