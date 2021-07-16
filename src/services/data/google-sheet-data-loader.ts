@@ -1,149 +1,80 @@
 import {injectable} from "inversify";
-import {MoussaillonBot} from "../../bot/moussaillon-bot";
-import {TYPES} from "../../types";
 import {IDataLoader} from "./idata-loader";
-import container from "../../../inversify.config";
-import {IMoussaillonData} from "./i-moussaillon-data";
+import {IMoussaillonData, Island, Member, MoussaillonRights} from "./i-moussaillon-data";
+import axios from "axios";
+import Papa from "papaparse";
+import {Environment} from "../../tools/environment";
 
 @injectable()
 export class GoogleSheetDataLoader implements IDataLoader {
 
-    private get getBot(): MoussaillonBot {
-        const bot = container.get<MoussaillonBot>(TYPES.MoussaillonBot);
-        if (bot === undefined) {
-            throw new Error("Bot should be initialized")
-        }
-        return bot;
-    }
-
     loadData(): Promise<IMoussaillonData> {
-        console.log("GoogleSheetDataLoader loadData")
-        return new Promise<IMoussaillonData>((resolve, reject) => {
-            console.log("GoogleSheetDataLoader _loadData")
-            this._loadData(resolve, reject);
-        });
+        return this._loadData();
     }
 
-    private _loadData(resolve: (value: (IMoussaillonData | PromiseLike<IMoussaillonData>)) => void, reject: (reason?: any) => void) {
-        console.log("On dev loadData()")
-        if (Math.random() > 0.1) {
-            resolve({
-                islands: [],
-                rights: {
-                    moderatorsRoles: ["a", "b"],
-                    allowedChannels: ["y", "z"],
-                    testChannels: ["1", "2"],
-                },
-                Wayzen: []
-            });
-        } else {
-            reject(new Error("Bad random"));
-        }
-    }
-
-
-    /*
-    loadDataOld(success, error) {
-        if (this._bot === undefined) {
-            throw new Error("Bot should be initialized")
-        }
-        let data: ImoussaillonData = this._bot.data();
-        let isSuccess = false;
-        let errors = []
-        let finish = function () {
-            console.log("Data loading finished")
-            if (isSuccess) {
-                success(errors)
-            } else {
-                error(errors)
-            }
-        }
-        this.loadIslands(data, function () {
-                isSuccess = true;
+    private async _loadData(): Promise<IMoussaillonData> {
+        let res: IMoussaillonData = {
+            islands: [],
+            rights: {
+                moderatorsRoles: [],
+                allowedChannels: [],
+                testChannels: [],
             },
-            function (e) {
-                errors.push(e)
-            }, function () {
-                loadMembers(data, function () {
-                        isSuccess = true;
-                    },
-                    function (e) {
-                        errors.push(e)
-                    }, function () {
-                        loadRights(data, function () {
-                                isSuccess = true;
-                            },
-                            function (e) {
-                                errors.push(e)
-                            }, function () {
-                                finish();
-                            }
-                        )
-                    }
-                )
-            }
-        )
+            members: []
+        };
+        res.islands = await this.loadIslands();
+        res.rights = await this.loadRights();
+        res.members = await this.loadMembers();
+        return res;
     }
 
-    private loadIslands(data, success, error, then) {
-        let islandsFileUrl = config.dataCSVUrls.islandsFileUrl;
-        axios.get(islandsFileUrl)
-            .then(function (response) {
-                // handle success
-                let parsed = Papa.parse(response.data, {
-                    header: true
-                })
-                let islands = parsed.data
-                data.islands = islands
-                success()
-            })
-            .catch(function (e) {
-                error(e)
-            })
-            .then(then);
+    private async loadIslands(): Promise<Island[]> {
+        let islandsFileUrl = Environment.getInstance().getIslandCSVUrl();
+        let response = await axios.get(islandsFileUrl);
+
+        let parsed = Papa.parse(response.data, {
+            header: true
+        })
+        let islands: Island[] = <Island[]>parsed.data;
+        return islands;
     }
 
-    private loadMembers(data, success, error, then) {
-        let membersFileUrl = config.dataCSVUrls.teamMembers;
-        axios.get(membersFileUrl)
-            .then(function (response) {
-                // handle success
-                let parsed = Papa.parse(response.data, {
-                    header: true
-                })
-                let members = parsed.data
-                data.members = members
-                success()
-            })
-            .catch(function (e) {
-                error(e)
-            })
-            .then(then);
+    private async loadMembers(): Promise<Member[]> {
+        let membersFileUrl = Environment.getInstance().getMembersCSVUrl();
+        let response = await axios.get(membersFileUrl);
+        let parsed = Papa.parse(response.data, {
+            header: true
+        })
+        let members: Member[] = <Member[]>parsed.data
+        return members;
     }
 
-    private loadRights(data, success, error, then) {
-        let membersFileUrl = config.dataCSVUrls.rights;
-        axios.get(membersFileUrl)
-            .then(function (response) {
-                // handle success
-                let parsed = Papa.parse(response.data, {})
-                let parsedRights = parsed.data
-                let rights = {}
-                for (let i = 0; i < parsedRights.length; i++) {
-                    let currentRights = parsedRights[i]
-                    for (let j = 0; j < currentRights.length; j++) {
-                        if (j == 0)
-                            rights[currentRights[0]] = []
-                        else if (currentRights[j])
-                            rights[currentRights[0]].push(currentRights[j])
-                    }
+    private async loadRights(): Promise<MoussaillonRights> {
+        let membersFileUrl = Environment.getInstance().getRightsCSVUrl();
+        let response = await axios.get(membersFileUrl);
+
+        // handle success
+        let parsed = Papa.parse(response.data, {})
+        let parsedRights = parsed.data
+        let rights: MoussaillonRights = {
+            moderatorsRoles: [],
+            allowedChannels: [],
+            testChannels: [],
+        }
+        for (let i = 0; i < parsedRights.length; i++) {
+            let currentRights: string[] = <string[]>parsedRights[i]
+            let rightsName: string = "";
+            for (let j = 0; j < currentRights.length; j++) {
+                if (j == 0) {
+                    // First element, rights name, do nothing
+                    rightsName = currentRights[0];
+                } else if (currentRights[j]) {
+                    rights[rightsName as keyof MoussaillonRights].push(currentRights[j])
+                } else {
+                    // Empty right, do nothing
                 }
-                data.rights = rights
-                success()
-            })
-            .catch(function (e) {
-                error(e)
-            })
-            .then(then);
-    }*/
+            }
+        }
+        return rights;
+    }
 }

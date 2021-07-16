@@ -70,7 +70,6 @@ export class MoussaillonBot {
             let dataLoader = new GoogleSheetDataLoader();
             dataLoader.loadData().then((data) => {
                 console.log("data loaded");
-                console.log(data)
                 this._data = data;
                 this.client.login(this.token).then(res => {
                     resolved("ok")
@@ -89,6 +88,10 @@ export class MoussaillonBot {
             throw new Error("Data should be initialized");
         }
         return this._data;
+    }
+
+    updateData(data: IMoussaillonData) {
+        this._data = data;
     }
 
     private old_dispatch(message: Message) {

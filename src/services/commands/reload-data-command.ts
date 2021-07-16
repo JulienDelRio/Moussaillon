@@ -30,7 +30,6 @@ export class ReloadDataCommand extends AbstractCommandInterpreter {
     }
 
     private handleReload(message: Message): Promise<Message | Message[]> {
-        console.log("handleReload")
         let member = message.member;
         if (member == null) {
             throw new Error("Need a member");
@@ -48,19 +47,10 @@ export class ReloadDataCommand extends AbstractCommandInterpreter {
             if (roles.has(role))
                 isAllowed = true
         })
-        isAllowed = true; // TODO remove it's for tests
 
         if (isAllowed) {
-            console.log("Mise à jour lancée...")
             message.channel.send("Mise à jour lancée...")
-            //return message.channel.send("Mise à jour pas implémentée en fait...")
             return this.reloadData(message);
-            /*this._googleDataHelper.loadData(data, function () {
-                message.channel.send("Mise à jour effectuée...")
-            }, function () {
-                message.channel.send("Mise à jour échouée...")
-            }, function () {
-            })*/
         } else {
             return message.channel.send("Non autorisé... demande à un grand.")
         }
@@ -68,15 +58,12 @@ export class ReloadDataCommand extends AbstractCommandInterpreter {
     }
 
     private async reloadData(message: Message): Promise<Message | Message[]> {
-        console.log("Start reloadData")
         let dataloader = DataLoaderManager.getNewDataLoader();
         try {
             let data = await dataloader.loadData();
-            console.log("data loaded");
-            console.log(data);
+            this.getBot().updateData(data)
             return await message.channel.send("Données rechargées");
         } catch (e) {
-            console.error("Error on data load", e);
             return await message.channel.send("Données impossibles à recharger");
         }
     }

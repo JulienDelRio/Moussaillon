@@ -1,7 +1,7 @@
 export interface IMoussaillonData {
     islands: Island[],
     rights: MoussaillonRights
-    Wayzen: Wayzen[]
+    members: Member[]
 }
 
 export interface Island {
@@ -26,7 +26,7 @@ export interface MoussaillonRights {
     testChannels: string[];
 }
 
-export interface Wayzen {
+export interface Member {
     user: string;
     userid: string;
     bounty: string;
