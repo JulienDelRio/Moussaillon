@@ -17,14 +17,16 @@ export class GoogleSheetDataLoader implements IDataLoader {
     }
 
     loadData(): Promise<IMoussaillonData> {
+        console.log("GoogleSheetDataLoader loadData")
         return new Promise<IMoussaillonData>((resolve, reject) => {
+            console.log("GoogleSheetDataLoader _loadData")
             this._loadData(resolve, reject);
         });
     }
 
     private _loadData(resolve: (value: (IMoussaillonData | PromiseLike<IMoussaillonData>)) => void, reject: (reason?: any) => void) {
         console.log("On dev loadData()")
-        if (Math.random() > 0.5) {
+        if (Math.random() > 0.1) {
             resolve({
                 islands: [],
                 rights: {
