@@ -1,11 +1,8 @@
 import {Client, Message} from "discord.js";
 import {inject, injectable} from "inversify";
 import {TYPES} from "../types";
-import {MessageResponder} from "../services/commands/message-responder";
+import {MessageResponder, NotHandledError} from "../services/commands/message-responder";
 import {IMoussaillonData} from "../services/data/i-moussaillon-data";
-import {IDataLoader} from "../services/data/idata-loader";
-import container from "../../inversify.config";
-import {rejects} from "assert";
 import {GoogleSheetDataLoader} from "../services/data/google-sheet-data-loader";
 import {Environment} from "../tools/environment";
 
@@ -17,7 +14,7 @@ const config = require('../../repo_js/bot/config.json');
 const islands = require("../../repo_js/bot/islands-infos-command.ts");
 const tools = require("../../repo_js/bot/tools.js");
 const team = require("../../repo_js/bot/team.js");
-const moussaillon = require("../../repo_js/bot/moussaillon.js");
+const moussaillon = require("../../repo_js/bot/moussaillon-command.ts");
 const botinfos = require("../../repo_js/bot/botinfos.js");
 const testdiscordapi = require("../../repo_js/bot/testdiscordapi.js");
 const data = require("../../repo_js/data/data.json");
@@ -32,21 +29,21 @@ const discord = new Discord.Client({ws: {intents}})
 
 @injectable()
 export class MoussaillonBot {
-    private client: Client;
-    private readonly token: string;
-    private messageResponder: MessageResponder;
+    private readonly _client: Client;
+    private readonly _token: string;
+    private readonly _messageResponder: MessageResponder;
     private _data: IMoussaillonData | undefined;
 
     constructor(
         @inject(TYPES.Client) client: Client,
         @inject(TYPES.MessageResponder) messageResponder: MessageResponder) {
-        this.client = client;
-        this.token = Environment.getInstance().getBotToken();
-        this.messageResponder = messageResponder;
+        this._client = client;
+        this._token = Environment.getInstance().getBotToken();
+        this._messageResponder = messageResponder;
     }
 
     public listen(): Promise<string> {
-        this.client.on('message', (message: Message) => {
+        this._client.on('message', (message: Message) => {
             if (message.author.bot) {
                 console.log('Ignoring bot message!')
                 return;
@@ -54,10 +51,14 @@ export class MoussaillonBot {
 
             console.log("Message received! Contents: ", message.content);
 
-            this.messageResponder.handle(message).then(() => {
-                console.log("Response sent!");
+            this._messageResponder.handle(message).then(() => {
+                console.log("Message handled");
             }).catch((e) => {
-                console.error("Response not sent.", e)
+                if (e instanceof NotHandledError) {
+                    console.error("Response not needed.")
+                } else {
+                    console.error("An error occurred during handling", e)
+                }
             })
         });
 
@@ -71,7 +72,7 @@ export class MoussaillonBot {
             dataLoader.loadData().then((data) => {
                 console.log("data loaded");
                 this._data = data;
-                this.client.login(this.token).then(res => {
+                this._client.login(this._token).then(res => {
                     resolved("ok")
                 }).catch((e) => {
                     rejects(e);
@@ -88,6 +89,17 @@ export class MoussaillonBot {
             throw new Error("Data should be initialized");
         }
         return this._data;
+    }
+
+    get id(): string {
+        if (this._client.user == null)
+            throw new Error("User bot not found");
+        return this._client.user.id;
+    }
+
+
+    get client(): Client {
+        return this._client;
     }
 
     updateData(data: IMoussaillonData) {

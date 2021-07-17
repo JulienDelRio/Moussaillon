@@ -3,12 +3,9 @@ import container from "../inversify.config";
 import {TYPES} from "./types";
 import {MoussaillonBot} from "./bot/moussaillon-bot";
 import express from "express";
-import path from "path";
 import bodyParser from "body-parser";
 
 export const app = express();
-let env = process.env.NODE_ENV;
-let botToken = process.env.BOT_TOKEN;
 
 // App config
 app.use(bodyParser.urlencoded({extended: true}));
