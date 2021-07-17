@@ -1,6 +1,6 @@
 'use strict';
 
-const MoussaillonMessageEmbed = require("./MoussaillonMessageEmbed.js");
+const MoussaillonMessageEmbed = require("../../src/tools/discord/moussaillon-message-embed.ts");
 
 const bountyFormatter = new Intl.NumberFormat('fr-FR', {})
 const wayzenLogoUrl = "https://media.discordapp.net/attachments/845220603971239944/851924163723526164/20210429_223145_0000.png"

@@ -5,6 +5,7 @@ export class Environment {
     private _islandCSVUrl: string | undefined;
     private _membersCSVUrl: string | undefined;
     private _rightsCSVUrl: string | undefined;
+    private _embedColor: string | undefined;
 
     public static getInstance(): Environment {
         if (!Environment.instance) {
@@ -87,4 +88,17 @@ export class Environment {
         }
     }
 
+    getEmbedColor() {
+        if (this._embedColor === undefined) {
+            let embedColor = process.env.EMBED_COLOR;
+            if (typeof embedColor === 'string') {
+                this._embedColor = embedColor;
+                return embedColor;
+            } else {
+                throw new Error("Rights  CSV Url initialized")
+            }
+        } else {
+            return this._embedColor;
+        }
+    }
 }

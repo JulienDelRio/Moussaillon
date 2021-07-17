@@ -1,6 +1,6 @@
 'use strict';
 
-const MoussaillonMessageEmbed = require("./MoussaillonMessageEmbed.js");
+const MoussaillonMessageEmbed = require("../../src/tools/discord/moussaillon-message-embed.ts");
 
 exports.isHandled = function (command) {
     switch (command) {

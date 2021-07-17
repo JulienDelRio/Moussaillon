@@ -1,10 +1,6 @@
 import {AbstractCommandInterpreter} from "./abstract-command-interpreter";
 import {Message} from "discord.js";
-import {inject} from "inversify";
-import {TYPES} from "../../types";
-import {MoussaillonBot} from "../../bot/moussaillon-bot";
-import {DataLoaderManager, IDataLoader} from "../data/idata-loader";
-import container from "../../../inversify.config";
+import {DataLoaderManager} from "../data/idata-loader";
 
 const COMMAND_RELOAD: String = "recharge";
 
@@ -66,14 +62,6 @@ export class ReloadDataCommand extends AbstractCommandInterpreter {
         } catch (e) {
             return await message.channel.send("Données impossibles à recharger");
         }
-    }
-
-    private getBot(): MoussaillonBot {
-        const bot = container.get<MoussaillonBot>(TYPES.MoussaillonBot);
-        if (bot === undefined) {
-            throw new Error("Bot should be initialized")
-        }
-        return bot;
     }
 }
 

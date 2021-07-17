@@ -1,6 +1,6 @@
 'use strict';
 
-const MoussaillonMessageEmbed = require("./MoussaillonMessageEmbed.js");
+const MoussaillonMessageEmbed = require("../../src/tools/discord/moussaillon-message-embed.ts");
 const version = require('./version.json');
 const moussaillonBotPPUrl = "https://cdn.discordapp.com/avatars/845262214688669727/079857eb39dd2161aaca83daaf9982ab.png?size=4096"
 

@@ -7,13 +7,14 @@ import {IDataLoader} from "../services/data/idata-loader";
 import container from "../../inversify.config";
 import {rejects} from "assert";
 import {GoogleSheetDataLoader} from "../services/data/google-sheet-data-loader";
+import {Environment} from "../tools/environment";
 
 /*
 const Discord = require('discord.js')
 const {Intents} = require("discord.js");
 const dataHelper = require("../../repo_js/bot/reload-data-command.ts");
 const config = require('../../repo_js/bot/config.json');
-const islands = require("../../repo_js/bot/islands.js");
+const islands = require("../../repo_js/bot/islands-infos-command.ts");
 const tools = require("../../repo_js/bot/tools.js");
 const team = require("../../repo_js/bot/team.js");
 const moussaillon = require("../../repo_js/bot/moussaillon.js");
@@ -38,10 +39,9 @@ export class MoussaillonBot {
 
     constructor(
         @inject(TYPES.Client) client: Client,
-        @inject(TYPES.Token) token: string,
         @inject(TYPES.MessageResponder) messageResponder: MessageResponder) {
         this.client = client;
-        this.token = token;
+        this.token = Environment.getInstance().getBotToken();
         this.messageResponder = messageResponder;
     }
 
@@ -56,8 +56,8 @@ export class MoussaillonBot {
 
             this.messageResponder.handle(message).then(() => {
                 console.log("Response sent!");
-            }).catch(() => {
-                console.log("Response not sent.")
+            }).catch((e) => {
+                console.error("Response not sent.", e)
             })
         });
 
