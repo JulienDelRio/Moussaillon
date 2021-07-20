@@ -16,7 +16,7 @@ export class MoussaillonCommand extends AbstractCommandInterpreter {
             return message.channel.send(`C'est un plaisir. Je serai toujours là pour toi ${member.displayName} !`);
         } else {
             return message.channel.send("Woof !");
-            
+
         }
     }
 

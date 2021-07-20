@@ -4,6 +4,7 @@ import {injectable} from "inversify";
 import {ReloadDataCommand} from "./reload-data-command";
 import {IslandsInfosCommand} from "./islands-infos-command";
 import {MoussaillonCommand} from "./moussaillon-command";
+import {BotInfosCommand} from "./bot-infos-command";
 
 @injectable()
 export class MessageResponder {
@@ -11,12 +12,14 @@ export class MessageResponder {
     private reloadDataCommand: ReloadDataCommand;
     private islandsInfo: IslandsInfosCommand;
     private moussaillonCommand: MoussaillonCommand;
+    private botInfosCommand: BotInfosCommand;
 
     constructor() {
         this.pingFinder = new PingFinder();
         this.reloadDataCommand = new ReloadDataCommand();
         this.islandsInfo = new IslandsInfosCommand();
         this.moussaillonCommand = new MoussaillonCommand();
+        this.botInfosCommand = new BotInfosCommand();
     }
 
     handle(message: Message): Promise<Message | Message[]> {
@@ -29,6 +32,8 @@ export class MessageResponder {
                 return this.islandsInfo.handle(message);
             } else if (this.moussaillonCommand.isHandled(message)) {
                 return this.moussaillonCommand.handle(message);
+            } else if (this.botInfosCommand.isHandled(message)) {
+                return this.botInfosCommand.handle(message);
             }
         } catch (e) {
             console.error("Error handling", e)
