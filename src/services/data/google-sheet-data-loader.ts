@@ -45,7 +45,22 @@ export class GoogleSheetDataLoader implements IDataLoader {
         let parsed = Papa.parse(response.data, {
             header: true
         })
-        let members: Member[] = <Member[]>parsed.data
+        // let members: Member[] = <Member[]>parsed.data
+        let members: Member[] = [];
+        let parsedMembers: unknown[] = parsed.data;
+        for (let i = 0; i < parsedMembers.length; i++) {
+            let current :any = parsedMembers[i];
+            let member = new Member();
+            member.user = current.user;
+            member.userid = current.userid;
+            member.bounty = current.bounty;
+            member.boat = current.boat;
+            member.position = current.position;
+            member.affiliation = current.affiliation;
+            member.rank = current.rank;
+            member.epithet = current.epithet;
+            members.push(member);
+        }
         return members;
     }
 

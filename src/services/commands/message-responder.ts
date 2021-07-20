@@ -5,6 +5,7 @@ import {ReloadDataCommand} from "./reload-data-command";
 import {IslandsInfosCommand} from "./islands-infos-command";
 import {MoussaillonCommand} from "./moussaillon-command";
 import {BotInfosCommand} from "./bot-infos-command";
+import {TeamCommand} from "./team-command";
 
 @injectable()
 export class MessageResponder {
@@ -13,6 +14,7 @@ export class MessageResponder {
     private islandsInfo: IslandsInfosCommand;
     private moussaillonCommand: MoussaillonCommand;
     private botInfosCommand: BotInfosCommand;
+    private teamCommand: TeamCommand;
 
     constructor() {
         this.pingFinder = new PingFinder();
@@ -20,6 +22,7 @@ export class MessageResponder {
         this.islandsInfo = new IslandsInfosCommand();
         this.moussaillonCommand = new MoussaillonCommand();
         this.botInfosCommand = new BotInfosCommand();
+        this.teamCommand = new TeamCommand();
     }
 
     handle(message: Message): Promise<Message | Message[]> {
@@ -34,6 +37,8 @@ export class MessageResponder {
                 return this.moussaillonCommand.handle(message);
             } else if (this.botInfosCommand.isHandled(message)) {
                 return this.botInfosCommand.handle(message);
+            }else if (this.teamCommand.isHandled(message)) {
+                return this.teamCommand.handle(message);
             }
         } catch (e) {
             console.error("Error handling", e)

@@ -26,13 +26,23 @@ export interface MoussaillonRights {
     testChannels: string[];
 }
 
-export interface Member {
-    user: string;
-    userid: string;
-    bounty: string;
-    boat: string;
-    position: string;
-    affiliation: string;
-    rank: string;
-    epithet: string;
+export class Member {
+    user: string | undefined;
+    userid: string | undefined;
+    bounty: string | undefined;
+    boat: string | undefined;
+    position: string | undefined;
+    affiliation: string | undefined;
+    rank: string | undefined;
+    epithet: string | undefined;
+
+
+    getNumberBounty(): number {
+        let bountyNumber = Number(this.bounty);
+        if (isNaN(bountyNumber)) {
+            let bountyString: string = <string>this.bounty;
+            return Number.parseInt(bountyString.split(' ').join(''));
+        } else
+            return bountyNumber;
+    }
 }
