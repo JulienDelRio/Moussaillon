@@ -1,5 +1,5 @@
 import {AbstractCommandInterpreter} from "./abstract-command-interpreter";
-import {Collection, GuildMember, Message, Snowflake} from "discord.js";
+import {GuildMember, Message} from "discord.js";
 import {Member} from "../data/i-moussaillon-data";
 
 import {MoussaillonMessageEmbed} from "../../tools/discord/moussaillon-message-embed";

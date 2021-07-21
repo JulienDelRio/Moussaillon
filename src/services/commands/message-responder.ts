@@ -6,39 +6,29 @@ import {IslandsInfosCommand} from "./islands-infos-command";
 import {MoussaillonCommand} from "./moussaillon-command";
 import {BotInfosCommand} from "./bot-infos-command";
 import {TeamCommand} from "./team-command";
+import {ToolsCommand} from "./tools-command";
 
 @injectable()
 export class MessageResponder {
-    private pingFinder: PingFinder;
-    private reloadDataCommand: ReloadDataCommand;
-    private islandsInfo: IslandsInfosCommand;
-    private moussaillonCommand: MoussaillonCommand;
-    private botInfosCommand: BotInfosCommand;
-    private teamCommand: TeamCommand;
+    private messageInterpreters: IMessageInterpreter[];
 
     constructor() {
-        this.pingFinder = new PingFinder();
-        this.reloadDataCommand = new ReloadDataCommand();
-        this.islandsInfo = new IslandsInfosCommand();
-        this.moussaillonCommand = new MoussaillonCommand();
-        this.botInfosCommand = new BotInfosCommand();
-        this.teamCommand = new TeamCommand();
+        this.messageInterpreters = [new PingFinder(),
+            new ReloadDataCommand(),
+            new IslandsInfosCommand(),
+            new MoussaillonCommand(),
+            new BotInfosCommand(),
+            new TeamCommand(),
+            new ToolsCommand()
+        ]
     }
 
     handle(message: Message): Promise<Message | Message[]> {
         try {
-            if (this.pingFinder.isHandled(message)) {
-                return this.pingFinder.handle(message);
-            } else if (this.reloadDataCommand.isHandled(message)) {
-                return this.reloadDataCommand.handle(message);
-            } else if (this.islandsInfo.isHandled(message)) {
-                return this.islandsInfo.handle(message);
-            } else if (this.moussaillonCommand.isHandled(message)) {
-                return this.moussaillonCommand.handle(message);
-            } else if (this.botInfosCommand.isHandled(message)) {
-                return this.botInfosCommand.handle(message);
-            }else if (this.teamCommand.isHandled(message)) {
-                return this.teamCommand.handle(message);
+            for (let i = 0; i < this.messageInterpreters.length; i++) {
+                let messageInterpreter = this.messageInterpreters[i];
+                if (messageInterpreter.isHandled(message))
+                    return messageInterpreter.handle(message);
             }
         } catch (e) {
             console.error("Error handling", e)
