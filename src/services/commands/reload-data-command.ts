@@ -39,7 +39,7 @@ export class ReloadDataCommand extends AbstractCommandInterpreter {
     }
 
     private async reloadData(message: Message): Promise<Message | Message[]> {
-        let dataloader = DataLoaderManager.getNewDataLoader();
+        let dataloader = DataLoaderManager.getInstance().dataLoader;
         try {
             let data = await dataloader.loadData();
             this.getBot().updateData(data)
