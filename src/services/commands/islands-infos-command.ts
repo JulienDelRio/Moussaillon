@@ -58,6 +58,7 @@ export class IslandsInfosCommand extends AbstractCommandInterpreter {
                     let boat = island.boat;
                     let claimed = island.claimed;
                     let poneglyphe = island.poneglyphe;
+                    let calmBelt = island.calmBelt;
 
                     // Create message
                     let authorAvatarURL = message.author.avatarURL();
@@ -68,15 +69,16 @@ export class IslandsInfosCommand extends AbstractCommandInterpreter {
                         .setTitle(islandName + " (" + islandSea + ")")
                         .setColor(Environment.getInstance().getEmbedColor())
                         .addField("Controlé par", claimed)
-                        .addField("Personnage/Lieu de quête", npc, true)
-                        .addField("Commandant", commander, true)
-                        .addField("Carte à collectionner", cardCode + " - " + cardName, true)
-                        .addField("Vous pouvez y arriver par...", routeFrom, true)
-                        .addField("Vous pouvez allez vers...", routeTo, true)
+                        .addField("Personnage/Lieu de quête", npc)
+                        .addField("Commandant", commander)
+                        .addField("Carte à collectionner", cardCode + " - " + cardName)
+                        .addField("Vous pouvez y arriver par...", routeFrom)
+                        .addField("Vous pouvez allez vers...", routeTo)
+                        .addField("A travers CalmBelt...", calmBelt)
                         .addField('\u200b', '\u200b')
                         .addField("And now... Spoilers...", '\u200b')
-                        .addField("Y'a-t-il un Poneglyphe ?", "||" + poneglyphe + "||", true)
-                        .addField("Un bateau ?", "||" + boat + "||", true);
+                        .addField("Y'a-t-il un Poneglyphe ?", "||" + poneglyphe + "||")
+                        .addField("Un bateau ?", "||" + boat + "||");
 
                     // Send message
                     let messageSent = await message.channel.send(embed)
