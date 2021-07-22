@@ -1,8 +1,8 @@
 import {AbstractCommandInterpreter} from "./abstract-command-interpreter";
 import {GuildMember, Message} from "discord.js";
-import {Member} from "../data/i-moussaillon-data";
 
 import {MoussaillonMessageEmbed} from "../../tools/discord/moussaillon-message-embed";
+import {Member} from "../data/models/member";
 
 const bountyFormatter = new Intl.NumberFormat('fr-FR', {})
 const wayzenLogoUrl = "https://media.discordapp.net/attachments/845220603971239944/851924163723526164/20210429_223145_0000.png"
@@ -49,26 +49,27 @@ export class TeamCommand extends AbstractCommandInterpreter {
         }
     }
 
-    private getTargetedMemberId(message: Message) {
+    private getTargetedMemberId(message: Message): number {
         let isMention = message.mentions.users.size > 0;
         let firstUser = message.mentions.users.first();
         if (isMention && firstUser != undefined) {
-            return firstUser.id;
+            return parseInt(firstUser.id);
         } else {
-            return message.author.id;
+            return parseInt(message.author.id);
         }
     }
 
     private async handleUser(message: Message): Promise<Message | Message[]> {
 
-        let memberId = this.getTargetedMemberId(message);
+        let userId = this.getTargetedMemberId(message);
 
         let guild = message.guild;
         if (guild == null) {
             throw new Error("Guild not found")
         }
-        let member = await guild.members.fetch(memberId);
-        return this.displayUser(message, member);
+        let user = await guild.members.fetch(userId.toString());
+        if (this.isATestChan(message)) console.log("user:", user);
+        return this.displayUser(message, user);
     }
 
     private displayUser(message: Message, user: GuildMember): Promise<Message | Message[]> {
@@ -129,6 +130,7 @@ export class TeamCommand extends AbstractCommandInterpreter {
         let member = this.getMemberById(memberId);
 
         if (member) {
+            if (this.isATestChan(message)) console.log("member:", member);
             return this.displayMember(message, member);
         } else {
             return message.channel.send("Membre inconnu");
@@ -154,8 +156,8 @@ export class TeamCommand extends AbstractCommandInterpreter {
             let userbounties = ""
             let userboats = ""
             members.forEach((member, id) => {
-                if (member.user)
-                    usernames = usernames + member.user + "\n"
+                if (member.username)
+                    usernames = usernames + member.username + "\n"
                 else
                     usernames = usernames + "Inconnu\n"
 
@@ -190,8 +192,8 @@ export class TeamCommand extends AbstractCommandInterpreter {
         let boat = "Inconnu"
 
         if (member) {
-            memberID = Number(member.userid) ?? memberID;
-            username = member.user ?? username;
+            memberID = member.id;
+            username = member.username;
             bounty = this.getFormattedBounty(member.getNumberBounty());
 
             rank = member.rank ?? rank;
@@ -258,20 +260,20 @@ export class TeamCommand extends AbstractCommandInterpreter {
     }
 
     private sortMembersById(a: Member, b: Member): number {
-        let aUserid = a.userid;
-        let bUserid = b.userid;
+        let aUserid = a.id;
+        let bUserid = b.id;
         if (!aUserid) {
             return -1;
         } else if (!bUserid) {
             return 1
         } else
-            return aUserid.localeCompare(bUserid)
+            return aUserid - bUserid
     }
 
     private sortMembersByUsername(a: Member, b: Member): number {
         console.log(a);
-        let aUser = a.user;
-        let bUser = b.user;
+        let aUser = a.username;
+        let bUser = b.username;
         if (!aUser) {
             return -1;
         } else if (!bUser) {
@@ -287,22 +289,18 @@ export class TeamCommand extends AbstractCommandInterpreter {
             return 1;
         } else {
             let result = b.getNumberBounty() - a.getNumberBounty();
-                return result
+            return result
         }
     }
 
-    private getMemberById(id: string) {
-        let foundMember = null
-        let team = this.getMembers();
-        if (team)
-            team.forEach(member => {
-                if (member.userid == id) {
-                    foundMember = member;
-                }
-            })
-        else
+    private getMemberById(id: number) {
+        let foundMember = this.getBot().data.members.get(id);
+        if (foundMember)
+            return foundMember
+        else {
             console.error("Team should not be null")
-        return foundMember
+            return null;
+        }
     }
 
     private handleClassement(message: Message) {
@@ -357,8 +355,8 @@ export class TeamCommand extends AbstractCommandInterpreter {
                     else
                         preUsername = "▫️ "
 
-                    if (currentMember.user)
-                        usernames = usernames + preUsername + currentMember.user + "\n"
+                    if (currentMember.username)
+                        usernames = usernames + preUsername + currentMember.username + "\n"
                     else
                         usernames = usernames + "Inconnu\n"
 
@@ -395,7 +393,7 @@ export class TeamCommand extends AbstractCommandInterpreter {
     }
 
     private getMembers(): Member[] {
-        let team: Member[] = this.getBot().data.members;
+        let team: Member[] = Array.from(this.getBot().data.members.values());
         return team;
     }
 

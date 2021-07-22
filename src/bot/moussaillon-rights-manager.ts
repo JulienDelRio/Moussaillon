@@ -2,7 +2,7 @@ import {MoussaillonBot} from "./moussaillon-bot";
 import container from "../../inversify.config";
 import {TYPES} from "../types";
 import {Message} from "discord.js";
-import {MoussaillonRights} from "../services/data/i-moussaillon-data";
+import {MoussaillonRights} from "../services/data/models/moussaillon-rights";
 
 export class MoussaillonRightsManager {
     private static instance: MoussaillonRightsManager;
@@ -56,7 +56,7 @@ export class MoussaillonRightsManager {
         return isTheChansAllowed
     }
 
-    isTheChanForTest(message: Message): boolean {
+    isAChanForTest(message: Message): boolean {
         let rights: MoussaillonRights = this.getBot().data.rights;
         let isTheChanForTest = false;
         for (let i = 0; i < rights.testChannels.length; i++) {

@@ -6,6 +6,8 @@ export class Environment {
     private _membersCSVUrl: string | undefined;
     private _rightsCSVUrl: string | undefined;
     private _embedColor: string | undefined;
+    private _seasCSVUrl: string | undefined;
+    private _commandersCSVUrl: string | undefined;
 
     public static getInstance(): Environment {
         if (!Environment.instance) {
@@ -46,7 +48,7 @@ export class Environment {
         }
     }
 
-    getIslandCSVUrl(): string {
+    getIslandsCSVUrl(): string {
         if (this._islandCSVUrl === undefined) {
             let islandCSVUrl = process.env.ISLANDS_CSVURL;
             if (typeof islandCSVUrl === 'string') {
@@ -57,6 +59,34 @@ export class Environment {
             }
         } else {
             return this._islandCSVUrl;
+        }
+    }
+
+    getSeasCSVUrl(): string {
+        if (this._seasCSVUrl === undefined) {
+            let seasCSVUrl = process.env.SEAS_CSVURL;
+            if (typeof seasCSVUrl === 'string') {
+                this._seasCSVUrl = seasCSVUrl;
+                return seasCSVUrl;
+            } else {
+                throw new Error("Seas CSV Url not initialized")
+            }
+        } else {
+            return this._seasCSVUrl;
+        }
+    }
+
+    getCommandersCSVUrl(): string {
+        if (this._commandersCSVUrl === undefined) {
+            let commandersCSVUrl = process.env.CommanderS_CSVURL;
+            if (typeof commandersCSVUrl === 'string') {
+                this._commandersCSVUrl = commandersCSVUrl;
+                return commandersCSVUrl;
+            } else {
+                throw new Error("Commanders CSV Url not initialized")
+            }
+        } else {
+            return this._commandersCSVUrl;
         }
     }
 

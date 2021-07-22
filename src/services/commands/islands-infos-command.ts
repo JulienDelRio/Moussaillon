@@ -40,22 +40,24 @@ export class IslandsInfosCommand extends AbstractCommandInterpreter {
         if (commandParams.length < 3) {
             return await message.channel.send("Saisir au moins 3 caractères.")
         } else {
-            let islands = this.getBot().data.islands;
+            let islands = Array.from(this.getBot().data.islands.values());
             for (let i = 0; i < islands.length; i++) {
                 let island = islands[i];
                 if (island.name.toLowerCase().match(lowerCommandParams)) {
+                    if (this.isATestChan(message)) console.log("island:", island);
+
                     // Prepare data
-                    let islandName = this.getValueOrDefault(island.name, "A venir..");
-                    let islandSea = this.getValueOrDefault(island.sea, "A venir..");
-                    let npc = this.getValueOrDefault(island.npc, "A venir..");
-                    let commander = this.getValueOrDefault(island.commander, "A venir..");
-                    let cardCode = this.getValueOrDefault(island.cardCode, "A venir..");
-                    let cardName = this.getValueOrDefault(island.cardName, "A venir..");
-                    let routeFrom = this.getValueOrDefault(island.routeFrom, "A venir...");
-                    let routeTo = this.getValueOrDefault(island.routeTo, "A venir...");
-                    let boat = this.getValueOrDefault(island.boat, "Non........");
-                    let claimed = this.getValueOrDefault(island.claimed, "Personne");
-                    let poneglyphe = this.getValueOrDefault(island.poneglyphe, "Non");
+                    let islandName = island.name;
+                    let islandSea = island.sea?.name ?? "Inconnu";
+                    let npc = island.npc;
+                    let commander = island.commander?.name ?? "Inconnu";
+                    let cardCode = island.cardCode;
+                    let cardName = island.cardName;
+                    let routeFrom = island.routeFrom;
+                    let routeTo = island.routeTo;
+                    let boat = island.boat;
+                    let claimed = island.claimed;
+                    let poneglyphe = island.poneglyphe;
 
                     // Create message
                     let authorAvatarURL = message.author.avatarURL();
@@ -88,12 +90,5 @@ export class IslandsInfosCommand extends AbstractCommandInterpreter {
         } else {
             return messagesToSend;
         }
-    }
-
-    private getValueOrDefault(value: string, defaultValue: string) {
-        if (!value || value.length === 0)
-            return defaultValue
-        else
-            return value
     }
 }

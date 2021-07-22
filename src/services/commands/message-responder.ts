@@ -68,7 +68,7 @@ export class MessageResponder {
     }
 
     private isATestChannel(message: Message) {
-        return MoussaillonRightsManager.getInstance().isTheChanForTest(message);
+        return MoussaillonRightsManager.getInstance().isAChanForTest(message);
     }
 }
 

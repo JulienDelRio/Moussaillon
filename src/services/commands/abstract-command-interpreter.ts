@@ -5,6 +5,7 @@ import {Environment} from "../../tools/environment";
 import {MoussaillonBot} from "../../bot/moussaillon-bot";
 import container from "../../../inversify.config";
 import {TYPES} from "../../types";
+import {MoussaillonRightsManager} from "../../bot/moussaillon-rights-manager";
 
 @injectable()
 export abstract class AbstractCommandInterpreter implements IMessageInterpreter {
@@ -54,6 +55,10 @@ export abstract class AbstractCommandInterpreter implements IMessageInterpreter 
             throw new Error("Bot should be initialized")
         }
         return bot;
+    }
+
+    protected isATestChan(message: Message): boolean {
+        return MoussaillonRightsManager.getInstance().isAChanForTest(message);
     }
 
 }

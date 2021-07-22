@@ -2,9 +2,9 @@ import {Client, Message} from "discord.js";
 import {inject, injectable} from "inversify";
 import {TYPES} from "../types";
 import {MessageResponder, NotHandledError} from "../services/commands/message-responder";
-import {IMoussaillonData} from "../services/data/i-moussaillon-data";
 import {GoogleSheetDataLoader} from "../services/data/google-sheet-data-loader";
 import {Environment} from "../tools/environment";
+import {MoussaillonData} from "../services/data/models/moussaillon-data";
 
 /*
 const Discord = require('discord.js')
@@ -31,7 +31,7 @@ export class MoussaillonBot {
     private readonly _client: Client;
     private readonly _token: string;
     private readonly _messageResponder: MessageResponder;
-    private _data: IMoussaillonData | undefined;
+    private _data: MoussaillonData | undefined;
 
     constructor(
         @inject(TYPES.Client) client: Client,
@@ -82,7 +82,7 @@ export class MoussaillonBot {
         });
     }
 
-    get data(): IMoussaillonData {
+    get data(): MoussaillonData {
         if (this._data === undefined) {
             console.error(new Error("Data should be initialized"));
             throw new Error("Data should be initialized");
@@ -101,7 +101,7 @@ export class MoussaillonBot {
         return this._client;
     }
 
-    updateData(data: IMoussaillonData) {
+    updateData(data: MoussaillonData) {
         this._data = data;
     }
 
