@@ -4,7 +4,10 @@ import {MoussaillonMessageEmbed} from "../../tools/discord/moussaillon-message-e
 
 import changelogJson from "../../bot/version.json";
 
-const moussaillonBotPPUrl = "https://cdn.discordapp.com/avatars/845262214688669727/079857eb39dd2161aaca83daaf9982ab.png?size=4096"
+const moussaillonBotPPUrl: string = "https://cdn.discordapp.com/avatars/845262214688669727/079857eb39dd2161aaca83daaf9982ab.png?size=4096"
+const COMMAND_VERSION: string = "version";
+const COMMAND_CHANGELOG: string = "changelog";
+const COMMAND_HISTORY: string = "history";
 
 export class BotInfosCommand extends AbstractCommandInterpreter {
     private changelogHistory: IChangelogHistory = <IChangelogHistory>changelogJson;
@@ -12,13 +15,13 @@ export class BotInfosCommand extends AbstractCommandInterpreter {
     handle(message: Message): Promise<Message | Message[]> {
         let command = this.getCommand(message)
         switch (command) {
-            case "version":
+            case COMMAND_VERSION:
                 return this.handleVersion(message)
                 break
-            case "changelog":
+            case COMMAND_CHANGELOG:
                 return this.handleChangelog(message)
                 break
-            case "history":
+            case COMMAND_HISTORY:
                 return this.handleHistory(message)
                 break
             default :
@@ -29,9 +32,9 @@ export class BotInfosCommand extends AbstractCommandInterpreter {
     isHandled(message: Message): boolean {
         let command = this.getCommand(message);
         switch (command) {
-            case "version":
-            case "changelog":
-            case "history":
+            case COMMAND_VERSION:
+            case COMMAND_CHANGELOG:
+            case COMMAND_HISTORY:
                 return true;
             default:
                 return false

@@ -6,18 +6,24 @@ import {MoussaillonMessageEmbed} from "../../tools/discord/moussaillon-message-e
 
 const bountyFormatter = new Intl.NumberFormat('fr-FR', {})
 const wayzenLogoUrl = "https://media.discordapp.net/attachments/845220603971239944/851924163723526164/20210429_223145_0000.png"
+const COMMAND_MEMBRES = "membres";
+const COMMAND_MEMBRE = "membre";
+const COMMAND_USER = "user";
+const COMMAND_USERS = "users";
+const COMMAND_CLASSEMENT = "classement";
+const COMMAND_TOP = "top";
 
 export class TeamCommand extends AbstractCommandInterpreter {
 
     isHandled(message: Message): boolean {
         let command = this.getCommand(message);
         switch (command) {
-            case "membres":
-            case "membre":
-            case "user":
-            case "users":
-            case "classement":
-            case "top":
+            case COMMAND_MEMBRES:
+            case COMMAND_MEMBRE:
+            case COMMAND_USER:
+            case COMMAND_USERS:
+            case COMMAND_CLASSEMENT:
+            case COMMAND_TOP:
                 return true;
             default:
                 return false
@@ -27,16 +33,16 @@ export class TeamCommand extends AbstractCommandInterpreter {
     handle(message: Message): Promise<Message | Message[]> {
         let command = this.getCommand(message);
         switch (command) {
-            case "user":
+            case COMMAND_USER:
                 return this.handleUser(message)
-            case "membre":
+            case COMMAND_MEMBRE:
                 return this.handleMember(message)
-            case "membres":
+            case COMMAND_MEMBRES:
                 return this.handleMembers(message)
-            case "users":
+            case COMMAND_USERS:
                 return this.handleUsers(message)
-            case "classement":
-            case "top":
+            case COMMAND_CLASSEMENT:
+            case COMMAND_TOP:
                 return this.handleClassement(message)
             default:
                 return Promise.reject();
