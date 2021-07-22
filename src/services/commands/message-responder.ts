@@ -7,6 +7,7 @@ import {MoussaillonCommand} from "./moussaillon-command";
 import {BotInfosCommand} from "./bot-infos-command";
 import {TeamCommand} from "./team-command";
 import {ToolsCommand} from "./tools-command";
+import {MoussaillonRightsManager} from "../../bot/moussaillon-rights-manager";
 
 @injectable()
 export class MessageResponder {
@@ -24,6 +25,19 @@ export class MessageResponder {
     }
 
     handle(message: Message): Promise<Message | Message[]> {
+        let isTest = this.isATestChannel(message);
+        if (isTest) console.log("Posted in a test channel");
+
+        if (!this.isTheBotAllowed(message)) {
+            if (isTest) console.log("Bot not allowed")
+            return Promise.reject(new NotHandledError("Bot not allowed"));
+        }
+        if (this.isItABotMessage(message)) {
+            if (isTest) console.log("Message by a bot")
+            return Promise.reject(new NotHandledError("This is a bot message"));
+        }
+        if (isTest) console.log("Allowed")
+
         try {
             for (let i = 0; i < this.messageInterpreters.length; i++) {
                 let messageInterpreter = this.messageInterpreters[i];
@@ -36,6 +50,25 @@ export class MessageResponder {
         }
 
         return Promise.reject(new NotHandledError("Message not handled"));
+    }
+
+    private isItABotMessage(message: Message): boolean {
+        return message.author.bot;
+    }
+
+    private isTheBotAllowed(message: Message): boolean {
+
+        if (!MoussaillonRightsManager.getInstance().isTheServerAllowed(message))
+            return false
+
+        if (!MoussaillonRightsManager.getInstance().isTheChanAllowed(message))
+            return false
+
+        return true;
+    }
+
+    private isATestChannel(message: Message) {
+        return MoussaillonRightsManager.getInstance().isTheChanForTest(message);
     }
 }
 

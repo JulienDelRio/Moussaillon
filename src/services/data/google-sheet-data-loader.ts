@@ -19,6 +19,7 @@ export class GoogleSheetDataLoader implements IDataLoader {
                 moderatorsRoles: [],
                 allowedChannels: [],
                 testChannels: [],
+                allowedServers: [],
             },
             members: []
         };
@@ -65,8 +66,8 @@ export class GoogleSheetDataLoader implements IDataLoader {
     }
 
     private async loadRights(): Promise<MoussaillonRights> {
-        let membersFileUrl = Environment.getInstance().getRightsCSVUrl();
-        let response = await axios.get(membersFileUrl);
+        let rightsFileUrl = Environment.getInstance().getRightsCSVUrl();
+        let response = await axios.get(rightsFileUrl);
 
         // handle success
         let parsed = Papa.parse(response.data, {})
@@ -75,6 +76,7 @@ export class GoogleSheetDataLoader implements IDataLoader {
             moderatorsRoles: [],
             allowedChannels: [],
             testChannels: [],
+            allowedServers: [],
         }
         for (let i = 0; i < parsedRights.length; i++) {
             let currentRights: string[] = <string[]>parsedRights[i]

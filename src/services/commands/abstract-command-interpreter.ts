@@ -11,7 +11,7 @@ export abstract class AbstractCommandInterpreter implements IMessageInterpreter 
 
     abstract isHandled(message: Message): boolean;
 
-    abstract handle(message: Message): Promise<Message | Message[]>;
+    abstract handle(message: Message, isATest?: boolean): Promise<Message | Message[]>;
 
     isCommand(message: Message): boolean {
         if (typeof Environment.getInstance().getCommandChar() === "string") {

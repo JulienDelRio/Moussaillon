@@ -24,6 +24,7 @@ export interface MoussaillonRights {
     moderatorsRoles: string[];
     allowedChannels: string[];
     testChannels: string[];
+    allowedServers: string[];
 }
 
 export class Member {

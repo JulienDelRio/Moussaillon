@@ -48,13 +48,13 @@ export class MoussaillonBot {
                 return;
             }
 
-            console.log("Message received! Contents: ", message.content);
+            console.log("Message received! Check it :", message.url);
 
             this._messageResponder.handle(message).then(() => {
                 console.log("Message handled");
             }).catch((e) => {
                 if (e instanceof NotHandledError) {
-                    console.error("Response not needed.")
+                    //console.error("Response not needed.")
                 } else {
                     console.error("An error occurred during handling", e)
                 }
