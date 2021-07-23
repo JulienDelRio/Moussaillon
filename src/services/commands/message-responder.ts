@@ -8,13 +8,17 @@ import {BotInfosCommand} from "./bot-infos-command";
 import {TeamCommand} from "./team-command";
 import {ToolsCommand} from "./tools-command";
 import {MoussaillonRightsManager} from "../../bot/moussaillon-rights-manager";
+import {AbstractCommandInterpreter} from "./abstract-command-interpreter";
+import {Environment} from "../../tools/environment";
 
 @injectable()
 export class MessageResponder {
     private messageInterpreters: IMessageInterpreter[];
+    private commandInterpreters: AbstractCommandInterpreter[]
 
     constructor() {
-        this.messageInterpreters = [new PingFinder(),
+        this.messageInterpreters = [new PingFinder()];
+        this.commandInterpreters = [
             new ReloadDataCommand(),
             new IslandsInfosCommand(),
             new MoussaillonCommand(),
@@ -44,6 +48,14 @@ export class MessageResponder {
                 if (messageInterpreter.isHandled(message))
                     return messageInterpreter.handle(message);
             }
+            if (this.isACommand(message)) {
+                for (let i = 0; i < this.commandInterpreters.length; i++) {
+                    let commandInterpreter = this.commandInterpreters[i];
+                    if (commandInterpreter.isHandled(message))
+                        return commandInterpreter.handle(message);
+                }
+
+            }
         } catch (e) {
             console.error("Error handling", e)
             return message.reply(e.message)
@@ -69,6 +81,10 @@ export class MessageResponder {
 
     private isATestChannel(message: Message) {
         return MoussaillonRightsManager.getInstance().isAChanForTest(message);
+    }
+
+    private isACommand(message: Message) {
+        return message.content.startsWith(Environment.getInstance().getCommandChar());
     }
 }
 
