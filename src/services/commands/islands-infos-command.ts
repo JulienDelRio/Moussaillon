@@ -136,7 +136,7 @@ export class IslandsInfosCommand extends AbstractCommandInterpreter {
                 const routeFromStep = routeSteps[j];
                 if (j == 0) {
                     message += "╔ " + routeFromStep + "\n";
-                } else if (j = routeSteps.length - 1) {
+                } else if (j == routeSteps.length - 1) {
                     message += "╚ " + routeFromStep + "\n";
                 } else {
                     message += "╠ " + routeFromStep + "\n";
