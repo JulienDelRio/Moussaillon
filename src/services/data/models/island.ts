@@ -5,6 +5,7 @@ export class Island {
     readonly name: string;
     readonly id: number;
     sea: Sea | undefined;
+    seaInfo: string | undefined;
     private _npc: string | undefined;
     commander: Commander | undefined;
     private _cardCode: string | undefined;
@@ -15,11 +16,11 @@ export class Island {
     private _routeFrom: string | undefined;
     private _routeTo: string | undefined;
     private _calmBelt: string | undefined;
-    private _moreInfo: string | undefined;
+    moreInfo: string | undefined;
 
     constructor(id: number, name: string) {
-        if(isNaN(id))
-            throw Error ("Not a valid ID");
+        if (isNaN(id))
+            throw Error("Not a valid ID");
         this.id = id;
         this.name = name;
     }
@@ -59,7 +60,7 @@ export class Island {
 
     get claimed(): string {
         if (!this._claimed || this._claimed.length === 0)
-            return "Non"
+            return "Personne"
         else
             return this._claimed;
     }
@@ -121,16 +122,5 @@ export class Island {
 
     set calmBelt(value: string) {
         this._calmBelt = value;
-    }
-
-    get moreInfo(): string {
-        if (!this._moreInfo || this._moreInfo.length === 0)
-            return "."
-        else
-            return this._moreInfo;
-    }
-
-    set moreInfo(value: string) {
-        this._moreInfo = value;
     }
 }

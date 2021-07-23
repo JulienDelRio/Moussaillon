@@ -41,7 +41,7 @@ export class ReloadDataCommand extends AbstractCommandInterpreter {
     private async reloadData(message: Message): Promise<Message | Message[]> {
         let dataloader = DataLoaderManager.getInstance().dataLoader;
         try {
-            let data = await dataloader.loadData();
+            let data = await dataloader.loadData(this.isATestChan(message));
             this.getBot().updateData(data)
             return await message.channel.send("Données rechargées");
         } catch (e) {
