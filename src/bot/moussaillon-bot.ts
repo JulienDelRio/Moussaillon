@@ -2,9 +2,9 @@ import {Client, Message} from "discord.js";
 import {inject, injectable} from "inversify";
 import {TYPES} from "../types";
 import {MessageResponder, NotHandledError} from "../services/commands/message-responder";
-import {GoogleSheetDataLoader} from "../services/data/google-sheet-data-loader";
+import {GoogleSheetDataLoader} from "../data/google-sheet-data-loader";
 import {Environment} from "../tools/environment";
-import {MoussaillonData} from "../services/data/models/moussaillon-data";
+import {MoussaillonData} from "../data/models/moussaillon-data";
 
 /*
 const Discord = require('discord.js')

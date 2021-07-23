@@ -2,7 +2,7 @@ import {MoussaillonBot} from "./moussaillon-bot";
 import container from "../../inversify.config";
 import {TYPES} from "../types";
 import {Message} from "discord.js";
-import {MoussaillonRights} from "../services/data/models/moussaillon-rights";
+import {MoussaillonRights} from "../data/models/moussaillon-rights";
 
 export class MoussaillonRightsManager {
     private static instance: MoussaillonRightsManager;

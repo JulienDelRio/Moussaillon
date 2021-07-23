@@ -2,7 +2,7 @@ import {injectable} from "inversify";
 import {IDataLoader} from "./idata-loader";
 import axios from "axios";
 import Papa from "papaparse";
-import {Environment} from "../../tools/environment";
+import {Environment} from "../tools/environment";
 import {MoussaillonData} from "./models/moussaillon-data";
 import {Island} from "./models/island";
 import {Member} from "./models/member";

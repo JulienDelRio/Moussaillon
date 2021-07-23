@@ -2,7 +2,7 @@ import {AbstractCommandInterpreter} from "./abstract-command-interpreter";
 import {GuildMember, Message} from "discord.js";
 
 import {MoussaillonMessageEmbed} from "../../tools/discord/moussaillon-message-embed";
-import {Member} from "../data/models/member";
+import {Member} from "../../data/models/member";
 
 const bountyFormatter = new Intl.NumberFormat('fr-FR', {})
 const wayzenLogoUrl = "https://media.discordapp.net/attachments/845220603971239944/851924163723526164/20210429_223145_0000.png"
