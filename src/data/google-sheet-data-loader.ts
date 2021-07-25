@@ -40,7 +40,6 @@ export class GoogleSheetDataLoader implements IDataLoader {
             let parsedIsland: any = parsedIslands[i];
             try {
                 let island = new Island(parseInt(parsedIsland.id), parsedIsland.name);
-                island.sea = data.seas.get(parseInt(parsedIsland.seaId));
                 island.npc = parsedIsland.npc;
                 island.commander = data.commanders.get(parseInt(parsedIsland.commanderId));
                 island.cardCode = parsedIsland.cardCode;
@@ -52,11 +51,21 @@ export class GoogleSheetDataLoader implements IDataLoader {
                 island.routeTo = parsedIsland.routeTo;
                 island.calmBelt = parsedIsland.calmBelt;
                 island.moreInfo = parsedIsland.moreInfo;
+
+                // Sea data
                 island.seaInfo = parsedIsland.seaInfo;
                 island.seaOrder = parsedIsland.seaOrder;
+                island.sea = data.seas.get(parseInt(parsedIsland.seaId));
+                if (island.sea == undefined)
+                    throw new Error("Mer inconnue");
+                else
+                    island.sea.addIsland(island);
+
                 islands.set(island.id, island);
             } catch (e) {
+                console.error(e);
                 console.error("Cannot parse :", parsedIsland);
+                throw new Error("Cannot parse : " + parsedIsland.name);
             }
         }
         data.islands = islands;
