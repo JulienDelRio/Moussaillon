@@ -6,6 +6,7 @@ import {MoussaillonBot} from "../../bot/moussaillon-bot";
 import container from "../../../inversify.config";
 import {TYPES} from "../../types";
 import {MoussaillonRightsManager} from "../../bot/moussaillon-rights-manager";
+import {MoussaillonMessageEmbed} from "../../tools/discord/moussaillon-message-embed";
 
 @injectable()
 export abstract class AbstractCommandInterpreter implements IMessageInterpreter {
@@ -22,7 +23,7 @@ export abstract class AbstractCommandInterpreter implements IMessageInterpreter 
         }
     }
 
-    protected getCommand(message: Message): String {
+    protected getCommand(message: Message): string {
         if (Environment.getInstance().getCommandChar() === undefined) {
             throw new Error("Command should be initialized")
         }
@@ -30,19 +31,19 @@ export abstract class AbstractCommandInterpreter implements IMessageInterpreter 
         return command;
     }
 
-    protected getFullCommand(message: Message): String {
+    protected getFullCommand(message: Message): string {
         let command = message.content.substring(1).toLowerCase();
         return command;
     }
 
-    protected getCommandParamsArray(message: Message): String[] {
+    protected getCommandParamsArray(message: Message): string[] {
         let fullCommand = this.getFullCommand(message);
         let params = fullCommand.split(" ")
         let command = params.shift()
         return params;
     }
 
-    protected getCommandParamsString(message: Message): String {
+    protected getCommandParamsString(message: Message): string {
         let fullCommand = this.getFullCommand(message);
         let params = fullCommand.split(" ")
         let command = params.shift()
@@ -59,6 +60,16 @@ export abstract class AbstractCommandInterpreter implements IMessageInterpreter 
 
     protected isATestChan(message: Message): boolean {
         return MoussaillonRightsManager.getInstance().isAChanForTest(message);
+    }
+
+    protected getBasicEmbed(message: Message): MoussaillonMessageEmbed {
+        let authorAvatarURL = message.author.avatarURL();
+        if (authorAvatarURL == null)
+            authorAvatarURL = "";
+        const embed = new MoussaillonMessageEmbed()
+            .setAuthor("Commande par " + message.author.username, authorAvatarURL)
+            .setColor(Environment.getInstance().getEmbedColor());
+        return embed;
     }
 
 }

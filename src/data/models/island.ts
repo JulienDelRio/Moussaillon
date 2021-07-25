@@ -17,6 +17,7 @@ export class Island {
     private _routeTo: string | undefined;
     private _calmBelt: string | undefined;
     moreInfo: string | undefined;
+    private _seaOrder: number | undefined;
 
     constructor(id: number, name: string) {
         if (isNaN(id))
@@ -122,5 +123,16 @@ export class Island {
 
     set calmBelt(value: string) {
         this._calmBelt = value;
+    }
+
+    get seaOrder(): number {
+        if (!this._seaOrder)
+            return 1;
+        else
+            return this._seaOrder;
+    }
+
+    set seaOrder(value: number) {
+        this._seaOrder = value;
     }
 }

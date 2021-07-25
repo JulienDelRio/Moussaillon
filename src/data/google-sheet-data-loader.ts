@@ -53,6 +53,7 @@ export class GoogleSheetDataLoader implements IDataLoader {
                 island.calmBelt = parsedIsland.calmBelt;
                 island.moreInfo = parsedIsland.moreInfo;
                 island.seaInfo = parsedIsland.seaInfo;
+                island.seaOrder = parsedIsland.seaOrder;
                 islands.set(island.id, island);
             } catch (e) {
                 console.error("Cannot parse :", parsedIsland);

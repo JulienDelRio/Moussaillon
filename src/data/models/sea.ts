@@ -9,4 +9,19 @@ export class Sea {
         this.name = name;
         this.id = id;
     }
+
+
+}
+
+export enum SeasList {
+    EastBlue = 1,
+    SouthBlue = 2,
+    WestBlue = 3,
+    NorthBlue = 4,
+    Paradis = 5,
+    IleCeleste = 6,
+    FondsMarins = 7,
+    RedLine = 8,
+    NouveauMonde = 9,
+    CalmBelt = 10
 }

@@ -10,6 +10,7 @@ import {ToolsCommand} from "./tools-command";
 import {MoussaillonRightsManager} from "../../bot/moussaillon-rights-manager";
 import {AbstractCommandInterpreter} from "./abstract-command-interpreter";
 import {Environment} from "../../tools/environment";
+import {SeasInfoCommand} from "./seas-info-command";
 
 @injectable()
 export class MessageResponder {
@@ -24,7 +25,8 @@ export class MessageResponder {
             new MoussaillonCommand(),
             new BotInfosCommand(),
             new TeamCommand(),
-            new ToolsCommand()
+            new ToolsCommand(),
+            new SeasInfoCommand()
         ]
     }
 
