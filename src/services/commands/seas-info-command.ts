@@ -2,6 +2,7 @@ import {AbstractCommandInterpreter} from "./abstract-command-interpreter";
 import {Message} from "discord.js";
 import {Sea, SeasList} from "../../data/models/sea";
 import {Island} from "../../data/models/island";
+import {MoussaillonMessageEmbed} from "../../tools/discord/moussaillon-message-embed";
 
 const COMMAND_SEA = "mer";
 const COMMAND_SEAS = "mers";
@@ -43,24 +44,9 @@ export class SeasInfoCommand extends AbstractCommandInterpreter {
             } else {
                 if (this.isATestChan(message)) console.log("sea:", sea);
 
-                // Retrieve islands
-                let selectedIslandMap = new Map<number, Island>();
-                this.getBot().data.islands.forEach(island => {
-                    if (island.sea?.id == sea?.id){
-                        switch (island.sea?.id) {
-                            case SeasList.Paradis.valueOf():
-                            case SeasList.Paradis.valueOf():
-                            default:
-                                selectedIslandMap.set(island.seaOrder, island);
-                        }
-                    }
-                });
-                if (this.isATestChan(message)) console.log(selectedIslandMap);
-
                 let embed = this.getBasicEmbed(message);
                 embed.setTitle(sea.name);
-
-                embed.addField("Iles", this.getPrintableIslands(Array.from(selectedIslandMap.values())));
+                this.displaySea(sea, embed);
 
                 // Send message
                 return message.channel.send(embed)
@@ -87,8 +73,10 @@ export class SeasInfoCommand extends AbstractCommandInterpreter {
     private getPrintableIslands(islands: Island[]): string {
         let message = "";
         //console.log("islands", route);
-        if (islands.length <= 1) {
-            message += "═ " + islands + "\n";
+        if (islands.length == 0) {
+            message += "Pas d'ile\n";
+        } else if (islands.length == 1) {
+            message += "═ " + islands[0].name + "\n";
         } else {
             for (let j = 0; j < islands.length; j++) {
                 const island = islands[j];
@@ -102,5 +90,50 @@ export class SeasInfoCommand extends AbstractCommandInterpreter {
             }
         }
         return message;
+    }
+
+    private displaySea(sea: Sea, embed: MoussaillonMessageEmbed) {
+
+        switch (sea.id) {
+            case SeasList.EastBlue.valueOf():
+            case SeasList.WestBlue.valueOf():
+            case SeasList.NorthBlue.valueOf():
+            case SeasList.SouthBlue.valueOf():
+            case SeasList.CalmBelt.valueOf():
+            case SeasList.FondsMarins.valueOf():
+            case SeasList.IleCeleste.valueOf():
+            case SeasList.RedLine.valueOf():
+                this.displaySimpleSea(sea, embed);
+                break;
+            case SeasList.NouveauMonde.valueOf():
+                this.displayNewWorld(sea, embed);
+                break
+            case SeasList.Paradis.valueOf():
+                this.displayParadise(sea, embed);
+                break;
+            default :
+                throw new Error("Mer inexistante");
+        }
+    }
+
+    private displaySimpleSea(sea: Sea, embed: MoussaillonMessageEmbed) {
+        const islandSection = sea.islandsSection.get(0);
+        if (islandSection == undefined) {
+            console.error("Section not found for sea :", sea);
+            throw new Error("Section d'ile inconnue : 0");
+        }
+        let islands = Array.from(islandSection.values());
+        embed.addField("Iles", this.getPrintableIslands(islands));
+
+    }
+
+    private displayNewWorld(sea: Sea, embed: MoussaillonMessageEmbed) {
+        embed.addField("Iles", "Pas encore implémenté");
+
+    }
+
+    private displayParadise(sea: Sea, embed: MoussaillonMessageEmbed) {
+        embed.addField("Iles", "Pas encore implémenté");
+
     }
 }
