@@ -41,7 +41,6 @@ export class GoogleSheetDataLoader implements IDataLoader {
             try {
                 let island = new Island(parseInt(parsedIsland.id), parsedIsland.name);
                 island.npc = parsedIsland.npc;
-                island.commander = data.commanders.get(parseInt(parsedIsland.commanderId));
                 island.cardCode = parsedIsland.cardCode;
                 island.cardName = parsedIsland.cardName;
                 island.claimed = parsedIsland.claimed;
@@ -52,6 +51,13 @@ export class GoogleSheetDataLoader implements IDataLoader {
                 island.calmBelt = parsedIsland.calmBelt;
                 island.isStation = parsedIsland.isStation === "TRUE";
                 island.moreInfo = parsedIsland.moreInfo;
+
+                // Commander data
+                island.commander = data.commanders.get(parseInt(parsedIsland.commanderId));
+                if (island.commander == undefined)
+                    throw new Error("Commandant inconnu");
+                else
+                    island.commander.island = island;
 
                 // Sea data
                 island.seaInfo = parsedIsland.seaInfo;

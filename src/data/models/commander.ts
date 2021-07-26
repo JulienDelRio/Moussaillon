@@ -1,7 +1,10 @@
+import {Island} from "./island";
+
 export class Commander {
     readonly name: string;
     readonly id: number;
     type: string | undefined;
+    island: Island | undefined;
 
 
     constructor(id: number, name: string) {
