@@ -92,6 +92,28 @@ export class SeasInfoCommand extends AbstractCommandInterpreter {
         return message;
     }
 
+    private getPrintableNewWorldIslands(islands: Island[]): string {
+        let message = "";
+        //console.log("islands", route);
+        if (islands.length == 0) {
+            message += "Pas d'ile\n";
+        } else if (islands.length == 1) {
+            message += "═ " + islands[0].name + "\n";
+        } else {
+            for (let j = 0; j < islands.length; j++) {
+                const island = islands[j];
+                if (j == 0) {
+                    message += "╔ Log1 - " + island.name + "\n";
+                } else if (j == islands.length - 1) {
+                    message += "╚ Log agité - " + island.name + "\n";
+                } else {
+                    message += "╠ Log" + (j + 1) + " - " + island.name + "\n";
+                }
+            }
+        }
+        return message;
+    }
+
     private displaySea(sea: Sea, embed: MoussaillonMessageEmbed) {
 
         switch (sea.id) {
@@ -130,6 +152,26 @@ export class SeasInfoCommand extends AbstractCommandInterpreter {
     private displayNewWorld(sea: Sea, embed: MoussaillonMessageEmbed) {
         embed.addField("Iles", "Pas encore implémenté");
 
+        let islandsSections = sea.islandsSections;
+
+        for (let i = 1; i < islandsSections.size; i++) {
+            let currentSection = sea.islandsSections.get(i);
+            if (currentSection == undefined) {
+                console.error("Section " + i + " not found for sea :", sea);
+                throw new Error("Section d'ile inconnue : " + sea.name + " " + i);
+            }
+            embed.addField("Palier " + i, this.getPrintableNewWorldIslands(Array.from(currentSection.values())));
+        }
+
+        let basicSection = sea.islandsSections.get(0);
+        if (basicSection == undefined) {
+            console.error("Section basic not found for sea :", sea);
+            throw new Error("Section d'ile inconnue : " + sea.name + " basic");
+        }
+
+        let otherIslands = Array.from(basicSection.values());
+        embed.addField("Autres iles", this.getPrintableIslands(otherIslands));
+
     }
 
     private displayParadise(sea: Sea, embed: MoussaillonMessageEmbed) {
@@ -159,5 +201,11 @@ export class SeasInfoCommand extends AbstractCommandInterpreter {
         }
         embed.addField("Autres iles", this.getPrintableIslands(otherIslands));
 
+    }
+
+    private getPrintableIsland(island: Island){
+        let result = island.name;
+        result += " (" + island.commander?.name + ")";
+        return result
     }
 }

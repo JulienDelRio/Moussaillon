@@ -18,6 +18,7 @@ export class Island {
     private _calmBelt: string | undefined;
     moreInfo: string | undefined;
     private _seaOrder: number | undefined;
+    private _isStation: boolean = false;
 
     constructor(id: number, name: string) {
         if (isNaN(id))
@@ -134,5 +135,14 @@ export class Island {
 
     set seaOrder(value: number) {
         this._seaOrder = value;
+    }
+
+
+    get isStation(): boolean {
+        return this._isStation;
+    }
+
+    set isStation(value: boolean) {
+        this._isStation = value;
     }
 }

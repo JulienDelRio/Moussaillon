@@ -50,6 +50,7 @@ export class GoogleSheetDataLoader implements IDataLoader {
                 island.routeFrom = parsedIsland.routeFrom;
                 island.routeTo = parsedIsland.routeTo;
                 island.calmBelt = parsedIsland.calmBelt;
+                island.isStation = parsedIsland.isStation === "TRUE";
                 island.moreInfo = parsedIsland.moreInfo;
 
                 // Sea data
