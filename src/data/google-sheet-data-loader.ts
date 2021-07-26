@@ -54,7 +54,7 @@ export class GoogleSheetDataLoader implements IDataLoader {
 
                 // Sea data
                 island.seaInfo = parsedIsland.seaInfo;
-                island.seaOrder = parsedIsland.seaOrder;
+                island.seaOrder = parseInt(parsedIsland.seaOrder);
                 island.sea = data.seas.get(parseInt(parsedIsland.seaId));
                 if (island.sea == undefined)
                     throw new Error("Mer inconnue");

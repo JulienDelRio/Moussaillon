@@ -299,7 +299,7 @@ export class TeamCommand extends AbstractCommandInterpreter {
             return foundMember
         else {
             console.error("Team should not be null")
-            return null;
+            return undefined;
         }
     }
 

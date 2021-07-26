@@ -39,7 +39,7 @@ export class SeasInfoCommand extends AbstractCommandInterpreter {
             return message.channel.send("Saisir au moins 3 caractères.")
         } else {
             let sea = this.getSeaByName(lowerCommandParams);
-            if (sea == null) {
+            if (sea == undefined) {
                 return message.channel.send("Mer non reconnue")
             } else {
                 if (this.isATestChan(message)) console.log("sea:", sea);
@@ -59,7 +59,7 @@ export class SeasInfoCommand extends AbstractCommandInterpreter {
         return message.channel.send("Non implémenté pour l'instant.")
     }
 
-    private getSeaByName(commandParams: string): Sea | null {
+    private getSeaByName(commandParams: string): Sea | undefined {
         let seas = Array.from(this.getBot().data.seas.values());
         for (let i = 0; i < seas.length; i++) {
             let sea = seas[i];
@@ -67,7 +67,7 @@ export class SeasInfoCommand extends AbstractCommandInterpreter {
                 return sea;
             }
         }
-        return null;
+        return undefined;
     }
 
     private getPrintableIslands(islands: Island[]): string {
@@ -117,7 +117,7 @@ export class SeasInfoCommand extends AbstractCommandInterpreter {
     }
 
     private displaySimpleSea(sea: Sea, embed: MoussaillonMessageEmbed) {
-        const islandSection = sea.islandsSection.get(0);
+        const islandSection = sea.islandsSections.get(0);
         if (islandSection == undefined) {
             console.error("Section not found for sea :", sea);
             throw new Error("Section d'ile inconnue : 0");
@@ -133,7 +133,31 @@ export class SeasInfoCommand extends AbstractCommandInterpreter {
     }
 
     private displayParadise(sea: Sea, embed: MoussaillonMessageEmbed) {
-        embed.addField("Iles", "Pas encore implémenté");
+        let islandsSections = sea.islandsSections;
+
+        let basicSection = sea.islandsSections.get(0);
+        if (basicSection == undefined) {
+            console.error("Section basic not found for sea :", sea);
+            throw new Error("Section d'ile inconnue : " + sea.name + " basic");
+        }
+
+        let otherIslands = Array.from(basicSection.values());
+        const capJumeaux = otherIslands.shift();
+        if (capJumeaux == undefined) {
+            console.error("Cap Jumeaux should be here : 1", basicSection);
+            throw new Error("Il manque Cap Jumeaux");
+        }
+        embed.addField("Départ", this.getPrintableIslands([capJumeaux]));
+
+        for (let i = 1; i < islandsSections.size; i++) {
+            let currentSection = sea.islandsSections.get(i);
+            if (currentSection == undefined) {
+                console.error("Section " + i + " not found for sea :", sea);
+                throw new Error("Section d'ile inconnue : " + sea.name + " " + i);
+            }
+            embed.addField("Route " + i, this.getPrintableIslands(Array.from(currentSection.values())));
+        }
+        embed.addField("Autres iles", this.getPrintableIslands(otherIslands));
 
     }
 }
