@@ -76,16 +76,16 @@ export class SeasInfoCommand extends AbstractCommandInterpreter {
         if (islands.length == 0) {
             message += "Pas d'ile\n";
         } else if (islands.length == 1) {
-            message += "═ " + islands[0].name + "\n";
+            message += "═ " + this.getPrintableIsland(islands[0]) + "\n";
         } else {
             for (let j = 0; j < islands.length; j++) {
                 const island = islands[j];
                 if (j == 0) {
-                    message += "╔ " + island.name + "\n";
+                    message += "╔ " + this.getPrintableIsland(island) + "\n";
                 } else if (j == islands.length - 1) {
-                    message += "╚ " + island.name + "\n";
+                    message += "╚ " + this.getPrintableIsland(island) + "\n";
                 } else {
-                    message += "╠ " + island.name + "\n";
+                    message += "╠ " + this.getPrintableIsland(island) + "\n";
                 }
             }
         }
@@ -98,16 +98,16 @@ export class SeasInfoCommand extends AbstractCommandInterpreter {
         if (islands.length == 0) {
             message += "Pas d'ile\n";
         } else if (islands.length == 1) {
-            message += "═ " + islands[0].name + "\n";
+            message += "═ " + this.getPrintableIsland(islands[0]) + "\n";
         } else {
             for (let j = 0; j < islands.length; j++) {
                 const island = islands[j];
                 if (j == 0) {
-                    message += "╔ Log1 - " + island.name + "\n";
+                    message += "╔ Log1 - " + this.getPrintableIsland(island) + "\n";
                 } else if (j == islands.length - 1) {
-                    message += "╚ Log agité - " + island.name + "\n";
+                    message += "╚ Log agité - " + this.getPrintableIsland(island) + "\n";
                 } else {
-                    message += "╠ Log" + (j + 1) + " - " + island.name + "\n";
+                    message += "╠ Log" + (j + 1) + " - " + this.getPrintableIsland(island) + "\n";
                 }
             }
         }
@@ -150,8 +150,6 @@ export class SeasInfoCommand extends AbstractCommandInterpreter {
     }
 
     private displayNewWorld(sea: Sea, embed: MoussaillonMessageEmbed) {
-        embed.addField("Iles", "Pas encore implémenté");
-
         let islandsSections = sea.islandsSections;
 
         for (let i = 1; i < islandsSections.size; i++) {
@@ -203,9 +201,11 @@ export class SeasInfoCommand extends AbstractCommandInterpreter {
 
     }
 
-    private getPrintableIsland(island: Island){
-        let result = island.name;
-        result += " (" + island.commander?.name + ")";
+    private getPrintableIsland(island: Island) {
+        let result = "**" + island.name + "**";
+        result += " (" + island.commander?.name + ", *" + island.commander?.type + "*) ";
+        if (island.isStation)
+            result += "🚆";
         return result
     }
 }
