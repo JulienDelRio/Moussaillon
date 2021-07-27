@@ -56,7 +56,14 @@ export class SeasInfoCommand extends AbstractCommandInterpreter {
     }
 
     private handleSeas(message: Message) {
-        return message.channel.send("Non implémenté pour l'instant.")
+        let embed = this.getBasicEmbed(message);
+        //embed.setTitle("Liste des mers");
+        let content = "";
+        this.getBot().data.seas.forEach(sea => {
+            content += "- " + sea.name + "\n";
+        })
+        embed.addField("Liste des mers", content);
+        return message.channel.send(embed)
     }
 
     private getSeaByName(commandParams: string): Sea | undefined {
