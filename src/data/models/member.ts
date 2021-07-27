@@ -9,8 +9,8 @@ export class Member {
     epithet: string | undefined;
 
     constructor(id: number, username: string) {
-        if(isNaN(id))
-            throw Error ("Not a valid ID");
+        if (isNaN(id))
+            throw Error("Not a valid ID");
         this.id = id;
         this.username = username;
     }
@@ -22,5 +22,9 @@ export class Member {
             return Number.parseInt(bountyString.split(' ').join(''));
         } else
             return bountyNumber;
+    }
+
+    isAlly(): boolean {
+        return "Allié" === this.rank;
     }
 }

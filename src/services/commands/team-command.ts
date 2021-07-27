@@ -12,6 +12,8 @@ const COMMAND_USER = "user";
 const COMMAND_USERS = "users";
 const COMMAND_CLASSEMENT = "classement";
 const COMMAND_TOP = "top";
+const COMMAND_CLASSEMENT_FULL = "classementfull";
+const COMMAND_TOP_FULL = "topfull";
 
 export class TeamCommand extends AbstractCommandInterpreter {
 
@@ -23,7 +25,9 @@ export class TeamCommand extends AbstractCommandInterpreter {
             case COMMAND_USER:
             case COMMAND_USERS:
             case COMMAND_CLASSEMENT:
+            case COMMAND_CLASSEMENT_FULL:
             case COMMAND_TOP:
+            case COMMAND_TOP_FULL:
                 return true;
             default:
                 return false
@@ -43,7 +47,10 @@ export class TeamCommand extends AbstractCommandInterpreter {
                 return this.handleUsers(message)
             case COMMAND_CLASSEMENT:
             case COMMAND_TOP:
-                return this.handleClassement(message)
+                return this.handleClassement(message, false)
+            case COMMAND_CLASSEMENT_FULL:
+            case COMMAND_TOP_FULL:
+                return this.handleClassement(message, true)
             default:
                 return Promise.reject();
         }
@@ -303,7 +310,7 @@ export class TeamCommand extends AbstractCommandInterpreter {
         }
     }
 
-    private handleClassement(message: Message) {
+    private handleClassement(message: Message, isFullList = false) {
         let commandElements = message.content.split(" ")
         let nbRanks = 10
         if (commandElements.length <= 1) {
@@ -315,21 +322,33 @@ export class TeamCommand extends AbstractCommandInterpreter {
             }
         }
 
-        let team = this.getMembers();
+        let originalTeam: Member[] = this.getMembers();
+        let team: Member[] = [];
+        originalTeam.forEach(member => {
+            if (member.isAlly()) {
+                if (isFullList)
+                    team.push(member)
+            } else {
+                team.push(member)
+            }
+        });
         team.sort(this.sortMembersByBounty);
-        return this.displayRanking(message, team, nbRanks)
+        return this.displayRanking(message, team, nbRanks, isFullList)
     }
 
 
-    private displayRanking(message: Message, members: Member[], pNbDisplay: number): Promise<Message | Message[]> {
+    private displayRanking(message: Message, members: Member[], pNbDisplay: number, isFullList = false): Promise<Message | Message[]> {
         let nbDisplay = pNbDisplay
         if (!nbDisplay)
             nbDisplay = 10
         // Create message
         const embed = new MoussaillonMessageEmbed()
-            .setAuthor("Commande par " + message.author.username, message.author.avatarURL() ?? "")
-            .setTitle("Tableau du TOP " + nbDisplay + " des wayzens")
-            .setThumbnail(wayzenLogoUrl)
+            .setAuthor("Commande par " + message.author.username, message.author.avatarURL() ?? "");
+        if (isFullList)
+            embed.setTitle("Tableau du TOP " + nbDisplay + " des wayzens et leurs alliés");
+        else
+            embed.setTitle("Tableau du TOP " + nbDisplay + " des wayzens");
+        embed.setThumbnail(wayzenLogoUrl);
 
         if (!members || members.length == 0) {
             embed.addField("Pas de membre", "Nous n'avons pas trouvé de membre")
@@ -355,21 +374,28 @@ export class TeamCommand extends AbstractCommandInterpreter {
                     else
                         preUsername = "▫️ "
 
-                    if (currentMember.username)
-                        usernames = usernames + preUsername + currentMember.username + "\n"
-                    else
-                        usernames = usernames + "Inconnu\n"
+                    if (currentMember.username) {
+                        let username = currentMember.username;
+                        if (currentMember.isAlly()) {
+                            username = "*" + username + "*";
+                        } else {
+                            username = "**" + username + "**";
+                        }
+                        usernames += preUsername + username + "\n"
+                    } else {
+                        usernames += "Inconnu\n"
+                    }
 
                     if (currentMember.boat) {
                         let userlevel = currentMember.boat.split("Niv.")[1]
-                        userlevels = userlevels + userlevel + "\n"
+                        userlevels += userlevel + "\n"
                     } else
-                        userlevels = userlevels + "Inconnu\n"
+                        userlevels += "Inconnu\n"
 
                     if (currentMember.bounty)
-                        userbounties = userbounties + this.getFormattedBounty(currentMember.getNumberBounty()) + "\n"
+                        userbounties += this.getFormattedBounty(currentMember.getNumberBounty()) + "\n"
                     else
-                        userbounties = userbounties + "Inconnu\n"
+                        userbounties += +"Inconnu\n"
                 }
             }
 
