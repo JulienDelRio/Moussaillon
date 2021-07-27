@@ -1,0 +1,32 @@
+{
+  "version": "",
+  "changelog": {
+    "short": "",
+    "long": [
+      {
+        "title": "Titre de la version",
+        "content": "Intro de la version"
+      },
+      {
+        "title": "Nouveautés pour tous",
+        "content": ""
+      },
+      {
+        "title": "Nouveautés pour les chefs",
+        "content": ""
+      },
+      {
+        "title": "Nouveautés pour la technique",
+        "content": ""
+      },
+      {
+        "title": "Correction de bugs",
+        "content": ""
+      },
+      {
+        "title": "Autre",
+        "content": ""
+      }
+    ]
+  }
+}
