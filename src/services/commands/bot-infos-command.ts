@@ -2,7 +2,7 @@ import {AbstractCommandInterpreter} from "./abstract-command-interpreter";
 import {Message} from "discord.js";
 import {MoussaillonMessageEmbed} from "../../tools/discord/moussaillon-message-embed";
 
-import changelogJson from "../../bot/version.json";
+import changelogHistoryJson from "../../bot/changelogHistory.json";
 
 const moussaillonBotPPUrl: string = "https://cdn.discordapp.com/avatars/845262214688669727/079857eb39dd2161aaca83daaf9982ab.png?size=4096"
 const COMMAND_VERSION: string = "version";
@@ -10,7 +10,7 @@ const COMMAND_CHANGELOG: string = "changelog";
 const COMMAND_HISTORY: string = "history";
 
 export class BotInfosCommand extends AbstractCommandInterpreter {
-    private changelogHistory: IChangelogHistory = <IChangelogHistory>changelogJson;
+    private changelogHistory: IChangelogHistory = <IChangelogHistory>changelogHistoryJson;
 
     handle(message: Message): Promise<Message | Message[]> {
         let command = this.getCommand(message)
@@ -46,24 +46,14 @@ export class BotInfosCommand extends AbstractCommandInterpreter {
     }
 
     private displayVersion(versionToDisplay: IVersion, embed: MoussaillonMessageEmbed, isLong = false) {
-        if (isLong) {
-            if (versionToDisplay.changelog.long && Array.isArray(versionToDisplay.changelog.long)) {
-                for (let i = 0; i < versionToDisplay.changelog.long.length; i++) {
-                    let changelogpart = versionToDisplay.changelog.long[i];
-                    embed.addField("Version " + versionToDisplay.version + " part " +
-                        (i + 1), changelogpart)
-                }
-            } else {
-                let changelog;
-                if (versionToDisplay.changelog.long)
-                    changelog = versionToDisplay.changelog.long;
-                else
-                    changelog = versionToDisplay.changelog.short;
-                embed.addField("Version " + versionToDisplay.version, changelog)
-            }
+        if (isLong && versionToDisplay.changelog.long) {
+            versionToDisplay.changelog.long.forEach(value => {
+                const longSection: ILongChangelogSection = value;
+                embed.addField(longSection.title, longSection.content);
+            })
         } else {
             let changelog = versionToDisplay.changelog.short;
-            embed.addField("Version " + versionToDisplay.version, changelog)
+            embed.addField("En résumé...", changelog)
         }
     }
 
@@ -94,7 +84,7 @@ export class BotInfosCommand extends AbstractCommandInterpreter {
             }
             const embed = new MoussaillonMessageEmbed()
                 .setAuthor("Commande par " + message.author.username, avatarURL)
-                .setTitle("Changelog de Moussaisson")
+                .setTitle("Changelog de la version " + versionToDisplay.version)
                 .setThumbnail(moussaillonBotPPUrl)
             this.displayVersion(versionToDisplay, embed, true);
             return message.channel.send(embed);
@@ -145,5 +135,10 @@ export interface IVersion {
 
 export interface IChangelog {
     short: string,
-    long: string | string[]
+    long: ILongChangelogSection[]
+}
+
+export interface ILongChangelogSection {
+    title: string,
+    content: string
 }
