@@ -1,6 +1,30 @@
 {
-  "currentVersion": "1.0.1",
+  "currentVersion": "2.0",
   "history": [
+    {
+      "version": "2.0",
+      "changelog": {
+        "short": "La deuxième mise à jour majeure de Moussaillon Bot",
+        "long": [
+          {
+            "title": "La deuxième mise à jour majeure de Moussaillon Bot",
+            "content": "Installez vous et profitez, il y a du sexy !"
+          },
+          {
+            "title": "Nouveautés pour tous",
+            "content": "- mer <nom de la mer> ==> Affiche la liste des iles de cette mer\n- mers ==> Affiche la liste des mers\n- Amélioration de l'affichage des iles\n  -> Amélioration de la mise en forme\n  -> Inforomations liées à Calm Belt dans une section propre\n  -> Route ou palier de la mer\n  -> Type de commandant\n  -> Nouvelles sections \"plus d'infos\"\n- classement ==> Affiche seulement le classement des Wayzens\n- classementFull ==> Affichage le classement des Wayzens et des alliés\n- topFull ==> comme classementFull mais pour les faignasses\n- commandants <type commandant optionnel> ==>\n  -> Si pas de type indiqué, affiche la liste complète\n  -> Si type indiqué, affiche la liste des commandants de ce type"
+          },
+          {
+            "title": "Nouveautés pour la technique",
+            "content": "- Le bot est maintenant écrit en Typescript. C'est plus facile à maintenir.\n- Les commandes sont dans des chaines statiques pour limiter les erreurs\n- Ajout de salons \"tests\" pour afficher plus de messages dans la console\n- Introduction de filtre sur les serveurs\n- Les changelogs utilisent mieux les champs d'embed\n- printdata ==> Affichage en console la liste des données \"statiques\""
+          },
+          {
+            "title": "Autre",
+            "content": "À quoi te sert ton ambition si tu ne peux pas protéger ton capitaine ? – *Roronoa Zoro*"
+          }
+        ]
+      }
+    },
     {
       "version": "1.0.1",
       "changelog": {
@@ -20,7 +44,7 @@
           },
           {
             "title": "Autre",
-            "content": "Les gens ne cesseront jamais d’avoir des rêves ! – Barbe Noire"
+            "content": "Les gens ne cesseront jamais d’avoir des rêves ! – *Barbe Noire*"
           }
         ]
       }
