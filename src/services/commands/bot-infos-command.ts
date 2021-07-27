@@ -75,8 +75,8 @@ export class BotInfosCommand extends AbstractCommandInterpreter {
         } else {
             let paramVersion = commandElements[1]
             let found = false
-            for (let i = 0; i < this.changelogHistory.hystory.length && !found; i++) {
-                let versionTested = this.changelogHistory.hystory[i].version;
+            for (let i = 0; i < this.changelogHistory.history.length && !found; i++) {
+                let versionTested = this.changelogHistory.history[i].version;
                 var match = versionTested.match(paramVersion);
                 if (match && versionTested === match[0]) {
                     selectedVersion = i;
@@ -85,7 +85,7 @@ export class BotInfosCommand extends AbstractCommandInterpreter {
             }
         }
 
-        let versionToDisplay: IVersion = this.changelogHistory.hystory[selectedVersion];
+        let versionToDisplay: IVersion = this.changelogHistory.history[selectedVersion];
 
         if (versionToDisplay) {
             let avatarURL = message.author.avatarURL();
@@ -123,9 +123,9 @@ export class BotInfosCommand extends AbstractCommandInterpreter {
             .setTitle("Historique des versions de Moussaisson")
             .setThumbnail(moussaillonBotPPUrl)
 
-        for (let i = 0; i < nbVersion && i < this.changelogHistory.hystory.length; i++) {
-            this.displayVersion(this.changelogHistory.hystory[i], embed)
-            //embed.addField(version.hystory[i].version, this.changelogHistory.hystory[i].changelog)
+        for (let i = 0; i < nbVersion && i < this.changelogHistory.history.length; i++) {
+            this.displayVersion(this.changelogHistory.history[i], embed)
+            //embed.addField(version.history[i].version, this.changelogHistory.history[i].changelog)
         }
 
         return message.channel.send(embed);
@@ -135,7 +135,7 @@ export class BotInfosCommand extends AbstractCommandInterpreter {
 
 export interface IChangelogHistory {
     currentVersion: string,
-    hystory: IVersion[]
+    history: IVersion[]
 }
 
 export interface IVersion {
