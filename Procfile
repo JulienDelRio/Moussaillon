@@ -1,1 +1,1 @@
-worker: node ./src/app.ts
+worker: node ./dist/src/app.js
