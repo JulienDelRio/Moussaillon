@@ -8,6 +8,9 @@
     "postinstall": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "engines": {
+    "node": "12.16.3"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/JulienDelRio/Moussaillon.git"
