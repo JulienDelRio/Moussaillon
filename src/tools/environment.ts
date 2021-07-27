@@ -78,7 +78,7 @@ export class Environment {
 
     getCommandersCSVUrl(): string {
         if (this._commandersCSVUrl === undefined) {
-            let commandersCSVUrl = process.env.CommanderS_CSVURL;
+            let commandersCSVUrl = process.env.COMMANDERS_CSVURL;
             if (typeof commandersCSVUrl === 'string') {
                 this._commandersCSVUrl = commandersCSVUrl;
                 return commandersCSVUrl;
