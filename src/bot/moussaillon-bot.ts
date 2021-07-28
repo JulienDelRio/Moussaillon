@@ -5,6 +5,7 @@ import {MessageResponder, NotHandledError} from "../services/commands/message-re
 import {GoogleSheetDataLoader} from "../data/informations/google-sheet-data-loader";
 import {Environment} from "../tools/environment";
 import {MoussaillonData} from "../data/models/moussaillon-data";
+import {PersistantDataManager} from "../data/persistant/persistant-data-manager";
 
 /*
 const Discord = require('discord.js')
@@ -66,6 +67,9 @@ export class MoussaillonBot {
 
     private initBot(): Promise<string> {
         return new Promise<string>((resolved, rejects) => {
+            console.log("Connect to database");
+            PersistantDataManager.getInstance().init();
+            console.log("Database connected");
             console.log("Load data");
             let dataLoader = new GoogleSheetDataLoader();
             dataLoader.loadData().then((data) => {

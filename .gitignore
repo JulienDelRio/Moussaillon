@@ -148,3 +148,4 @@ dist/**/*
 
 # ignore yarn.lock
 yarn.lock
+firestore-service-account-key.json
