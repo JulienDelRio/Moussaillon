@@ -1,6 +1,6 @@
 import {AbstractCommandInterpreter} from "./abstract-command-interpreter";
 import {Message} from "discord.js";
-import {DataLoaderManager} from "../../data/idata-loader";
+import {DataLoaderManager} from "../../data/informations/idata-loader";
 import {MoussaillonRightsManager} from "../../bot/moussaillon-rights-manager";
 
 const COMMAND_RELOAD: String = "recharge";

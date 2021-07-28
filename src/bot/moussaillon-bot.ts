@@ -2,7 +2,7 @@ import {Client, Message} from "discord.js";
 import {inject, injectable} from "inversify";
 import {TYPES} from "../types";
 import {MessageResponder, NotHandledError} from "../services/commands/message-responder";
-import {GoogleSheetDataLoader} from "../data/google-sheet-data-loader";
+import {GoogleSheetDataLoader} from "../data/informations/google-sheet-data-loader";
 import {Environment} from "../tools/environment";
 import {MoussaillonData} from "../data/models/moussaillon-data";
 

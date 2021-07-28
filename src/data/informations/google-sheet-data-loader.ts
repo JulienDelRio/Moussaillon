@@ -2,13 +2,13 @@ import {injectable} from "inversify";
 import {IDataLoader} from "./idata-loader";
 import axios from "axios";
 import Papa from "papaparse";
-import {Environment} from "../tools/environment";
-import {MoussaillonData} from "./models/moussaillon-data";
-import {Island} from "./models/island";
-import {Member} from "./models/member";
-import {MoussaillonRights} from "./models/moussaillon-rights";
-import {Commander} from "./models/commander";
-import {Sea} from "./models/sea";
+import {Environment} from "../../tools/environment";
+import {MoussaillonData} from "../models/moussaillon-data";
+import {Island} from "../models/island";
+import {Member} from "../models/member";
+import {MoussaillonRights} from "../models/moussaillon-rights";
+import {Commander} from "../models/commander";
+import {Sea} from "../models/sea";
 
 @injectable()
 export class GoogleSheetDataLoader implements IDataLoader {

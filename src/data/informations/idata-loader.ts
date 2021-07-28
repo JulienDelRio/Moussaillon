@@ -1,5 +1,5 @@
 import {GoogleSheetDataLoader} from "./google-sheet-data-loader";
-import {MoussaillonData} from "./models/moussaillon-data";
+import {MoussaillonData} from "../models/moussaillon-data";
 
 export interface IDataLoader {
     loadData(isTest?: boolean): Promise<MoussaillonData>;
