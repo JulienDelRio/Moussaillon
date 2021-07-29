@@ -18,7 +18,7 @@ export class UserAccountManager {
     }
 
     newUser(userId: number) {
-        return PersistantDataManager.getInstance().newUser(userId);
+        return PersistantDataManager.getInstance().getUserAccountDAO().newUser(userId);
     }
 
 }

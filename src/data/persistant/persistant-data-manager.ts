@@ -1,12 +1,12 @@
-import {IPersistantDataProvider} from "./ipersistant-data-provider";
+import {PersistantDataProvider} from "./persistant-data-provider";
 import {GoogleCloudFirestoreDataProvider} from "./firestore/google-cloud-firestore-data-provider";
-import {UserAccount} from "../models/user-account";
+import {UserAccountDao} from "./dao/user-account-dao";
 
 
-export class PersistantDataManager implements IPersistantDataProvider {
+export class PersistantDataManager implements PersistantDataProvider {
 
     private static instance: PersistantDataManager;
-    private persistantDataProvider: IPersistantDataProvider;
+    private readonly _persistantDataProvider: PersistantDataProvider;
 
     public static getInstance(): PersistantDataManager {
         if (!PersistantDataManager.instance) {
@@ -17,21 +17,14 @@ export class PersistantDataManager implements IPersistantDataProvider {
     }
 
     private constructor() {
-        this.persistantDataProvider = new GoogleCloudFirestoreDataProvider();
+        this._persistantDataProvider = new GoogleCloudFirestoreDataProvider();
     }
 
     init() {
         // Do nothing it's just to call the constructor for now.
     }
 
-    getUser(userId: number): Promise<UserAccount | undefined> {
-        return this.persistantDataProvider.getUser(userId);
+    getUserAccountDAO(): UserAccountDao {
+        return this._persistantDataProvider.getUserAccountDAO();
     }
-
-    newUser(userId: number): Promise<UserAccount> {
-        return this.persistantDataProvider.newUser(userId)
-    }
-}
-
-export class ErrorUserAlreadyExists extends Error {
 }
