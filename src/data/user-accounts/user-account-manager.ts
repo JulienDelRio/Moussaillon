@@ -1,4 +1,4 @@
-import {UserAccount} from "../models/user-account";
+import {UserAccount} from "./user-account";
 import {PersistantDataManager} from "../persistant/persistant-data-manager";
 import {anyNumber} from "ts-mockito";
 
@@ -21,4 +21,7 @@ export class UserAccountManager {
         return PersistantDataManager.getInstance().getUserAccountDAO().newUser(userId);
     }
 
+    getUser(userId: number) {
+        return PersistantDataManager.getInstance().getUserAccountDAO().getUser(userId);
+    }
 }

@@ -1,4 +1,4 @@
-import {UserAccount} from "../../models/user-account";
+import {UserAccount} from "../../user-accounts/user-account";
 
 export interface UserAccountDao {
 

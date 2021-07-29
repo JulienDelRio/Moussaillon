@@ -1,7 +1,8 @@
 import {AbstractCommandInterpreter} from "./abstract-command-interpreter";
 import {Message} from "discord.js";
 import {PersistantDataManager} from "../../data/persistant/persistant-data-manager";
-import {UserAccountManager} from "../../data/accounts/user-account-manager";
+import {UserAccountManager} from "../../data/user-accounts/user-account-manager";
+import {TransactionManager} from "../../data/transactions/transaction-manager";
 
 const COMMAND_NEW: string = "nouveau";
 const COMMAND_CREDIT: string = "credite";
@@ -45,6 +46,12 @@ export class AccountCommand extends AbstractCommandInterpreter {
 
 
     private async handleCredit(message: Message): Promise<Message | Message[]> {
-        return Promise.reject();
+        const user = await UserAccountManager.getInstance().getUser(parseInt(message.author.id));
+        if (!user)
+            throw new Error("Utilisateur inconnu.");
+
+        const transaction = await TransactionManager.getInstance().newTransaction(100, user)
+        console.log("transaction:", transaction);
+        return message.channel.send("En cours de dev");
     }
 }

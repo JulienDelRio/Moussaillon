@@ -1,6 +1,7 @@
 import {PersistantDataProvider} from "./persistant-data-provider";
 import {GoogleCloudFirestoreDataProvider} from "./firestore/google-cloud-firestore-data-provider";
 import {UserAccountDao} from "./dao/user-account-dao";
+import {TransactionDao} from "./dao/transaction-dao";
 
 
 export class PersistantDataManager implements PersistantDataProvider {
@@ -26,5 +27,9 @@ export class PersistantDataManager implements PersistantDataProvider {
 
     getUserAccountDAO(): UserAccountDao {
         return this._persistantDataProvider.getUserAccountDAO();
+    }
+
+    getTransactionDAO(): TransactionDao {
+        return this._persistantDataProvider.getTransactionDAO();
     }
 }
