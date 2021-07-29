@@ -12,6 +12,7 @@ import {AbstractCommandInterpreter} from "./abstract-command-interpreter";
 import {Environment} from "../../tools/environment";
 import {SeasInfoCommand} from "./seas-info-command";
 import {CommandersCommand} from "./commanders-command";
+import {AccountCommand} from "./account-command";
 
 @injectable()
 export class MessageResponder {
@@ -28,7 +29,8 @@ export class MessageResponder {
             new TeamCommand(),
             new ToolsCommand(),
             new SeasInfoCommand(),
-            new CommandersCommand()
+            new CommandersCommand(),
+            new AccountCommand()
         ]
     }
 

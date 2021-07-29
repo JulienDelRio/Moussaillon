@@ -1,8 +1,9 @@
 import {IPersistantDataProvider} from "./ipersistant-data-provider";
-import {GoogleCloudFirestoreDataProvider} from "./google-cloud-firestore-data-provider";
+import {GoogleCloudFirestoreDataProvider} from "./firestore/google-cloud-firestore-data-provider";
+import {UserAccount} from "../accounts/user-account";
 
 
-export class PersistantDataManager {
+export class PersistantDataManager implements IPersistantDataProvider {
 
     private static instance: PersistantDataManager;
     private persistantDataProvider: IPersistantDataProvider;
@@ -19,7 +20,18 @@ export class PersistantDataManager {
         this.persistantDataProvider = new GoogleCloudFirestoreDataProvider();
     }
 
-    init(){
+    init() {
         // Do nothing it's just to call the constructor for now.
     }
+
+    getUser(userId: number): Promise<UserAccount | undefined> {
+        return this.persistantDataProvider.getUser(userId);
+    }
+
+    newUser(userId: number): Promise<UserAccount> {
+        return this.persistantDataProvider.newUser(userId)
+    }
+}
+
+export class ErrorUserAlreadyExists extends Error {
 }
