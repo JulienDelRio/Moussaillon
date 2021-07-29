@@ -1,6 +1,6 @@
 import {IPersistantDataProvider} from "./ipersistant-data-provider";
 import {GoogleCloudFirestoreDataProvider} from "./firestore/google-cloud-firestore-data-provider";
-import {UserAccount} from "../accounts/user-account";
+import {UserAccount} from "../models/user-account";
 
 
 export class PersistantDataManager implements IPersistantDataProvider {

@@ -1,4 +1,4 @@
-import {UserAccount} from "../../accounts/user-account";
+import {UserAccount} from "../../models/user-account";
 
 export class GoogleCloudFirestoreDataUtils {
     private constructor() {

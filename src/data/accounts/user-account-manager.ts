@@ -1,4 +1,4 @@
-import {UserAccount} from "./user-account";
+import {UserAccount} from "../models/user-account";
 import {PersistantDataManager} from "../persistant/persistant-data-manager";
 import {anyNumber} from "ts-mockito";
 

@@ -1,4 +1,4 @@
-import {UserAccount} from "../accounts/user-account";
+import {UserAccount} from "../models/user-account";
 
 export interface IPersistantDataProvider {
     getUser(userId: number): Promise<UserAccount | undefined>;
