@@ -42,7 +42,7 @@ export class MoussaillonBot {
     }
 
     public listen(): Promise<string> {
-        this._client.on('message', (message: Message) => {
+        this._client.on('messageCreate', (message: Message) => {
             if (message.author.bot) {
                 console.log('Ignoring bot message!')
                 return;
