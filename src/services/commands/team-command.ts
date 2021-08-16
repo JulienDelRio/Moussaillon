@@ -1,5 +1,5 @@
 import {AbstractCommandInterpreter} from "./abstract-command-interpreter";
-import {GuildMember, Message} from "discord.js";
+import {GuildMember, Message, User} from "discord.js";
 
 import {MoussaillonMessageEmbed} from "../../tools/discord/moussaillon-message-embed";
 import {Member} from "../../data/models/member";
@@ -66,17 +66,32 @@ export class TeamCommand extends AbstractCommandInterpreter {
         }
     }
 
-    private async handleUser(message: Message): Promise<Message | Message[]> {
+    private getTargetedUser(message: Message): User {
+        let isMention = message.mentions.users.size > 0;
+        let firstUser = message.mentions.users.first();
+        if (isMention && firstUser != undefined) {
+            return firstUser;
+        } else {
+            return message.author;
+        }
+    }
 
-        let userId = this.getTargetedMemberId(message);
+    private async handleUser(message: Message): Promise<Message | Message[]> {
+        let targetedUser = this.getTargetedUser(message);
 
         let guild = message.guild;
         if (guild == null) {
             throw new Error("Guild not found")
         }
-        let user = await guild.members.fetch(userId.toString());
-        if (this.isATestChan(message)) console.log("user:", user);
-        return this.displayUser(message, user);
+        try {
+            let user = await guild.members.fetch(targetedUser);
+            if (this.isATestChan(message)) console.log("user:", user);
+            return this.displayUser(message, user);
+        } catch (e) {
+            console.error(`Cannot retrieve user ${targetedUser.id} :`, e);
+            return message.reply("Utilisateur inconnu");
+
+        }
     }
 
     private displayUser(message: Message, user: GuildMember): Promise<Message | Message[]> {
