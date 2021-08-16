@@ -1,3 +1,5 @@
+import {ColorResolvable} from "discord.js";
+
 export class Environment {
     private static instance: Environment;
     private _botToken: string | undefined;
@@ -5,7 +7,7 @@ export class Environment {
     private _islandCSVUrl: string | undefined;
     private _membersCSVUrl: string | undefined;
     private _rightsCSVUrl: string | undefined;
-    private _embedColor: string | undefined;
+    private _embedColor: ColorResolvable | undefined;
     private _seasCSVUrl: string | undefined;
     private _commandersCSVUrl: string | undefined;
 
@@ -111,24 +113,10 @@ export class Environment {
                 this._rightsCSVUrl = rightsCSVUrl;
                 return rightsCSVUrl;
             } else {
-                throw new Error("Rights  CSV Url initialized")
+                throw new Error("Rights CSV Url not initialized")
             }
         } else {
             return this._rightsCSVUrl;
-        }
-    }
-
-    getEmbedColor() {
-        if (this._embedColor === undefined) {
-            let embedColor = process.env.EMBED_COLOR;
-            if (typeof embedColor === 'string') {
-                this._embedColor = embedColor;
-                return embedColor;
-            } else {
-                throw new Error("Rights  CSV Url initialized")
-            }
-        } else {
-            return this._embedColor;
         }
     }
 }
