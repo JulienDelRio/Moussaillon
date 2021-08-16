@@ -2,6 +2,8 @@ import {BaseDAO} from "../dao/base-dao";
 import {ErrorUserAlreadyExists, UserAccountDao} from "../dao/user-account-dao";
 import {UserAccount} from "../../user-accounts/user-account";
 import {GoogleCloudFirestoreDataUtils} from "./google-cloud-firestore-data-utils";
+import {GuildMember, User} from "discord.js";
+import {CommandDescriptor} from "../../transactions/command-descriptor";
 
 export class FirestoreUserAccountDao extends BaseDAO implements UserAccountDao {
     static readonly USERACCOUNT_COLLECTION_NAME = "users";
@@ -33,6 +35,11 @@ export class FirestoreUserAccountDao extends BaseDAO implements UserAccountDao {
 
     private getUserRef(userId: number) {
         return this.db.collection(FirestoreUserAccountDao.USERACCOUNT_COLLECTION_NAME).doc(String(userId));
+    }
+
+    async countCommand(author: GuildMember, commandDescriptor: CommandDescriptor): Promise<boolean> {
+        const roles = author.roles
+        return false;
     }
 
 }

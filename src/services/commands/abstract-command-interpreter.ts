@@ -7,6 +7,7 @@ import container from "../../../inversify.config";
 import {TYPES} from "../../types";
 import {MoussaillonRightsManager} from "../../bot/moussaillon-rights-manager";
 import {MoussaillonMessageEmbed} from "../../tools/discord/moussaillon-message-embed";
+import {CommandDescriptor} from "../../data/transactions/command-descriptor";
 
 @injectable()
 export abstract class AbstractCommandInterpreter implements IMessageInterpreter {
@@ -14,6 +15,8 @@ export abstract class AbstractCommandInterpreter implements IMessageInterpreter 
     abstract isHandled(message: Message): boolean;
 
     abstract handle(message: Message, isATest?: boolean): Promise<Message | Message[]>;
+
+    abstract getCommandDescriptor(message: Message): CommandDescriptor;
 
     isCommand(message: Message): boolean {
         if (typeof Environment.getInstance().getCommandChar() === "string") {

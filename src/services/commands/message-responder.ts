@@ -13,6 +13,7 @@ import {Environment} from "../../tools/environment";
 import {SeasInfoCommand} from "./seas-info-command";
 import {CommandersCommand} from "./commanders-command";
 import {AccountCommand} from "./account-command";
+import {UserAccountManager} from "../../data/user-accounts/user-account-manager";
 
 @injectable()
 export class MessageResponder {
@@ -34,7 +35,7 @@ export class MessageResponder {
         ]
     }
 
-    handle(message: Message): Promise<Message | Message[]> {
+    async handle(message: Message): Promise<Message | Message[]> {
         let isTest = this.isATestChannel(message);
         if (isTest) console.log("Posted in a test channel");
 
@@ -57,8 +58,21 @@ export class MessageResponder {
             if (this.isACommand(message)) {
                 for (let i = 0; i < this.commandInterpreters.length; i++) {
                     let commandInterpreter = this.commandInterpreters[i];
-                    if (commandInterpreter.isHandled(message))
-                        return commandInterpreter.handle(message);
+                    if (commandInterpreter.isHandled(message)) {
+                        const commandDescriptor = commandInterpreter.getCommandDescriptor(message);
+                        var uam = UserAccountManager.getInstance();
+                        var userId = parseInt(message.author.id);
+                        const userAccount = await uam.getUser(userId);
+                        if(uam.isAKnownAccount(message.author))
+                        if (userAccount.availableAmount >= commandDescriptor.price) {
+                            const promise = commandInterpreter.handle(message);
+                            const success = uam.countCommand(userId, commandDescriptor);
+                            console.log(`Register ${commandDescriptor.name}(${commandDescriptor.price}) for ${userId} : ` + success);
+                            return promise;
+                        } else {
+                            return this.printNotEnoughCredit(message);
+                        }
+                    }
                 }
 
             }
@@ -68,6 +82,10 @@ export class MessageResponder {
         }
 
         return Promise.reject(new NotHandledError("Message not handled"));
+    }
+
+    private printNotEnoughCredit(message: Message) {
+        return message.channel.send("Pas assez de crédit pour cette commande.");
     }
 
     private isItABotMessage(message: Message): boolean {
