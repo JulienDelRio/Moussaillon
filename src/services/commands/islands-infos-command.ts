@@ -53,7 +53,7 @@ export class IslandsInfosCommand extends AbstractCommandInterpreter {
                         islandSea += " - " + island.seaInfo;
                     let npc = island.npc;
                     let commander = island.commander?.name ?? "Inconnu";
-                    if(island.commander?.type){
+                    if (island.commander?.type) {
                         commander += " - " + island.commander?.type;
                     }
                     let cardCode = island.cardCode;
@@ -69,10 +69,8 @@ export class IslandsInfosCommand extends AbstractCommandInterpreter {
                     let authorAvatarURL = message.author.avatarURL();
                     if (authorAvatarURL == null)
                         authorAvatarURL = "";
-                    const embed = new MoussaillonMessageEmbed()
-                        .setAuthor("Commande par " + message.author.username, authorAvatarURL)
-                        .setTitle(islandName + " (" + islandSea + ")")
-                        .setColor(Environment.getInstance().getEmbedColor());
+                    const embed = this.getBasicEmbed(message)
+                        .setTitle(islandName + " (" + islandSea + ")");
 
                     let titleBasic = "Informations générales";
                     let messageBasic = "" +
@@ -104,7 +102,7 @@ export class IslandsInfosCommand extends AbstractCommandInterpreter {
                     messageSpoiler += "\u200b\n";
                     embed.addField(titleSpoiler, messageSpoiler)
 
-                    if (island.moreInfo){
+                    if (island.moreInfo) {
                         let titleMoreInfo = "Autres informations";
                         let messageMoreInfo = island.moreInfo;
                         embed.addField(titleMoreInfo, messageMoreInfo)

@@ -68,7 +68,6 @@ export abstract class AbstractCommandInterpreter implements IMessageInterpreter 
             authorAvatarURL = "";
         const embed = new MoussaillonMessageEmbed()
             .setAuthor("Commande par " + message.author.username, authorAvatarURL)
-            .setColor("#C0D8FF");
         return embed;
     }
 
