@@ -263,7 +263,7 @@ export class TeamCommand extends AbstractCommandInterpreter {
         if (guild == null)
             throw new Error("Guild not found");
         let members = await guild.members.fetch();
-        return this.displayUsers(message, members.array());
+        return this.displayUsers(message, Array.from(members.values()));
     }
 
     private sortMembersById(a: Member, b: Member): number {
