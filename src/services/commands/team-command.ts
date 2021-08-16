@@ -56,16 +56,6 @@ export class TeamCommand extends AbstractCommandInterpreter {
         }
     }
 
-    private getTargetedMemberId(message: Message): number {
-        let isMention = message.mentions.users.size > 0;
-        let firstUser = message.mentions.users.first();
-        if (isMention && firstUser != undefined) {
-            return parseInt(firstUser.id);
-        } else {
-            return parseInt(message.author.id);
-        }
-    }
-
     private getTargetedUser(message: Message): User {
         let isMention = message.mentions.users.size > 0;
         let firstUser = message.mentions.users.first();
@@ -147,9 +137,9 @@ export class TeamCommand extends AbstractCommandInterpreter {
     }
 
     private handleMember(message: Message): Promise<Message | Message[]> {
-        let memberId = this.getTargetedMemberId(message);
-        console.log("Member ID : " + memberId)
-        let member = this.getMemberById(memberId);
+        let targetedUser = this.getTargetedUser(message);
+        console.log("Member ID : " + targetedUser)
+        let member = this.getMemberById(parseInt(targetedUser.id));
 
         if (member) {
             if (this.isATestChan(message)) console.log("member:", member);
