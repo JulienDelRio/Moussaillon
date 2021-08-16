@@ -87,7 +87,7 @@ export class BotInfosCommand extends AbstractCommandInterpreter {
                 .setTitle("Changelog de la version " + versionToDisplay.version)
                 .setThumbnail(moussaillonBotPPUrl)
             this.displayVersion(versionToDisplay, embed, true);
-            return message.channel.send(embed);
+            return message.channel.send({embeds: [embed]});
         } else {
             return message.channel.send("Il n'y a pas de changelog...")
         }
@@ -118,7 +118,7 @@ export class BotInfosCommand extends AbstractCommandInterpreter {
             //embed.addField(version.history[i].version, this.changelogHistory.history[i].changelog)
         }
 
-        return message.channel.send(embed);
+        return message.channel.send({embeds: [embed]});
 
     }
 }

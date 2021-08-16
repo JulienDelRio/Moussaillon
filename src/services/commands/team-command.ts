@@ -110,7 +110,7 @@ export class TeamCommand extends AbstractCommandInterpreter {
             .addField("Valeurs", fieldsValue, true)
 
         // Send message
-        return message.channel.send(embed);
+        return message.channel.send({embeds: [embed]});
 
     }
 
@@ -184,7 +184,7 @@ export class TeamCommand extends AbstractCommandInterpreter {
         }
 
         // Send message
-        return message.channel.send(embed);
+        return message.channel.send({embeds: [embed]});
     }
 
     private displayMember(message: Message, member: Member): Promise<Message | Message[]> {
@@ -228,7 +228,7 @@ export class TeamCommand extends AbstractCommandInterpreter {
             .addField("Valeurs", fieldsValue, true)
 
         // Send message
-        return message.channel.send(embed);
+        return message.channel.send({embeds: [embed]});
 
     }
 
@@ -255,7 +255,7 @@ export class TeamCommand extends AbstractCommandInterpreter {
         }
 
         // Send message
-        return message.channel.send(embed);
+        return message.channel.send({embeds: [embed]});
     }
 
     private async handleUsers(message: Message): Promise<Message | Message[]> {
@@ -406,7 +406,7 @@ export class TeamCommand extends AbstractCommandInterpreter {
         }
 
         // Send message
-        return message.channel.send(embed);
+        return message.channel.send({embeds: [embed]});
     }
 
     private getFormattedBounty(bounty: number): string {

@@ -44,6 +44,6 @@ export class ToolsCommand extends AbstractCommandInterpreter {
             .setTitle('A slick little embed')
             .setColor(Environment.getInstance().getEmbedColor())
             .setDescription('Hello, this is a slick embed!');
-        return message.channel.send(embed);
+        return message.channel.send({embeds: [embed]});
     }
 }

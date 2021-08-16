@@ -112,7 +112,7 @@ export class IslandsInfosCommand extends AbstractCommandInterpreter {
                     }
 
                     // Send message
-                    let messageSent = await message.channel.send(embed)
+                    let messageSent = await message.channel.send({embeds: [embed]})
                     messagesToSend.push(messageSent);
                 }
 

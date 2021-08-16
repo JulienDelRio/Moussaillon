@@ -72,7 +72,7 @@ export class CommandersCommand extends AbstractCommandInterpreter {
             })
         }
 
-        return message.channel.send(embed);
+        return message.channel.send({embeds: [embed]});
     }
 
     private getPrintableCommanderType(commanders: Commander[]): string {

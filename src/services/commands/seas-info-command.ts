@@ -49,7 +49,7 @@ export class SeasInfoCommand extends AbstractCommandInterpreter {
                 this.displaySea(sea, embed);
 
                 // Send message
-                return message.channel.send(embed)
+                return message.channel.send({embeds: [embed]})
             }
         }
         return message.channel.send("Non implémenté pour l'instant.")
@@ -63,7 +63,7 @@ export class SeasInfoCommand extends AbstractCommandInterpreter {
             content += "- " + sea.name + "\n";
         })
         embed.addField("Liste des mers", content);
-        return message.channel.send(embed)
+        return message.channel.send({embeds: [embed]})
     }
 
     private getSeaByName(commandParams: string): Sea | undefined {
