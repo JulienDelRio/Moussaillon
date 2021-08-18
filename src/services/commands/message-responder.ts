@@ -3,7 +3,7 @@ import {PingFinder} from "../ping-finder";
 import {injectable} from "inversify";
 import {ReloadDataCommand} from "./reload-data-command";
 import {IslandsInfosCommand} from "./islands-infos-command";
-import {MoussaillonCommand} from "./moussaillon-command";
+import {MoussaillonDiscustor} from "../moussaillon-discustor";
 import {BotInfosCommand} from "./bot-infos-command";
 import {TeamCommand} from "./team-command";
 import {ToolsCommand} from "./tools-command";
@@ -19,11 +19,13 @@ export class MessageResponder {
     private commandInterpreters: AbstractCommandInterpreter[]
 
     constructor() {
-        this.messageInterpreters = [new PingFinder()];
+        this.messageInterpreters = [
+            new PingFinder(),
+            new MoussaillonDiscustor()
+        ];
         this.commandInterpreters = [
             new ReloadDataCommand(),
             new IslandsInfosCommand(),
-            new MoussaillonCommand(),
             new BotInfosCommand(),
             new TeamCommand(),
             new ToolsCommand(),
@@ -47,11 +49,6 @@ export class MessageResponder {
         if (isTest) console.log("Allowed")
 
         try {
-            for (let i = 0; i < this.messageInterpreters.length; i++) {
-                let messageInterpreter = this.messageInterpreters[i];
-                if (messageInterpreter.isHandled(message))
-                    return messageInterpreter.handle(message);
-            }
             if (this.isACommand(message)) {
                 for (let i = 0; i < this.commandInterpreters.length; i++) {
                     let commandInterpreter = this.commandInterpreters[i];
@@ -59,6 +56,11 @@ export class MessageResponder {
                         return commandInterpreter.handle(message);
                 }
 
+            }
+            for (let i = 0; i < this.messageInterpreters.length; i++) {
+                let messageInterpreter = this.messageInterpreters[i];
+                if (messageInterpreter.isHandled(message))
+                    return messageInterpreter.handle(message);
             }
         } catch (e) {
             console.error("Error handling", e)

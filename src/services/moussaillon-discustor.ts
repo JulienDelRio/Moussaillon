@@ -1,9 +1,13 @@
 'use strict';
 
-import {AbstractCommandInterpreter} from "./abstract-command-interpreter";
+import {AbstractCommandInterpreter} from "./commands/abstract-command-interpreter";
 import {Message, MessageOptions} from "discord.js";
+import {IMessageInterpreter} from "./commands/message-responder";
+import container from "../../inversify.config";
+import {MoussaillonBot} from "../bot/moussaillon-bot";
+import {TYPES} from "../types";
 
-export class MoussaillonCommand extends AbstractCommandInterpreter {
+export class MoussaillonDiscustor implements IMessageInterpreter {
     handle(message: Message): Promise<Message | Message[]> {
         let member = message.member;
         let lowerCaseMessage = message.content.toLowerCase();
@@ -27,8 +31,11 @@ export class MoussaillonCommand extends AbstractCommandInterpreter {
     }
 
     private isMentioned(message: Message): boolean {
-        let botMention = "<@!" + this.getBot().id + ">"
-        return message.content.toLowerCase().includes(botMention)
+        const bot = container.get<MoussaillonBot>(TYPES.MoussaillonBot);
+        if (message.mentions.has(bot.id)) {
+            return true;
+        }
+        return false;
     }
 
 }
