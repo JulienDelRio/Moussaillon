@@ -8,14 +8,14 @@ export class MoussaillonCommand extends AbstractCommandInterpreter {
         let member = message.member;
         let lowerCaseMessage = message.content.toLowerCase();
         if (member == null) {
-            return message.channel.send("Je ne sais pas à qui répondre 🤔");
+            return message.reply("Je ne sais pas à qui répondre 🤔");
         } else if (lowerCaseMessage.includes("bonjour")) {
             let messageContent = `Bonjour ${member.displayName} !`;
-            return message.channel.send(messageContent);
+            return message.reply(messageContent);
         } else if (lowerCaseMessage.includes("merci")) {
-            return message.channel.send(`C'est un plaisir. Je serai toujours là pour toi ${member.displayName} !`);
+            return message.reply(`C'est un plaisir. Je serai toujours là pour toi ${member.displayName} !`);
         } else {
-            return message.channel.send("Woof !");
+            return message.reply("Woof !");
 
         }
     }

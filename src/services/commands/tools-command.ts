@@ -35,7 +35,7 @@ export class ToolsCommand extends AbstractCommandInterpreter {
 
     private handlePrintData(message: Message): Promise<Message | Message[]> {
         console.log(this.getBot().data);
-        return message.channel.send("Données affichées dans la console.")
+        return message.reply("Données affichées dans la console.")
     }
 
     private handleTestDiscordAPi(message: Message): Promise<Message | Message[]> {

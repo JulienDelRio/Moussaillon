@@ -145,7 +145,7 @@ export class TeamCommand extends AbstractCommandInterpreter {
             if (this.isATestChan(message)) console.log("member:", member);
             return this.displayMember(message, member);
         } else {
-            return message.channel.send("Membre inconnu");
+            return message.reply("Membre inconnu");
         }
     }
 

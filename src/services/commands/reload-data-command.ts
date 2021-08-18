@@ -33,7 +33,7 @@ export class ReloadDataCommand extends AbstractCommandInterpreter {
             message.channel.send("Mise à jour lancée...")
             return this.reloadData(message);
         } else {
-            return message.channel.send("Non autorisé... demande à un grand.")
+            return message.reply("Non autorisé... demande à un grand.")
         }
 
     }
@@ -45,7 +45,7 @@ export class ReloadDataCommand extends AbstractCommandInterpreter {
             this.getBot().updateData(data)
             return await message.channel.send("Données rechargées");
         } catch (e) {
-            return await message.channel.send("Données impossibles à recharger");
+            return await message.reply("Données impossibles à recharger");
         }
     }
 }

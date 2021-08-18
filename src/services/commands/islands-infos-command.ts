@@ -38,7 +38,7 @@ export class IslandsInfosCommand extends AbstractCommandInterpreter {
         let lowerCommandParams = commandParams.toLowerCase()
         let messagesToSend: Message[] = [];
         if (commandParams.length < 3) {
-            return await message.channel.send("Saisir au moins 3 caractères.")
+            return await message.reply("Saisir au moins 3 caractères.")
         } else {
             let islands = Array.from(this.getBot().data.islands.values());
             for (let i = 0; i < islands.length; i++) {
@@ -117,7 +117,7 @@ export class IslandsInfosCommand extends AbstractCommandInterpreter {
             }
         }
         if (messagesToSend.length <= 0) {
-            return await message.channel.send("Cette ile est inconnue au bataillon. Retente ta chance matelot.")
+            return await message.reply("Cette ile est inconnue au bataillon. Retente ta chance matelot.")
         } else {
             return messagesToSend;
         }

@@ -36,11 +36,11 @@ export class SeasInfoCommand extends AbstractCommandInterpreter {
         let lowerCommandParams = commandParams.toLowerCase()
         let messagesToSend: Message[] = [];
         if (commandParams.length < 3) {
-            return message.channel.send("Saisir au moins 3 caractères.")
+            return message.reply("Saisir au moins 3 caractères.")
         } else {
             let sea = this.getSeaByName(lowerCommandParams);
             if (sea == undefined) {
-                return message.channel.send("Mer non reconnue")
+                return message.reply("Mer non reconnue")
             } else {
                 if (this.isATestChan(message)) console.log("sea:", sea);
 
@@ -52,7 +52,6 @@ export class SeasInfoCommand extends AbstractCommandInterpreter {
                 return message.channel.send({embeds: [embed]})
             }
         }
-        return message.channel.send("Non implémenté pour l'instant.")
     }
 
     private handleSeas(message: Message) {

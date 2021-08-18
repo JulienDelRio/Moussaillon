@@ -89,7 +89,7 @@ export class BotInfosCommand extends AbstractCommandInterpreter {
             this.displayVersion(versionToDisplay, embed, true);
             return message.channel.send({embeds: [embed]});
         } else {
-            return message.channel.send("Il n'y a pas de changelog...")
+            return message.reply("Il n'y a pas de changelog...")
         }
     }
 
