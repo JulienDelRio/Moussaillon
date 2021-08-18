@@ -27,6 +27,14 @@ export class CommandersCommand extends AbstractCommandInterpreter {
         }
     }
 
+    getCommandsList(): string[] {
+        return [];
+    }
+
+    getCommandHelp(command: string): string {
+        throw new Error("Commande inconnue");
+    }
+
     private handleDisplayCommanders(message: Message): Promise<Message | Message[]> {
         let command = this.getFullCommand(message);
         console.log(command)

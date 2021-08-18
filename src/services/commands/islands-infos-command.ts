@@ -33,6 +33,14 @@ export class IslandsInfosCommand extends AbstractCommandInterpreter {
         }
     }
 
+    getCommandsList(): string[] {
+        return [];
+    }
+
+    getCommandHelp(command: string): string {
+        throw new Error("Commande inconnue");
+    }
+
     private async islandInfo(message: Message): Promise<Message | Message[]> {
         let commandParams = this.getCommandParamsString(message);
         let lowerCommandParams = commandParams.toLowerCase()

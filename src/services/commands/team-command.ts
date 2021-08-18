@@ -56,6 +56,14 @@ export class TeamCommand extends AbstractCommandInterpreter {
         }
     }
 
+    getCommandsList(): string[] {
+        return [];
+    }
+
+    getCommandHelp(command: string): string {
+        throw new Error("Commande inconnue");
+    }
+
     private getTargetedUser(message: Message): User {
         let isMention = message.mentions.users.size > 0;
         let firstUser = message.mentions.users.first();

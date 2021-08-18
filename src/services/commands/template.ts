@@ -26,6 +26,14 @@ export class Template extends AbstractCommandInterpreter {
         }
     }
 
+    getCommandsList(): string[] {
+        return [];
+    }
+
+    getCommandHelp(command: string): string {
+        throw new Error("Commande inconnue");
+    }
+
     private handleOne(message: Message): Promise<Message | Message[]> {
         return message.channel.send("One");
     }

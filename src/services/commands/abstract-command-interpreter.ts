@@ -15,6 +15,10 @@ export abstract class AbstractCommandInterpreter implements IMessageInterpreter 
 
     abstract handle(message: Message, isATest?: boolean): Promise<Message | Message[]>;
 
+    abstract getCommandsList(): string[];
+
+    abstract getCommandHelp(command: string): string;
+
     isCommand(message: Message): boolean {
         if (typeof Environment.getInstance().getCommandChar() === "string") {
             return message.content.startsWith(Environment.getInstance().getCommandChar())

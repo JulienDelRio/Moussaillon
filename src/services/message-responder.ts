@@ -24,6 +24,7 @@ export class MessageResponder {
             new PingFinder(),
             new MoussaillonDiscustor()
         ];
+        var helpCommand = new HelpCommand();
         this.commandInterpreters = [
             new ReloadDataCommand(),
             new IslandsInfosCommand(),
@@ -32,8 +33,9 @@ export class MessageResponder {
             new ToolsCommand(),
             new SeasInfoCommand(),
             new CommandersCommand(),
-            new HelpCommand()
+            helpCommand
         ]
+        helpCommand.setCommandInterpreters(this.commandInterpreters);
     }
 
     handle(message: Message): Promise<Message | Message[]> {

@@ -33,6 +33,14 @@ export class ToolsCommand extends AbstractCommandInterpreter {
         }
     }
 
+    getCommandsList(): string[] {
+        return [];
+    }
+
+    getCommandHelp(command: string): string {
+        throw new Error("Commande inconnue");
+    }
+
     private handlePrintData(message: Message): Promise<Message | Message[]> {
         console.log(this.getBot().data);
         return message.reply("Données affichées dans la console.")

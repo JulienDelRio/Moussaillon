@@ -41,6 +41,14 @@ export class BotInfosCommand extends AbstractCommandInterpreter {
         }
     }
 
+    getCommandsList(): string[] {
+        return [];
+    }
+
+    getCommandHelp(command: string): string {
+        throw new Error("Commande inconnue");
+    }
+
     private handleVersion(message: Message): Promise<Message | Message[]> {
         return message.channel.send("Version : " + this.changelogHistory.currentVersion)
     }

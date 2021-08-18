@@ -26,6 +26,14 @@ export class ReloadDataCommand extends AbstractCommandInterpreter {
         }
     }
 
+    getCommandsList(): string[] {
+        return [];
+    }
+
+    getCommandHelp(command: string): string {
+        throw new Error("Commande inconnue");
+    }
+
     private handleReload(message: Message): Promise<Message | Message[]> {
         let isAllowed = MoussaillonRightsManager.getInstance().isTheAuthorModerator(message);
 
