@@ -1,4 +1,4 @@
-import {Message} from "discord.js";
+import {GuildChannel, Message} from "discord.js";
 import {PingFinder} from "../ping-finder";
 import {injectable} from "inversify";
 import {ReloadDataCommand} from "./reload-data-command";
@@ -76,11 +76,16 @@ export class MessageResponder {
 
     private isTheBotAllowed(message: Message): boolean {
 
-        if (!MoussaillonRightsManager.getInstance().isTheServerAllowed(message))
+        if (!MoussaillonRightsManager.getInstance().isTheServerAllowed(message)) {
+            console.log("Message not allowed on this server : " + message.guild?.name);
             return false
+        }
 
-        if (!MoussaillonRightsManager.getInstance().isTheChanAllowed(message))
+        if (!MoussaillonRightsManager.getInstance().isTheChanAllowed(message)) {
+            const channel = <GuildChannel>message.channel;
+            console.log("Message nor allowed on this chan : " + channel.name);
             return false
+        }
 
         return true;
     }
