@@ -1,6 +1,6 @@
 import {Message} from "discord.js";
 import {injectable} from "inversify";
-import {IMessageInterpreter} from "./commands/message-responder"
+import {IMessageInterpreter} from "../message-responder"
 
 @injectable()
 export class PingFinder implements IMessageInterpreter {

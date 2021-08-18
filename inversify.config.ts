@@ -3,7 +3,7 @@ import {Container} from "inversify";
 import {TYPES} from "./src/types";
 import {MoussaillonBot} from "./src/bot/moussaillon-bot";
 import {Client, Intents} from "discord.js";
-import {MessageResponder} from "./src/services/commands/message-responder";
+import {MessageResponder} from "./src/services/message-responder";
 
 let container = new Container();
 

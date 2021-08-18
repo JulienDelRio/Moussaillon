@@ -1,6 +1,6 @@
 import {Message} from "discord.js";
 import {injectable} from "inversify";
-import {IMessageInterpreter} from "./message-responder"
+import {IMessageInterpreter} from "../message-responder"
 import {Environment} from "../../tools/environment";
 import {MoussaillonBot} from "../../bot/moussaillon-bot";
 import container from "../../../inversify.config";

@@ -1,11 +1,11 @@
 'use strict';
 
-import {AbstractCommandInterpreter} from "./commands/abstract-command-interpreter";
+import {AbstractCommandInterpreter} from "../commands/abstract-command-interpreter";
 import {Message, MessageOptions} from "discord.js";
-import {IMessageInterpreter} from "./commands/message-responder";
-import container from "../../inversify.config";
-import {MoussaillonBot} from "../bot/moussaillon-bot";
-import {TYPES} from "../types";
+import {IMessageInterpreter} from "../message-responder";
+import container from "../../../inversify.config";
+import {MoussaillonBot} from "../../bot/moussaillon-bot";
+import {TYPES} from "../../types";
 
 export class MoussaillonDiscustor implements IMessageInterpreter {
     handle(message: Message): Promise<Message | Message[]> {

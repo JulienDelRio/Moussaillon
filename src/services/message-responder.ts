@@ -1,17 +1,18 @@
 import {GuildChannel, Message} from "discord.js";
-import {PingFinder} from "../ping-finder";
+import {PingFinder} from "./messages-interpreters/ping-finder";
 import {injectable} from "inversify";
-import {ReloadDataCommand} from "./reload-data-command";
-import {IslandsInfosCommand} from "./islands-infos-command";
-import {MoussaillonDiscustor} from "../moussaillon-discustor";
-import {BotInfosCommand} from "./bot-infos-command";
-import {TeamCommand} from "./team-command";
-import {ToolsCommand} from "./tools-command";
-import {MoussaillonRightsManager} from "../../bot/moussaillon-rights-manager";
-import {AbstractCommandInterpreter} from "./abstract-command-interpreter";
-import {Environment} from "../../tools/environment";
-import {SeasInfoCommand} from "./seas-info-command";
-import {CommandersCommand} from "./commanders-command";
+import {ReloadDataCommand} from "./commands/reload-data-command";
+import {IslandsInfosCommand} from "./commands/islands-infos-command";
+import {MoussaillonDiscustor} from "./messages-interpreters/moussaillon-discustor";
+import {BotInfosCommand} from "./commands/bot-infos-command";
+import {TeamCommand} from "./commands/team-command";
+import {ToolsCommand} from "./commands/tools-command";
+import {MoussaillonRightsManager} from "../bot/moussaillon-rights-manager";
+import {AbstractCommandInterpreter} from "./commands/abstract-command-interpreter";
+import {Environment} from "../tools/environment";
+import {SeasInfoCommand} from "./commands/seas-info-command";
+import {CommandersCommand} from "./commands/commanders-command";
+import {HelpCommand} from "./commands/help-command";
 
 @injectable()
 export class MessageResponder {
@@ -30,7 +31,8 @@ export class MessageResponder {
             new TeamCommand(),
             new ToolsCommand(),
             new SeasInfoCommand(),
-            new CommandersCommand()
+            new CommandersCommand(),
+            new HelpCommand()
         ]
     }
 
