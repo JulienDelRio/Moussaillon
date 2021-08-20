@@ -79,10 +79,13 @@ export class HelpCommand extends AbstractCommandInterpreter {
 
     private handleHelp(message: Message): Promise<Message | Message[]> {
         const fullCommand = this.getFullCommand(message);
-        if (fullCommand.split(' ').length <= 1) {
+        var fullCommandsWords = fullCommand.split(" ");
+        if (fullCommandsWords.length <= 1) {
             return this.handleBaseHelp(message);
         } else {
-            return this.handleCommandHelp(message);
+            let command = fullCommandsWords[1];
+            console.log("Aide pour : " + command, fullCommandsWords)
+            return this.handleCommandHelp(command, message);
         }
     }
 
@@ -90,11 +93,19 @@ export class HelpCommand extends AbstractCommandInterpreter {
         return message.reply(this.getCommandHelp(COMMAND_HELP));
     }
 
-    private handleCommandHelp(message: Message): Promise<Message | Message[]> {
-        // this._commandInterpreters.forEach(function (interpreter) {
-        //     if (interpreter.isCommandHandled())
-        // })
-        return message.reply("Explication d'une commande");
+    private handleCommandHelp(command: string, message: Message): Promise<Message | Message[]> {
+        for (let i = 0; i < this._commandInterpreters.length; i++) {
+            let interpreter = this._commandInterpreters[i];
+            if (interpreter.isCommandHandled(command)) {
+                try {
+                    return message.reply(interpreter.getCommandHelp(command));
+                } catch (e) {
+                    console.error("Error on command " + command, e);
+                }
+            }
+        }
+
+        return message.reply("Commande inconnue ou non documentée");
     }
 
     setCommandInterpreters(commandInterpreters: AbstractCommandInterpreter[]) {
