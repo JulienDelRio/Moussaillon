@@ -17,6 +17,10 @@ const COMMAND_TOP_FULL = "topfull";
 
 export class TeamCommand extends AbstractCommandInterpreter {
 
+    getCommandsCategoryName(): string {
+        return "Informations à propos des teams et des Wayzens";
+    }
+
     isCommandHandled(command: string): boolean {
         switch (command) {
             case COMMAND_MEMBRES:

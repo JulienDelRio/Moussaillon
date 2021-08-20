@@ -19,6 +19,8 @@ export abstract class AbstractCommandInterpreter implements IMessageInterpreter 
 
     abstract getCommandHelp(command: string): string;
 
+    abstract getCommandsCategoryName(): string;
+
     isMessageHandled(message: Message): boolean {
         let command = this.getCommand(message);
         return this.isCommandHandled(command);

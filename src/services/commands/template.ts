@@ -5,6 +5,10 @@ const COMMAND_ONE: string = "one";
 
 export class Template extends AbstractCommandInterpreter {
 
+    getCommandsCategoryName(): string {
+        return "A réécrire";
+    }
+
     handleMessage(message: Message): Promise<Message | Message[]> {
         let command = this.getCommand(message)
         switch (command) {

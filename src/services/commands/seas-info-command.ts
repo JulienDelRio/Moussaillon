@@ -8,6 +8,11 @@ const COMMAND_SEA = "mer";
 const COMMAND_SEAS = "mers";
 
 export class SeasInfoCommand extends AbstractCommandInterpreter {
+
+    getCommandsCategoryName(): string {
+        return "Informations à propos des mers";
+    }
+
     isCommandHandled(command: string): boolean {
         switch (command) {
             case COMMAND_SEA:

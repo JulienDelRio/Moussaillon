@@ -8,6 +8,10 @@ const COMMAND_RELOAD: String = "recharge";
 
 export class ReloadDataCommand extends AbstractCommandInterpreter {
 
+    getCommandsCategoryName(): string {
+        return "Administration du bot";
+    }
+
     handleMessage(message: Message): Promise<Message | Message[]> {
         switch (this.getCommand(message)) {
             case COMMAND_RELOAD:

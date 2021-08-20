@@ -4,12 +4,16 @@ import {AbstractCommandInterpreter} from "./abstract-command-interpreter";
 import {Message} from "discord.js";
 
 import {MoussaillonMessageEmbed} from "../../tools/discord/moussaillon-message-embed";
-import {Environment} from "../../tools/environment";
 
 const COMMAND_TEST_EMBED: String = "testembed";
 const COMMAND_PRINTDATA: String = "printdata";
 
 export class ToolsCommand extends AbstractCommandInterpreter {
+
+    getCommandsCategoryName(): string {
+        return "Pour des tests";
+    }
+
     isCommandHandled(command: string): boolean {
         switch (command) {
             case COMMAND_TEST_EMBED:

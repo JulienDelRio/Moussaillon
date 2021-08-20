@@ -2,16 +2,14 @@
 
 import {AbstractCommandInterpreter} from "./abstract-command-interpreter";
 import {Message} from "discord.js";
-import {MoussaillonMessageEmbed} from "../../tools/discord/moussaillon-message-embed";
-import {Environment} from "../../tools/environment";
 
 const COMMAND_ISLAND: String = "ile";
 
 
 export class IslandsInfosCommand extends AbstractCommandInterpreter {
 
-    constructor() {
-        super();
+    getCommandsCategoryName(): string {
+        return "Informations à propos des iles";
     }
 
     isCommandHandled(command: string): boolean {

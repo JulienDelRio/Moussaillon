@@ -6,6 +6,10 @@ const COMMAND_COMMANDERS: string = "commandants";
 
 export class CommandersCommand extends AbstractCommandInterpreter {
 
+    getCommandsCategoryName(): string {
+        return "Informations à propos des commandants";
+    }
+
     handleMessage(message: Message): Promise<Message | Message[]> {
         let command = this.getCommand(message)
         switch (command) {

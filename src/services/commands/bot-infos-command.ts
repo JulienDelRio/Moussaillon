@@ -12,6 +12,10 @@ const COMMAND_HISTORY: string = "history";
 export class BotInfosCommand extends AbstractCommandInterpreter {
     private changelogHistory: IChangelogHistory = <IChangelogHistory>changelogHistoryJson;
 
+    getCommandsCategoryName(): string {
+        return "Informations à propos du bot";
+    }
+
     handleMessage(message: Message): Promise<Message | Message[]> {
         let command = this.getCommand(message)
         switch (command) {

@@ -8,6 +8,10 @@ const COMMAND_COMMANDS: string = "commandes";
 export class HelpCommand extends AbstractCommandInterpreter {
     private _commandInterpreters: AbstractCommandInterpreter[] = [];
 
+    getCommandsCategoryName(): string {
+        return "L'aide du bot";
+    }
+
     handleMessage(message: Message): Promise<Message | Message[]> {
         let command = this.getCommand(message)
         switch (command) {
@@ -56,15 +60,19 @@ export class HelpCommand extends AbstractCommandInterpreter {
         if (this._commandInterpreters.length == 0) {
             return message.reply("Liste de commandes inconnues");
         } else {
-            let commandsList = "";
-            this._commandInterpreters.forEach(value => {
-                value.getCommandsList().forEach(function (command) {
-                    commandsList += command + "\n";
-                })
-            })
             let embed = this.getBasicEmbed(message);
             embed.setTitle("Liste des commandes");
-            embed.addField("Plus d'infos : " + Environment.getInstance().getCommandChar() + "aide {commande}", commandsList);
+            embed.addField("Explications :", "Pour la documentation d'une commande, taper : " + Environment.getInstance().getCommandChar() + "aide" +
+                " {commande}");
+            this._commandInterpreters.forEach(function (interpreter) {
+                let commandsList = "";
+                interpreter.getCommandsList().forEach(function (command) {
+                    commandsList += command + "\n";
+                })
+                if (commandsList.length > 0) {
+                    embed.addField(interpreter.getCommandsCategoryName(), commandsList);
+                }
+            })
             return message.channel.send({embeds: [embed]});
         }
     }
