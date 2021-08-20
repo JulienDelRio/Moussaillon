@@ -37,7 +37,19 @@ export class HelpCommand extends AbstractCommandInterpreter {
     }
 
     getCommandHelp(command: string): string {
-        throw new Error("Commande inconnue");
+        var commandChar = Environment.getInstance().getCommandChar();
+        switch (command) {
+            case COMMAND_HELP:
+                return commandChar + COMMAND_HELP + " {commande} :\n" +
+                    "Affiche la documentation de la commande passée en paramètre.\n" +
+                    "Si pas de commande en paramètre, affiche cette aide.\n" +
+                    "Pour afficher la liste des commandes : " + commandChar + COMMAND_COMMANDS;
+            case COMMAND_COMMANDS:
+                return commandChar + COMMAND_COMMANDS + " :\n" +
+                    "Affiche la liste des commandes interprétées par le bot."
+            default:
+                throw new Error("Commande inconnue");
+        }
     }
 
     private handleCommands(message: Message): Promise<Message | Message[]> {
@@ -67,7 +79,7 @@ export class HelpCommand extends AbstractCommandInterpreter {
     }
 
     private handleBaseHelp(message: Message): Promise<Message | Message[]> {
-        return message.reply("Explication de l'aide");
+        return message.reply(this.getCommandHelp(COMMAND_HELP));
     }
 
     private handleCommandHelp(message: Message): Promise<Message | Message[]> {
