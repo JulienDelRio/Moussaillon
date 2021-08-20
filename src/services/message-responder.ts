@@ -56,15 +56,15 @@ export class MessageResponder {
             if (this.isACommand(message)) {
                 for (let i = 0; i < this.commandInterpreters.length; i++) {
                     let commandInterpreter = this.commandInterpreters[i];
-                    if (commandInterpreter.isHandled(message))
-                        return commandInterpreter.handle(message);
+                    if (commandInterpreter.isMessageHandled(message))
+                        return commandInterpreter.handleMessage(message);
                 }
 
             }
             for (let i = 0; i < this.messageInterpreters.length; i++) {
                 let messageInterpreter = this.messageInterpreters[i];
-                if (messageInterpreter.isHandled(message))
-                    return messageInterpreter.handle(message);
+                if (messageInterpreter.isMessageHandled(message))
+                    return messageInterpreter.handleMessage(message);
             }
         } catch (e) {
             console.error("Error handling", e)
@@ -104,9 +104,9 @@ export class MessageResponder {
 }
 
 export interface IMessageInterpreter {
-    isHandled(message: Message): boolean;
+    isMessageHandled(message: Message): boolean;
 
-    handle(message: Message): Promise<Message | Message[]>;
+    handleMessage(message: Message): Promise<Message | Message[]>;
 }
 
 export class NotHandledError extends Error {

@@ -8,7 +8,7 @@ import {MoussaillonBot} from "../../bot/moussaillon-bot";
 import {TYPES} from "../../types";
 
 export class MoussaillonDiscustor implements IMessageInterpreter {
-    handle(message: Message): Promise<Message | Message[]> {
+    handleMessage(message: Message): Promise<Message | Message[]> {
         let member = message.member;
         let lowerCaseMessage = message.content.toLowerCase();
         if (member == null) {
@@ -24,7 +24,7 @@ export class MoussaillonDiscustor implements IMessageInterpreter {
         }
     }
 
-    isHandled(message: Message): boolean {
+    isMessageHandled(message: Message): boolean {
         let isHandled = false;
         isHandled = this.isMentioned(message)
         return isHandled

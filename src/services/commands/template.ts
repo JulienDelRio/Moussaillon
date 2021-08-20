@@ -5,7 +5,7 @@ const COMMAND_ONE: string = "one";
 
 export class Template extends AbstractCommandInterpreter {
 
-    handle(message: Message): Promise<Message | Message[]> {
+    handleMessage(message: Message): Promise<Message | Message[]> {
         let command = this.getCommand(message)
         switch (command) {
             case COMMAND_ONE:
@@ -16,8 +16,7 @@ export class Template extends AbstractCommandInterpreter {
         }
     }
 
-    isHandled(message: Message): boolean {
-        let command = this.getCommand(message);
+    isCommandHandled(command: string): boolean {
         switch (command) {
             case COMMAND_ONE:
                 return true;

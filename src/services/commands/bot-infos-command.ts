@@ -12,7 +12,7 @@ const COMMAND_HISTORY: string = "history";
 export class BotInfosCommand extends AbstractCommandInterpreter {
     private changelogHistory: IChangelogHistory = <IChangelogHistory>changelogHistoryJson;
 
-    handle(message: Message): Promise<Message | Message[]> {
+    handleMessage(message: Message): Promise<Message | Message[]> {
         let command = this.getCommand(message)
         switch (command) {
             case COMMAND_VERSION:
@@ -29,8 +29,7 @@ export class BotInfosCommand extends AbstractCommandInterpreter {
         }
     }
 
-    isHandled(message: Message): boolean {
-        let command = this.getCommand(message);
+    isCommandHandled(command: string): boolean {
         switch (command) {
             case COMMAND_VERSION:
             case COMMAND_CHANGELOG:

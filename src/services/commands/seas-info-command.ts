@@ -8,8 +8,7 @@ const COMMAND_SEA = "mer";
 const COMMAND_SEAS = "mers";
 
 export class SeasInfoCommand extends AbstractCommandInterpreter {
-    isHandled(message: Message) {
-        let command = this.getCommand(message);
+    isCommandHandled(command: string): boolean {
         switch (command) {
             case COMMAND_SEA:
             case COMMAND_SEAS:
@@ -19,7 +18,7 @@ export class SeasInfoCommand extends AbstractCommandInterpreter {
         }
     }
 
-    handle(message: Message): Promise<Message | Message[]> {
+    handleMessage(message: Message): Promise<Message | Message[]> {
         let command = this.getCommand(message);
         switch (command) {
             case COMMAND_SEA:

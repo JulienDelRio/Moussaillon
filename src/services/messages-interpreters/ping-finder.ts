@@ -5,11 +5,11 @@ import {IMessageInterpreter} from "../message-responder"
 @injectable()
 export class PingFinder implements IMessageInterpreter {
 
-    isHandled(message: Message): boolean {
+    isMessageHandled(message: Message): boolean {
         return this.isPing(message.content)
     }
 
-    handle(message: Message): Promise<Message | Message[]> {
+    handleMessage(message: Message): Promise<Message | Message[]> {
         return message.reply('pong!');
     }
 

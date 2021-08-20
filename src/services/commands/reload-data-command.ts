@@ -8,7 +8,7 @@ const COMMAND_RELOAD: String = "recharge";
 
 export class ReloadDataCommand extends AbstractCommandInterpreter {
 
-    handle(message: Message): Promise<Message | Message[]> {
+    handleMessage(message: Message): Promise<Message | Message[]> {
         switch (this.getCommand(message)) {
             case COMMAND_RELOAD:
                 return this.handleReload(message);
@@ -17,8 +17,8 @@ export class ReloadDataCommand extends AbstractCommandInterpreter {
         }
     }
 
-    isHandled(message: Message): boolean {
-        switch (this.getCommand(message)) {
+    isCommandHandled(command: string): boolean {
+        switch (command) {
             case COMMAND_RELOAD:
                 return true;
             default :

@@ -11,13 +11,18 @@ import {MoussaillonMessageEmbed} from "../../tools/discord/moussaillon-message-e
 @injectable()
 export abstract class AbstractCommandInterpreter implements IMessageInterpreter {
 
-    abstract isHandled(message: Message): boolean;
+    abstract isCommandHandled(command: string): boolean;
 
-    abstract handle(message: Message, isATest?: boolean): Promise<Message | Message[]>;
+    abstract handleMessage(message: Message, isATest?: boolean): Promise<Message | Message[]>;
 
     abstract getCommandsList(): string[];
 
     abstract getCommandHelp(command: string): string;
+
+    isMessageHandled(message: Message): boolean {
+        let command = this.getCommand(message);
+        return this.isCommandHandled(command);
+    }
 
     isCommand(message: Message): boolean {
         if (typeof Environment.getInstance().getCommandChar() === "string") {

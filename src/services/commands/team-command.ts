@@ -17,8 +17,7 @@ const COMMAND_TOP_FULL = "topfull";
 
 export class TeamCommand extends AbstractCommandInterpreter {
 
-    isHandled(message: Message): boolean {
-        let command = this.getCommand(message);
+    isCommandHandled(command: string): boolean {
         switch (command) {
             case COMMAND_MEMBRES:
             case COMMAND_MEMBRE:
@@ -34,7 +33,7 @@ export class TeamCommand extends AbstractCommandInterpreter {
         }
     }
 
-    handle(message: Message): Promise<Message | Message[]> {
+    handleMessage(message: Message): Promise<Message | Message[]> {
         let command = this.getCommand(message);
         switch (command) {
             case COMMAND_USER:
@@ -57,7 +56,14 @@ export class TeamCommand extends AbstractCommandInterpreter {
     }
 
     getCommandsList(): string[] {
-        return [];
+        return [COMMAND_MEMBRES,
+            COMMAND_MEMBRE,
+            COMMAND_USER,
+            COMMAND_USERS,
+            COMMAND_CLASSEMENT,
+            COMMAND_CLASSEMENT_FULL,
+            COMMAND_TOP,
+            COMMAND_TOP_FULL];
     }
 
     getCommandHelp(command: string): string {

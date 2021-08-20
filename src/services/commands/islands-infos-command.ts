@@ -14,8 +14,7 @@ export class IslandsInfosCommand extends AbstractCommandInterpreter {
         super();
     }
 
-    isHandled(message: Message): boolean {
-        let command = this.getCommand(message);
+    isCommandHandled(command: string): boolean {
         switch (command) {
             case COMMAND_ISLAND:
                 return true;
@@ -24,7 +23,7 @@ export class IslandsInfosCommand extends AbstractCommandInterpreter {
         }
     }
 
-    handle(message: Message): Promise<Message | Message[]> {
+    handleMessage(message: Message): Promise<Message | Message[]> {
         switch (this.getCommand(message)) {
             case COMMAND_ISLAND:
                 return this.islandInfo(message);
