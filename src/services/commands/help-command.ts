@@ -44,7 +44,7 @@ export class HelpCommand extends AbstractCommandInterpreter {
         var commandChar = Environment.getInstance().getCommandChar();
         switch (command) {
             case COMMAND_HELP:
-                return commandChar + COMMAND_HELP + " {commande} :\n" +
+                return commandChar + COMMAND_HELP + " {commande?} :\n" +
                     "Affiche la documentation de la commande passée en paramètre.\n" +
                     "Si pas de commande en paramètre, affiche cette aide.\n" +
                     "Pour afficher la liste des commandes : " + commandChar + COMMAND_COMMANDS;

@@ -1,5 +1,6 @@
 import {AbstractCommandInterpreter} from "./abstract-command-interpreter";
 import {Message} from "discord.js";
+import {Environment} from "../../tools/environment";
 
 const COMMAND_ONE: string = "one";
 
@@ -34,7 +35,13 @@ export class Template extends AbstractCommandInterpreter {
     }
 
     getCommandHelp(command: string): string {
-        throw new Error("Commande inconnue");
+        var commandChar = Environment.getInstance().getCommandChar();
+        switch (command) {
+            case COMMAND_ONE:
+                return "Commande template";
+            default:
+                throw new Error("Commande inconnue");
+        }
     }
 
     private handleOne(message: Message): Promise<Message | Message[]> {

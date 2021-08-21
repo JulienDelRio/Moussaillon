@@ -3,6 +3,7 @@ import {Message} from "discord.js";
 import {MoussaillonMessageEmbed} from "../../tools/discord/moussaillon-message-embed";
 
 import changelogHistoryJson from "../../bot/changelogHistory.json";
+import {Environment} from "../../tools/environment";
 
 const moussaillonBotPPUrl: string = "https://cdn.discordapp.com/avatars/845262214688669727/079857eb39dd2161aaca83daaf9982ab.png?size=4096"
 const COMMAND_VERSION: string = "version";
@@ -45,11 +46,27 @@ export class BotInfosCommand extends AbstractCommandInterpreter {
     }
 
     getCommandsList(): string[] {
-        return [];
+        return [COMMAND_VERSION, COMMAND_CHANGELOG, COMMAND_HISTORY];
     }
 
     getCommandHelp(command: string): string {
-        throw new Error("Commande inconnue");
+        var commandChar = Environment.getInstance().getCommandChar();
+        switch (command) {
+            case COMMAND_VERSION:
+                return commandChar + COMMAND_VERSION + " : \n" +
+                    "Affiche le numéro de version courant";
+            case COMMAND_CHANGELOG:
+                return commandChar + COMMAND_CHANGELOG + " {numéro de version?} : \n" +
+                    "Affiche le changelog de la version {numéro de version}.\n" +
+                    "Si aucun {numéro de version} indiqué, affiche le dernier changelog.\n" +
+                    "Affiche un message d'erreur si le numéro de version est inconnu.";
+            case COMMAND_HISTORY:
+                return commandChar + COMMAND_HISTORY + " {nombre?} :\n" +
+                    "Affiche le résumé des {nombre} dernières versions.\n" +
+                    "Si aucun {nombre} n'est indiqué, affiche les 10 dernières versions";
+            default:
+                throw new Error("Commande inconnue");
+        }
     }
 
     private handleVersion(message: Message): Promise<Message | Message[]> {
@@ -57,6 +74,7 @@ export class BotInfosCommand extends AbstractCommandInterpreter {
     }
 
     private displayVersion(versionToDisplay: IVersion, embed: MoussaillonMessageEmbed, isLong = false) {
+        console.log("versionToDisplay (" + isLong + ")", versionToDisplay)
         if (isLong && versionToDisplay.changelog.long) {
             versionToDisplay.changelog.long.forEach(value => {
                 const longSection: ILongChangelogSection = value;
@@ -64,7 +82,7 @@ export class BotInfosCommand extends AbstractCommandInterpreter {
             })
         } else {
             let changelog = versionToDisplay.changelog.short;
-            embed.addField("En résumé...", changelog)
+            embed.addField(versionToDisplay.version, changelog)
         }
     }
 
@@ -84,6 +102,8 @@ export class BotInfosCommand extends AbstractCommandInterpreter {
                     found = true
                 }
             }
+            if (!found)
+                throw new Error("Numéro de version inconnu");
         }
 
         let versionToDisplay: IVersion = this.changelogHistory.history[selectedVersion];
@@ -124,6 +144,7 @@ export class BotInfosCommand extends AbstractCommandInterpreter {
             .setTitle("Historique des versions de Moussaisson")
             .setThumbnail(moussaillonBotPPUrl)
 
+        console.log("changelogHistory:", this.changelogHistory);
         for (let i = 0; i < nbVersion && i < this.changelogHistory.history.length; i++) {
             this.displayVersion(this.changelogHistory.history[i], embed)
             //embed.addField(version.history[i].version, this.changelogHistory.history[i].changelog)
