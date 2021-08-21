@@ -1,6 +1,7 @@
 import {AbstractCommandInterpreter} from "./abstract-command-interpreter";
 import {Message} from "discord.js";
 import {Commander} from "../../data/models/commander";
+import {Environment} from "../../tools/environment";
 
 const COMMAND_COMMANDERS: string = "commandants";
 
@@ -31,11 +32,19 @@ export class CommandersCommand extends AbstractCommandInterpreter {
     }
 
     getCommandsList(): string[] {
-        return [];
+        return [COMMAND_COMMANDERS];
     }
 
     getCommandHelp(command: string): string {
-        throw new Error("Commande inconnue");
+        var commandChar = Environment.getInstance().getCommandChar();
+        switch (command) {
+            case COMMAND_COMMANDERS:
+                return commandChar + COMMAND_COMMANDERS + " {type de commandants?} :\n" +
+                    "Affiche les commandants par type avec l'ile pour trouver le commandant.\n" +
+                    "Si un {type de commandants} est indiqué, affiche les commandants de ce type uniquement.";
+            default:
+                throw new Error("Commande inconnue");
+        }
     }
 
     private handleDisplayCommanders(message: Message): Promise<Message | Message[]> {
