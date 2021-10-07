@@ -1,6 +1,6 @@
 {
   "name": "moussaillon-bot",
-  "version": "1.1.0",
+  "version": "2.1",
   "description": "Le bot de l'alliance Wayzen sur Discord Line",
   "main": "./src/app.ts",
   "scripts": {
