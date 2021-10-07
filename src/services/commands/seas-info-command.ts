@@ -3,6 +3,7 @@ import {Message} from "discord.js";
 import {Sea, SeasList} from "../../data/models/sea";
 import {Island} from "../../data/models/island";
 import {MoussaillonMessageEmbed} from "../../tools/discord/moussaillon-message-embed";
+import {Environment} from "../../tools/environment";
 
 const COMMAND_SEA = "mer";
 const COMMAND_SEAS = "mers";
@@ -36,11 +37,21 @@ export class SeasInfoCommand extends AbstractCommandInterpreter {
     }
 
     getCommandsList(): string[] {
-        return [];
+        return [COMMAND_SEA, COMMAND_SEAS];
     }
 
     getCommandHelp(command: string): string {
-        throw new Error("Commande inconnue");
+        const commandChar = Environment.getInstance().getCommandChar();
+        switch (command) {
+            case COMMAND_SEA:
+                return commandChar + COMMAND_SEA + " {nom de la mer} : \n" +
+                    "Affiche la liste des iles de la mer."
+            case COMMAND_SEAS:
+                return commandChar + COMMAND_SEAS + " : \n" +
+                    "Affiche la liste des mers."
+            default:
+                throw new Error("Commande inconnue");
+        }
     }
 
     private handleSea(message: Message): Promise<Message | Message[]> {

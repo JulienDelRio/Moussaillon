@@ -3,6 +3,7 @@ import {GuildMember, Message, User} from "discord.js";
 
 import {MoussaillonMessageEmbed} from "../../tools/discord/moussaillon-message-embed";
 import {Member} from "../../data/models/member";
+import {Environment} from "../../tools/environment";
 
 const bountyFormatter = new Intl.NumberFormat('fr-FR', {})
 const wayzenLogoUrl = "https://media.discordapp.net/attachments/845220603971239944/851924163723526164/20210429_223145_0000.png"
@@ -71,7 +72,35 @@ export class TeamCommand extends AbstractCommandInterpreter {
     }
 
     getCommandHelp(command: string): string {
-        throw new Error("Commande inconnue");
+        const commandChar = Environment.getInstance().getCommandChar();
+        switch (command) {
+            case COMMAND_MEMBRES:
+                return commandChar + COMMAND_MEMBRES + " : \n" +
+                    "Affiche la liste des membres et alliés."
+            case COMMAND_MEMBRE:
+                return commandChar + COMMAND_MEMBRE + " {@dumembre} : \n" +
+                    "Affiche les informations du membre mentionné."
+            case COMMAND_USERS:
+                return commandChar + COMMAND_USERS + " : \n" +
+                    "Affiche la liste des utilisateurs du serveur wayzen"
+            case COMMAND_USER:
+                return commandChar + COMMAND_USER + " {@dumembre} : \n" +
+                    "Affiche les informations discord du membre mentionné."
+            case COMMAND_CLASSEMENT:
+                return commandChar + COMMAND_CLASSEMENT + " {nbMax} : \n" +
+                    "Affiche le classement des Wayzens par prime, avec un nombre max en option"
+            case COMMAND_CLASSEMENT_FULL:
+                return commandChar + COMMAND_CLASSEMENT_FULL + " {nbMax} : \n" +
+                    " Affiche le classement des Wayzens et de leurs alliés par prime, avec un nombre max en option"
+            case COMMAND_TOP:
+                return commandChar + COMMAND_TOP + " {nbMax} : \n" +
+                    `Comme ${COMMAND_CLASSEMENT} mais pour les faignasses`
+            case COMMAND_TOP_FULL:
+                return commandChar + COMMAND_TOP_FULL + " {nbMax} : \n" +
+                    `Comme ${COMMAND_CLASSEMENT_FULL} mais pour les faignasses`
+            default:
+                throw new Error("Commande inconnue");
+        }
     }
 
     private getTargetedUser(message: Message): User {

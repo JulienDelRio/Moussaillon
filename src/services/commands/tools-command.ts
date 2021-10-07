@@ -41,7 +41,13 @@ export class ToolsCommand extends AbstractCommandInterpreter {
     }
 
     getCommandHelp(command: string): string {
-        throw new Error("Commande inconnue");
+        switch (command) {
+            case COMMAND_TEST_EMBED:
+            case COMMAND_PRINTDATA:
+                return "Pas de détails";
+            default:
+                throw new Error("Commande inconnue");
+        }
     }
 
     private handlePrintData(message: Message): Promise<Message | Message[]> {

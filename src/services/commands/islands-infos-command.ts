@@ -2,8 +2,9 @@
 
 import {AbstractCommandInterpreter} from "./abstract-command-interpreter";
 import {Message} from "discord.js";
+import {Environment} from "../../tools/environment";
 
-const COMMAND_ISLAND: String = "ile";
+const COMMAND_ISLAND: string = "ile";
 
 
 export class IslandsInfosCommand extends AbstractCommandInterpreter {
@@ -31,11 +32,21 @@ export class IslandsInfosCommand extends AbstractCommandInterpreter {
     }
 
     getCommandsList(): string[] {
-        return [];
+        return [COMMAND_ISLAND];
     }
 
     getCommandHelp(command: string): string {
-        throw new Error("Commande inconnue");
+        const commandChar = Environment.getInstance().getCommandChar();
+        switch (command) {
+            case COMMAND_ISLAND:
+                return commandChar + COMMAND_ISLAND + " {nom de l'ile} : \n" +
+                    "Affiche les informations de l'ile {nom de l'ile}.\n" +
+                    "Fonctionne avec le nom de l'ile non complet.\n" +
+                    "Saisir au moins 3 lettres.\n" +
+                    "Non sensible à la casse.";
+            default:
+                throw new Error("Commande inconnue");
+        }
     }
 
     private async islandInfo(message: Message): Promise<Message | Message[]> {

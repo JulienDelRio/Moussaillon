@@ -3,7 +3,7 @@ import {Message} from "discord.js";
 import {DataLoaderManager} from "../../data/idata-loader";
 import {MoussaillonRightsManager} from "../../bot/moussaillon-rights-manager";
 
-const COMMAND_RELOAD: String = "recharge";
+const COMMAND_RELOAD: string = "recharge";
 
 
 export class ReloadDataCommand extends AbstractCommandInterpreter {
@@ -31,11 +31,16 @@ export class ReloadDataCommand extends AbstractCommandInterpreter {
     }
 
     getCommandsList(): string[] {
-        return [];
+        return [COMMAND_RELOAD];
     }
 
     getCommandHelp(command: string): string {
-        throw new Error("Commande inconnue");
+        switch (command) {
+            case COMMAND_RELOAD:
+                return "Recharge les données du bot. Uniquement accessible à certains roles.";
+            default :
+                throw new Error("Commande inconnue");
+        }
     }
 
     private handleReload(message: Message): Promise<Message | Message[]> {
