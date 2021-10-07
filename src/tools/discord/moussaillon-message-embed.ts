@@ -15,7 +15,7 @@ export class MoussaillonMessageEmbed extends MessageEmbed {
     }
 
     private decorateEmbed() {
-        super.setColor(Environment.getInstance().getEmbedColor())
+        super.setColor("#C0D8FF");
         super.setFooter("Moussaillon Bot by Jorodan", "https://cdn.discordapp.com/avatars/845262214688669727/079857eb39dd2161aaca83daaf9982ab.png?size=4096");
     }
 }

@@ -4,14 +4,17 @@ import {AbstractCommandInterpreter} from "./abstract-command-interpreter";
 import {Message} from "discord.js";
 
 import {MoussaillonMessageEmbed} from "../../tools/discord/moussaillon-message-embed";
-import {Environment} from "../../tools/environment";
 
 const COMMAND_TEST_EMBED: String = "testembed";
 const COMMAND_PRINTDATA: String = "printdata";
 
 export class ToolsCommand extends AbstractCommandInterpreter {
-    isHandled(message: Message) {
-        let command = this.getCommand(message);
+
+    getCommandsCategoryName(): string {
+        return "Pour des tests";
+    }
+
+    isCommandHandled(command: string): boolean {
         switch (command) {
             case COMMAND_TEST_EMBED:
             case COMMAND_PRINTDATA:
@@ -21,7 +24,7 @@ export class ToolsCommand extends AbstractCommandInterpreter {
         }
     }
 
-    handle(message: Message): Promise<Message | Message[]> {
+    handleMessage(message: Message): Promise<Message | Message[]> {
         let command = this.getCommand(message);
         switch (command) {
             case COMMAND_TEST_EMBED:
@@ -33,17 +36,30 @@ export class ToolsCommand extends AbstractCommandInterpreter {
         }
     }
 
+    getCommandsList(): string[] {
+        return [];
+    }
+
+    getCommandHelp(command: string): string {
+        switch (command) {
+            case COMMAND_TEST_EMBED:
+            case COMMAND_PRINTDATA:
+                return "Pas de détails";
+            default:
+                throw new Error("Commande inconnue");
+        }
+    }
+
     private handlePrintData(message: Message): Promise<Message | Message[]> {
         console.log(this.getBot().data);
-        return message.channel.send("Données affichées dans la console.")
+        return message.reply("Données affichées dans la console.")
     }
 
     private handleTestDiscordAPi(message: Message): Promise<Message | Message[]> {
         const embed = new MoussaillonMessageEmbed()
             .setAuthor("Commande par " + message.author.username, message.author.avatarURL() ?? "")
             .setTitle('A slick little embed')
-            .setColor(Environment.getInstance().getEmbedColor())
             .setDescription('Hello, this is a slick embed!');
-        return message.channel.send(embed);
+        return message.channel.send({embeds: [embed]});
     }
 }

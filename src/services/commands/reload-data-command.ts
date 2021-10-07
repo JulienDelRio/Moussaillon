@@ -3,12 +3,16 @@ import {Message} from "discord.js";
 import {DataLoaderManager} from "../../data/idata-loader";
 import {MoussaillonRightsManager} from "../../bot/moussaillon-rights-manager";
 
-const COMMAND_RELOAD: String = "recharge";
+const COMMAND_RELOAD: string = "recharge";
 
 
 export class ReloadDataCommand extends AbstractCommandInterpreter {
 
-    handle(message: Message): Promise<Message | Message[]> {
+    getCommandsCategoryName(): string {
+        return "Administration du bot";
+    }
+
+    handleMessage(message: Message): Promise<Message | Message[]> {
         switch (this.getCommand(message)) {
             case COMMAND_RELOAD:
                 return this.handleReload(message);
@@ -17,12 +21,25 @@ export class ReloadDataCommand extends AbstractCommandInterpreter {
         }
     }
 
-    isHandled(message: Message): boolean {
-        switch (this.getCommand(message)) {
+    isCommandHandled(command: string): boolean {
+        switch (command) {
             case COMMAND_RELOAD:
                 return true;
             default :
                 return false;
+        }
+    }
+
+    getCommandsList(): string[] {
+        return [COMMAND_RELOAD];
+    }
+
+    getCommandHelp(command: string): string {
+        switch (command) {
+            case COMMAND_RELOAD:
+                return "Recharge les données du bot. Uniquement accessible à certains roles.";
+            default :
+                throw new Error("Commande inconnue");
         }
     }
 
@@ -33,7 +50,7 @@ export class ReloadDataCommand extends AbstractCommandInterpreter {
             message.channel.send("Mise à jour lancée...")
             return this.reloadData(message);
         } else {
-            return message.channel.send("Non autorisé... demande à un grand.")
+            return message.reply("Non autorisé... demande à un grand.")
         }
 
     }
@@ -45,7 +62,7 @@ export class ReloadDataCommand extends AbstractCommandInterpreter {
             this.getBot().updateData(data)
             return await message.channel.send("Données rechargées");
         } catch (e) {
-            return await message.channel.send("Données impossibles à recharger");
+            return await message.reply("Données impossibles à recharger");
         }
     }
 }

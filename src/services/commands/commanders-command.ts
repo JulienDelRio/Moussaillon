@@ -1,12 +1,17 @@
 import {AbstractCommandInterpreter} from "./abstract-command-interpreter";
 import {Message} from "discord.js";
 import {Commander} from "../../data/models/commander";
+import {Environment} from "../../tools/environment";
 
 const COMMAND_COMMANDERS: string = "commandants";
 
 export class CommandersCommand extends AbstractCommandInterpreter {
 
-    handle(message: Message): Promise<Message | Message[]> {
+    getCommandsCategoryName(): string {
+        return "Informations à propos des commandants";
+    }
+
+    handleMessage(message: Message): Promise<Message | Message[]> {
         let command = this.getCommand(message)
         switch (command) {
             case COMMAND_COMMANDERS:
@@ -17,13 +22,28 @@ export class CommandersCommand extends AbstractCommandInterpreter {
         }
     }
 
-    isHandled(message: Message): boolean {
-        let command = this.getCommand(message);
+    isCommandHandled(command: string): boolean {
         switch (command) {
             case COMMAND_COMMANDERS:
                 return true;
             default:
                 return false
+        }
+    }
+
+    getCommandsList(): string[] {
+        return [COMMAND_COMMANDERS];
+    }
+
+    getCommandHelp(command: string): string {
+        var commandChar = Environment.getInstance().getCommandChar();
+        switch (command) {
+            case COMMAND_COMMANDERS:
+                return commandChar + COMMAND_COMMANDERS + " {type de commandants?} :\n" +
+                    "Affiche les commandants par type avec l'ile pour trouver le commandant.\n" +
+                    "Si un {type de commandants} est indiqué, affiche les commandants de ce type uniquement.";
+            default:
+                throw new Error("Commande inconnue");
         }
     }
 
@@ -72,7 +92,7 @@ export class CommandersCommand extends AbstractCommandInterpreter {
             })
         }
 
-        return message.channel.send(embed);
+        return message.channel.send({embeds: [embed]});
     }
 
     private getPrintableCommanderType(commanders: Commander[]): string {

@@ -2,20 +2,18 @@
 
 import {AbstractCommandInterpreter} from "./abstract-command-interpreter";
 import {Message} from "discord.js";
-import {MoussaillonMessageEmbed} from "../../tools/discord/moussaillon-message-embed";
 import {Environment} from "../../tools/environment";
 
-const COMMAND_ISLAND: String = "ile";
+const COMMAND_ISLAND: string = "ile";
 
 
 export class IslandsInfosCommand extends AbstractCommandInterpreter {
 
-    constructor() {
-        super();
+    getCommandsCategoryName(): string {
+        return "Informations à propos des iles";
     }
 
-    isHandled(message: Message): boolean {
-        let command = this.getCommand(message);
+    isCommandHandled(command: string): boolean {
         switch (command) {
             case COMMAND_ISLAND:
                 return true;
@@ -24,7 +22,7 @@ export class IslandsInfosCommand extends AbstractCommandInterpreter {
         }
     }
 
-    handle(message: Message): Promise<Message | Message[]> {
+    handleMessage(message: Message): Promise<Message | Message[]> {
         switch (this.getCommand(message)) {
             case COMMAND_ISLAND:
                 return this.islandInfo(message);
@@ -33,12 +31,30 @@ export class IslandsInfosCommand extends AbstractCommandInterpreter {
         }
     }
 
+    getCommandsList(): string[] {
+        return [COMMAND_ISLAND];
+    }
+
+    getCommandHelp(command: string): string {
+        const commandChar = Environment.getInstance().getCommandChar();
+        switch (command) {
+            case COMMAND_ISLAND:
+                return commandChar + COMMAND_ISLAND + " {nom de l'ile} : \n" +
+                    "Affiche les informations de l'ile {nom de l'ile}.\n" +
+                    "Fonctionne avec le nom de l'ile non complet.\n" +
+                    "Saisir au moins 3 lettres.\n" +
+                    "Non sensible à la casse.";
+            default:
+                throw new Error("Commande inconnue");
+        }
+    }
+
     private async islandInfo(message: Message): Promise<Message | Message[]> {
         let commandParams = this.getCommandParamsString(message);
         let lowerCommandParams = commandParams.toLowerCase()
         let messagesToSend: Message[] = [];
         if (commandParams.length < 3) {
-            return await message.channel.send("Saisir au moins 3 caractères.")
+            return await message.reply("Saisir au moins 3 caractères.")
         } else {
             let islands = Array.from(this.getBot().data.islands.values());
             for (let i = 0; i < islands.length; i++) {
@@ -53,7 +69,7 @@ export class IslandsInfosCommand extends AbstractCommandInterpreter {
                         islandSea += " - " + island.seaInfo;
                     let npc = island.npc;
                     let commander = island.commander?.name ?? "Inconnu";
-                    if(island.commander?.type){
+                    if (island.commander?.type) {
                         commander += " - " + island.commander?.type;
                     }
                     let cardCode = island.cardCode;
@@ -69,10 +85,8 @@ export class IslandsInfosCommand extends AbstractCommandInterpreter {
                     let authorAvatarURL = message.author.avatarURL();
                     if (authorAvatarURL == null)
                         authorAvatarURL = "";
-                    const embed = new MoussaillonMessageEmbed()
-                        .setAuthor("Commande par " + message.author.username, authorAvatarURL)
-                        .setTitle(islandName + " (" + islandSea + ")")
-                        .setColor(Environment.getInstance().getEmbedColor());
+                    const embed = this.getBasicEmbed(message)
+                        .setTitle(islandName + " (" + islandSea + ")");
 
                     let titleBasic = "Informations générales";
                     let messageBasic = "" +
@@ -104,7 +118,7 @@ export class IslandsInfosCommand extends AbstractCommandInterpreter {
                     messageSpoiler += "\u200b\n";
                     embed.addField(titleSpoiler, messageSpoiler)
 
-                    if (island.moreInfo){
+                    if (island.moreInfo) {
                         let titleMoreInfo = "Autres informations";
                         let messageMoreInfo = island.moreInfo;
                         embed.addField(titleMoreInfo, messageMoreInfo)
@@ -112,14 +126,14 @@ export class IslandsInfosCommand extends AbstractCommandInterpreter {
                     }
 
                     // Send message
-                    let messageSent = await message.channel.send(embed)
+                    let messageSent = await message.channel.send({embeds: [embed]})
                     messagesToSend.push(messageSent);
                 }
 
             }
         }
         if (messagesToSend.length <= 0) {
-            return await message.channel.send("Cette ile est inconnue au bataillon. Retente ta chance matelot.")
+            return await message.reply("Cette ile est inconnue au bataillon. Retente ta chance matelot.")
         } else {
             return messagesToSend;
         }

@@ -1,8 +1,9 @@
 import {AbstractCommandInterpreter} from "./abstract-command-interpreter";
-import {GuildMember, Message} from "discord.js";
+import {GuildMember, Message, User} from "discord.js";
 
 import {MoussaillonMessageEmbed} from "../../tools/discord/moussaillon-message-embed";
 import {Member} from "../../data/models/member";
+import {Environment} from "../../tools/environment";
 
 const bountyFormatter = new Intl.NumberFormat('fr-FR', {})
 const wayzenLogoUrl = "https://media.discordapp.net/attachments/845220603971239944/851924163723526164/20210429_223145_0000.png"
@@ -17,8 +18,11 @@ const COMMAND_TOP_FULL = "topfull";
 
 export class TeamCommand extends AbstractCommandInterpreter {
 
-    isHandled(message: Message): boolean {
-        let command = this.getCommand(message);
+    getCommandsCategoryName(): string {
+        return "Informations à propos des teams et des Wayzens";
+    }
+
+    isCommandHandled(command: string): boolean {
         switch (command) {
             case COMMAND_MEMBRES:
             case COMMAND_MEMBRE:
@@ -34,7 +38,7 @@ export class TeamCommand extends AbstractCommandInterpreter {
         }
     }
 
-    handle(message: Message): Promise<Message | Message[]> {
+    handleMessage(message: Message): Promise<Message | Message[]> {
         let command = this.getCommand(message);
         switch (command) {
             case COMMAND_USER:
@@ -56,27 +60,75 @@ export class TeamCommand extends AbstractCommandInterpreter {
         }
     }
 
-    private getTargetedMemberId(message: Message): number {
+    getCommandsList(): string[] {
+        return [COMMAND_MEMBRES,
+            COMMAND_MEMBRE,
+            COMMAND_USER,
+            COMMAND_USERS,
+            COMMAND_CLASSEMENT,
+            COMMAND_CLASSEMENT_FULL,
+            COMMAND_TOP,
+            COMMAND_TOP_FULL];
+    }
+
+    getCommandHelp(command: string): string {
+        const commandChar = Environment.getInstance().getCommandChar();
+        switch (command) {
+            case COMMAND_MEMBRES:
+                return commandChar + COMMAND_MEMBRES + " : \n" +
+                    "Affiche la liste des membres et alliés."
+            case COMMAND_MEMBRE:
+                return commandChar + COMMAND_MEMBRE + " {@dumembre} : \n" +
+                    "Affiche les informations du membre mentionné."
+            case COMMAND_USERS:
+                return commandChar + COMMAND_USERS + " : \n" +
+                    "Affiche la liste des utilisateurs du serveur wayzen"
+            case COMMAND_USER:
+                return commandChar + COMMAND_USER + " {@dumembre} : \n" +
+                    "Affiche les informations discord du membre mentionné."
+            case COMMAND_CLASSEMENT:
+                return commandChar + COMMAND_CLASSEMENT + " {nbMax} : \n" +
+                    "Affiche le classement des Wayzens par prime, avec un nombre max en option"
+            case COMMAND_CLASSEMENT_FULL:
+                return commandChar + COMMAND_CLASSEMENT_FULL + " {nbMax} : \n" +
+                    " Affiche le classement des Wayzens et de leurs alliés par prime, avec un nombre max en option"
+            case COMMAND_TOP:
+                return commandChar + COMMAND_TOP + " {nbMax} : \n" +
+                    `Comme ${COMMAND_CLASSEMENT} mais pour les faignasses`
+            case COMMAND_TOP_FULL:
+                return commandChar + COMMAND_TOP_FULL + " {nbMax} : \n" +
+                    `Comme ${COMMAND_CLASSEMENT_FULL} mais pour les faignasses`
+            default:
+                throw new Error("Commande inconnue");
+        }
+    }
+
+    private getTargetedUser(message: Message): User {
         let isMention = message.mentions.users.size > 0;
         let firstUser = message.mentions.users.first();
         if (isMention && firstUser != undefined) {
-            return parseInt(firstUser.id);
+            return firstUser;
         } else {
-            return parseInt(message.author.id);
+            return message.author;
         }
     }
 
     private async handleUser(message: Message): Promise<Message | Message[]> {
-
-        let userId = this.getTargetedMemberId(message);
+        let targetedUser = this.getTargetedUser(message);
 
         let guild = message.guild;
         if (guild == null) {
             throw new Error("Guild not found")
         }
-        let user = await guild.members.fetch(userId.toString());
-        if (this.isATestChan(message)) console.log("user:", user);
-        return this.displayUser(message, user);
+        try {
+            let user = await guild.members.fetch(targetedUser);
+            if (this.isATestChan(message)) console.log("user:", user);
+            return this.displayUser(message, user);
+        } catch (e) {
+            console.error(`Cannot retrieve user ${targetedUser.id} :`, e);
+            return message.reply("Utilisateur inconnu");
+
+        }
     }
 
     private displayUser(message: Message, user: GuildMember): Promise<Message | Message[]> {
@@ -110,7 +162,7 @@ export class TeamCommand extends AbstractCommandInterpreter {
             .addField("Valeurs", fieldsValue, true)
 
         // Send message
-        return message.channel.send(embed);
+        return message.channel.send({embeds: [embed]});
 
     }
 
@@ -132,15 +184,15 @@ export class TeamCommand extends AbstractCommandInterpreter {
     }
 
     private handleMember(message: Message): Promise<Message | Message[]> {
-        let memberId = this.getTargetedMemberId(message);
-        console.log("Member ID : " + memberId)
-        let member = this.getMemberById(memberId);
+        let targetedUser = this.getTargetedUser(message);
+        console.log("Member ID : " + targetedUser)
+        let member = this.getMemberById(parseInt(targetedUser.id));
 
         if (member) {
             if (this.isATestChan(message)) console.log("member:", member);
             return this.displayMember(message, member);
         } else {
-            return message.channel.send("Membre inconnu");
+            return message.reply("Membre inconnu");
         }
     }
 
@@ -184,7 +236,7 @@ export class TeamCommand extends AbstractCommandInterpreter {
         }
 
         // Send message
-        return message.channel.send(embed);
+        return message.channel.send({embeds: [embed]});
     }
 
     private displayMember(message: Message, member: Member): Promise<Message | Message[]> {
@@ -228,7 +280,7 @@ export class TeamCommand extends AbstractCommandInterpreter {
             .addField("Valeurs", fieldsValue, true)
 
         // Send message
-        return message.channel.send(embed);
+        return message.channel.send({embeds: [embed]});
 
     }
 
@@ -255,7 +307,7 @@ export class TeamCommand extends AbstractCommandInterpreter {
         }
 
         // Send message
-        return message.channel.send(embed);
+        return message.channel.send({embeds: [embed]});
     }
 
     private async handleUsers(message: Message): Promise<Message | Message[]> {
@@ -263,7 +315,7 @@ export class TeamCommand extends AbstractCommandInterpreter {
         if (guild == null)
             throw new Error("Guild not found");
         let members = await guild.members.fetch();
-        return this.displayUsers(message, members.array());
+        return this.displayUsers(message, Array.from(members.values()));
     }
 
     private sortMembersById(a: Member, b: Member): number {
@@ -406,7 +458,7 @@ export class TeamCommand extends AbstractCommandInterpreter {
         }
 
         // Send message
-        return message.channel.send(embed);
+        return message.channel.send({embeds: [embed]});
     }
 
     private getFormattedBounty(bounty: number): string {

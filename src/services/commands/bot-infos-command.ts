@@ -3,6 +3,7 @@ import {Message} from "discord.js";
 import {MoussaillonMessageEmbed} from "../../tools/discord/moussaillon-message-embed";
 
 import changelogHistoryJson from "../../bot/changelogHistory.json";
+import {Environment} from "../../tools/environment";
 
 const moussaillonBotPPUrl: string = "https://cdn.discordapp.com/avatars/845262214688669727/079857eb39dd2161aaca83daaf9982ab.png?size=4096"
 const COMMAND_VERSION: string = "version";
@@ -12,7 +13,11 @@ const COMMAND_HISTORY: string = "history";
 export class BotInfosCommand extends AbstractCommandInterpreter {
     private changelogHistory: IChangelogHistory = <IChangelogHistory>changelogHistoryJson;
 
-    handle(message: Message): Promise<Message | Message[]> {
+    getCommandsCategoryName(): string {
+        return "Informations à propos du bot";
+    }
+
+    handleMessage(message: Message): Promise<Message | Message[]> {
         let command = this.getCommand(message)
         switch (command) {
             case COMMAND_VERSION:
@@ -29,8 +34,7 @@ export class BotInfosCommand extends AbstractCommandInterpreter {
         }
     }
 
-    isHandled(message: Message): boolean {
-        let command = this.getCommand(message);
+    isCommandHandled(command: string): boolean {
         switch (command) {
             case COMMAND_VERSION:
             case COMMAND_CHANGELOG:
@@ -41,11 +45,36 @@ export class BotInfosCommand extends AbstractCommandInterpreter {
         }
     }
 
+    getCommandsList(): string[] {
+        return [COMMAND_VERSION, COMMAND_CHANGELOG, COMMAND_HISTORY];
+    }
+
+    getCommandHelp(command: string): string {
+        var commandChar = Environment.getInstance().getCommandChar();
+        switch (command) {
+            case COMMAND_VERSION:
+                return commandChar + COMMAND_VERSION + " : \n" +
+                    "Affiche le numéro de version courant";
+            case COMMAND_CHANGELOG:
+                return commandChar + COMMAND_CHANGELOG + " {numéro de version?} : \n" +
+                    "Affiche le changelog de la version {numéro de version}.\n" +
+                    "Si aucun {numéro de version} indiqué, affiche le dernier changelog.\n" +
+                    "Affiche un message d'erreur si le numéro de version est inconnu.";
+            case COMMAND_HISTORY:
+                return commandChar + COMMAND_HISTORY + " {nombre?} :\n" +
+                    "Affiche le résumé des {nombre} dernières versions.\n" +
+                    "Si aucun {nombre} n'est indiqué, affiche les 10 dernières versions";
+            default:
+                throw new Error("Commande inconnue");
+        }
+    }
+
     private handleVersion(message: Message): Promise<Message | Message[]> {
         return message.channel.send("Version : " + this.changelogHistory.currentVersion)
     }
 
     private displayVersion(versionToDisplay: IVersion, embed: MoussaillonMessageEmbed, isLong = false) {
+        console.log("versionToDisplay (" + isLong + ")", versionToDisplay)
         if (isLong && versionToDisplay.changelog.long) {
             versionToDisplay.changelog.long.forEach(value => {
                 const longSection: ILongChangelogSection = value;
@@ -53,7 +82,7 @@ export class BotInfosCommand extends AbstractCommandInterpreter {
             })
         } else {
             let changelog = versionToDisplay.changelog.short;
-            embed.addField("En résumé...", changelog)
+            embed.addField(versionToDisplay.version, changelog)
         }
     }
 
@@ -73,6 +102,8 @@ export class BotInfosCommand extends AbstractCommandInterpreter {
                     found = true
                 }
             }
+            if (!found)
+                throw new Error("Numéro de version inconnu");
         }
 
         let versionToDisplay: IVersion = this.changelogHistory.history[selectedVersion];
@@ -87,9 +118,9 @@ export class BotInfosCommand extends AbstractCommandInterpreter {
                 .setTitle("Changelog de la version " + versionToDisplay.version)
                 .setThumbnail(moussaillonBotPPUrl)
             this.displayVersion(versionToDisplay, embed, true);
-            return message.channel.send(embed);
+            return message.channel.send({embeds: [embed]});
         } else {
-            return message.channel.send("Il n'y a pas de changelog...")
+            return message.reply("Il n'y a pas de changelog...")
         }
     }
 
@@ -113,12 +144,13 @@ export class BotInfosCommand extends AbstractCommandInterpreter {
             .setTitle("Historique des versions de Moussaisson")
             .setThumbnail(moussaillonBotPPUrl)
 
+        console.log("changelogHistory:", this.changelogHistory);
         for (let i = 0; i < nbVersion && i < this.changelogHistory.history.length; i++) {
             this.displayVersion(this.changelogHistory.history[i], embed)
             //embed.addField(version.history[i].version, this.changelogHistory.history[i].changelog)
         }
 
-        return message.channel.send(embed);
+        return message.channel.send({embeds: [embed]});
 
     }
 }

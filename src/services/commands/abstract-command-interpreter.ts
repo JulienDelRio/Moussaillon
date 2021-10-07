@@ -1,6 +1,6 @@
 import {Message} from "discord.js";
 import {injectable} from "inversify";
-import {IMessageInterpreter} from "./message-responder"
+import {IMessageInterpreter} from "../message-responder"
 import {Environment} from "../../tools/environment";
 import {MoussaillonBot} from "../../bot/moussaillon-bot";
 import container from "../../../inversify.config";
@@ -11,9 +11,20 @@ import {MoussaillonMessageEmbed} from "../../tools/discord/moussaillon-message-e
 @injectable()
 export abstract class AbstractCommandInterpreter implements IMessageInterpreter {
 
-    abstract isHandled(message: Message): boolean;
+    abstract isCommandHandled(command: string): boolean;
 
-    abstract handle(message: Message, isATest?: boolean): Promise<Message | Message[]>;
+    abstract handleMessage(message: Message, isATest?: boolean): Promise<Message | Message[]>;
+
+    abstract getCommandsList(): string[];
+
+    abstract getCommandHelp(command: string): string;
+
+    abstract getCommandsCategoryName(): string;
+
+    isMessageHandled(message: Message): boolean {
+        let command = this.getCommand(message);
+        return this.isCommandHandled(command);
+    }
 
     isCommand(message: Message): boolean {
         if (typeof Environment.getInstance().getCommandChar() === "string") {
@@ -68,7 +79,6 @@ export abstract class AbstractCommandInterpreter implements IMessageInterpreter 
             authorAvatarURL = "";
         const embed = new MoussaillonMessageEmbed()
             .setAuthor("Commande par " + message.author.username, authorAvatarURL)
-            .setColor(Environment.getInstance().getEmbedColor());
         return embed;
     }
 

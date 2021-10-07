@@ -3,13 +3,18 @@ import {Message} from "discord.js";
 import {Sea, SeasList} from "../../data/models/sea";
 import {Island} from "../../data/models/island";
 import {MoussaillonMessageEmbed} from "../../tools/discord/moussaillon-message-embed";
+import {Environment} from "../../tools/environment";
 
 const COMMAND_SEA = "mer";
 const COMMAND_SEAS = "mers";
 
 export class SeasInfoCommand extends AbstractCommandInterpreter {
-    isHandled(message: Message) {
-        let command = this.getCommand(message);
+
+    getCommandsCategoryName(): string {
+        return "Informations à propos des mers";
+    }
+
+    isCommandHandled(command: string): boolean {
         switch (command) {
             case COMMAND_SEA:
             case COMMAND_SEAS:
@@ -19,7 +24,7 @@ export class SeasInfoCommand extends AbstractCommandInterpreter {
         }
     }
 
-    handle(message: Message): Promise<Message | Message[]> {
+    handleMessage(message: Message): Promise<Message | Message[]> {
         let command = this.getCommand(message);
         switch (command) {
             case COMMAND_SEA:
@@ -31,16 +36,34 @@ export class SeasInfoCommand extends AbstractCommandInterpreter {
         }
     }
 
+    getCommandsList(): string[] {
+        return [COMMAND_SEA, COMMAND_SEAS];
+    }
+
+    getCommandHelp(command: string): string {
+        const commandChar = Environment.getInstance().getCommandChar();
+        switch (command) {
+            case COMMAND_SEA:
+                return commandChar + COMMAND_SEA + " {nom de la mer} : \n" +
+                    "Affiche la liste des iles de la mer."
+            case COMMAND_SEAS:
+                return commandChar + COMMAND_SEAS + " : \n" +
+                    "Affiche la liste des mers."
+            default:
+                throw new Error("Commande inconnue");
+        }
+    }
+
     private handleSea(message: Message): Promise<Message | Message[]> {
         let commandParams = this.getCommandParamsString(message);
         let lowerCommandParams = commandParams.toLowerCase()
         let messagesToSend: Message[] = [];
         if (commandParams.length < 3) {
-            return message.channel.send("Saisir au moins 3 caractères.")
+            return message.reply("Saisir au moins 3 caractères.")
         } else {
             let sea = this.getSeaByName(lowerCommandParams);
             if (sea == undefined) {
-                return message.channel.send("Mer non reconnue")
+                return message.reply("Mer non reconnue")
             } else {
                 if (this.isATestChan(message)) console.log("sea:", sea);
 
@@ -49,10 +72,9 @@ export class SeasInfoCommand extends AbstractCommandInterpreter {
                 this.displaySea(sea, embed);
 
                 // Send message
-                return message.channel.send(embed)
+                return message.channel.send({embeds: [embed]})
             }
         }
-        return message.channel.send("Non implémenté pour l'instant.")
     }
 
     private handleSeas(message: Message) {
@@ -63,7 +85,7 @@ export class SeasInfoCommand extends AbstractCommandInterpreter {
             content += "- " + sea.name + "\n";
         })
         embed.addField("Liste des mers", content);
-        return message.channel.send(embed)
+        return message.channel.send({embeds: [embed]})
     }
 
     private getSeaByName(commandParams: string): Sea | undefined {

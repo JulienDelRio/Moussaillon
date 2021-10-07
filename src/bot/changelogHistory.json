@@ -1,6 +1,30 @@
 {
-  "currentVersion": "2.0",
+  "currentVersion": "2.1",
   "history": [
+    {
+      "version": "2.1",
+      "changelog": {
+        "short": "Enfin de l'aide et d'autres trucs.",
+        "long": [
+          {
+            "title": "Enfin de l'aide et d'autres trucs.",
+            "content": "Le coté sexy des Wayzen"
+          },
+          {
+            "title": "Nouveautés pour tous",
+            "content": "- Ajout d'une aide dans le bot. Teste les commandes \";aide\" et \";commandes\""
+          },
+          {
+            "title": "Nouveautés pour la technique et corrections de bugs",
+            "content": "- Passage à DiscordJS 13\n- La commande history indique quand une version demandée n'existe pas.\n- Les messages d'erreur sont maintenant une réponse native Discord\n- Correction d'un bug sur l'historique\n- Correction le bot re-répond quand on le mentionne\n- Affiche un message d'erreur dans la console sur les serveurs non autorisés"
+          },
+          {
+            "title": "Autre",
+            "content": "Un pirate doit être fier de son nom. Tâchez de vous souvenir du mien – *Monkey D.Luffy*"
+          }
+        ]
+      }
+    },
     {
       "version": "2.0",
       "changelog": {
